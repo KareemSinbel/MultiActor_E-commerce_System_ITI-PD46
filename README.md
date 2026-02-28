@@ -1,4 +1,4 @@
-# Multi-Actor-E-commerce-System-ITI-PD46
+# MultiActor_E-commerce_System_ITI-PD46
 
 It's just a practical project for the below courses
 

@@ -6,14 +6,93 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+
+
 </head>
 <body>
     <div class=".container-fluid ">
-        <nav class="navbar fixed-top navbar-light bg-light">
-            <div class="container-fluid py-0">
-                <p>hello</p>
+        <!-- topbar -->
+        <div class="container-fluid py-0 bg-dark">
+            <p class="text-light my-0 text-center">welcome to out market place</p>
+        </div>
+        <!-- navbar -->
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Navbar</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon custom-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Categories
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Get Products..." aria-label="Search">  
+                        </form>
+                    </div>
+                    <div class="navactions">
+                        <span class="text-dark"><i class="fa-solid fa-cart-arrow-down"></i></span>
+                        <span class="text-dark"><i class="fa-regular fa-circle-user"></i></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- end nav bar -->
+
+        <!-- first section  -->
+         <div class="container d-flex">
+            <div class="card border-0" style="width: 18rem;">
+                <div class="card-body ">
+                    <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-truck"></i></span>
+                    <h5 class="card-title mt-3">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
             </div>
-        </nav>
+            <div class="card border-0" style="width: 18rem;">
+                <div class="card-body ">
+                    <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-truck"></i></span>
+                    <h5 class="card-title mt-3">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+            <div class="card border-0" style="width: 18rem;">
+                <div class="card-body ">
+                    <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-truck"></i></span>
+                    <h5 class="card-title mt-3">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+         </div>
+         <!-- section two  -->
+        <div class="container-fluid  py-4 ">
+            <p class="text-muted my-0 text-center">Shop Now</p>
+            <h2 class="text-center">Best SElling</h2>
+        </div>
+         <!-- section three  -->
+        <div class="container">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

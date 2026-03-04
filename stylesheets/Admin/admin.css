@@ -1,0 +1,128 @@
+
+    body { background-color: #f0f1f5; }
+
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .topbar-brand {
+      width: 190px;
+      font-weight: 800;
+      font-size: 1rem;
+      border-right: 1px solid #e5e7eb;
+      height: 100%;
+    }
+
+    .sidebar {
+      width: 190px;
+      min-height: calc(100vh - 52px);
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+      padding: 20px 12px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 52px;
+      align-self: flex-start;
+    }
+
+    .sidebar .nav-link {
+      color: #6b7280;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 8px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      transition: all 0.15s;
+    }
+
+    .sidebar .nav-link:hover {
+      background: #f3f4f6;
+      color: #111;
+    }
+
+    .sidebar .nav-link.active {
+      background: #f3f4f6;
+      color: #111;
+      font-weight: 600;
+    }
+
+    .sidebar-divider {
+      border-top: 1px solid #e5e7eb;
+      margin: 12px 0;
+    }
+
+    .card {
+      border: 1px solid #e5e7eb !important;
+      border-radius: 14px !important;
+      background: #fff;
+    }
+
+    .stat-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: 0.3px;
+    }
+
+    .stat-subtitle {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: -1px;
+    }
+
+    .orders-goal {
+      font-size: 0.68rem;
+      color: #9ca3af;
+    }
+
+    .orders-left {
+      font-size: 0.72rem;
+      color: #ef4444;
+      font-weight: 600;
+    }
+
+    .progress {
+      height: 7px;
+      border-radius: 10px;
+    }
+
+    .progress-bar {
+      background: #6366f1;
+      border-radius: 10px;
+    }
+
+    /* ── Legend Dots for Charts ── */
+.legend-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* Legend container text */
+.legend-name {
+  font-size: 0.85rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.legend-val {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111;
+}

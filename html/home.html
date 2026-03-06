@@ -7,29 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
 
-    <style>
-        .home {
-            width: 100%;
-            height: 440px;
-            background-color: #F6F6F6;
-            position: relative;
-        }
-        .home .img img:nth-child(1) {
-            position: absolute;
-            left: 930px;
-            top: 82px;
-        }
-        .home .img img:nth-child(2) {
-            position: absolute;
-            left: 922px;
-            top: 79px;
-        }
-        .home .img img:nth-child(3) {
-            position: absolute;
-            left: 1011px;
-            top: 56px;
-        }
-    </style>
+
 </head>
 <body>
     <div class=".container-fluid ">
@@ -39,13 +17,15 @@
         </div>
         <!-- navbar -->
         <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light bg-white">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Navbar</a>
+            <nav class="navbar navbar-expand-lg navbar-light bg-white py-2">
+                <div class="container-fluid d-flex justify-content-center">
+                    <a class="navbar-brand me-5" href="#">
+                        <img src="../Img/Logomark.svg" class="me-2" alt="logo"><span class="fw-bolder">Ecommerce</span>
+                    </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon custom-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse pe-5" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
@@ -61,13 +41,19 @@
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Contact</a>
+                            </li>
                         </ul>
                         <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Get Products..." aria-label="Search">  
+                            <input class="form-control me-2" type="search" placeholder="Search Products..." aria-label="Search">  
                         </form>
                     </div>
                     <div class="navactions">
-                        <span class="text-dark"><i class="fa-solid fa-cart-arrow-down"></i></span>
+                        <span class="text-dark me-3 "><i class="fa-solid fa-cart-arrow-down"></i></span>
                         <span class="text-dark"><i class="fa-regular fa-circle-user"></i></span>
                     </div>
                 </div>
@@ -75,7 +61,16 @@
         </div>
         <!-- end nav bar -->
 
-
+        <!-- start hero -->
+        <div class="card bg-dark text-white border-0 rounded-0">
+        <img src="../Img/Hero.png" class="card-img border-0 rounded-0" alt="...">
+        <div class="card-img-overlay border-0 rounded-0 container text-dark d-flex flex-column justify-content-center">
+            <h2 class="card-title text-dark">Fresh Arrivals Online</h2>
+            <p class="card-text">Discover Our Newest Collection Today.</p>
+            <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> View Collection <span class="">🡪</span> </button>
+        </div>
+        </div>
+        <!-- end hero -->
         <!-- first section  -->
          <div class="container d-flex">
             <div class="card border-0" style="width: 18rem;">

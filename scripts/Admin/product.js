@@ -7,7 +7,7 @@ const baseProducts = [
     price: 75,
     stock: 'In Stock',
     categories: 'T-shirt, Men',
-    image: '../../Images/product.jpg'
+    image: './Images/product.jpg'
   },
   {
     id: 47514502,
@@ -16,7 +16,7 @@ const baseProducts = [
     price: 35,
     stock: 'In Stock',
     categories: 'T-shirt, Men',
-    image: '../../Images/product.jpg'
+    image: './Images/product.jpg'
   },
   {
     id: 47514503,
@@ -25,7 +25,7 @@ const baseProducts = [
     price: 27,
     stock: 'In Stock',
     categories: 'T-shirt',
-    image: '../../Images/product.jpg'
+    image: './Images/product.jpg'
   },
   {
     id: 47514504,
@@ -34,7 +34,7 @@ const baseProducts = [
     price: 22,
     stock: 'In Stock',
     categories: 'T-shirt, Raw',
-    image: '../../Images/product.jpg'
+    image: './Images/product.jpg'
   },
   {
     id: 47514505,
@@ -43,7 +43,7 @@ const baseProducts = [
     price: 43,
     stock: 'In Stock',
     categories: 'T-shirt, Trend',
-    image: '../../Images/product.jpg'
+    image: './Images/product.jpg'
   },
   {
     id: 47514506,
@@ -52,7 +52,7 @@ const baseProducts = [
     price: 35,
     stock: 'In Stock',
     categories: 'T-shirt',
-    image: '../../Images/product.jpg'
+    image: './Images/product.jpg'
   },
   {
     id: 47514507,
@@ -61,7 +61,7 @@ const baseProducts = [
     price: 57,
     stock: 'In Stock',
     categories: 'Hoodie',
-    image: '../../Images/product.jpg'
+    image: './Images/product.jpg'
   },
   {
     id: 47514508,
@@ -70,7 +70,7 @@ const baseProducts = [
     price: 30,
     stock: 'In Stock',
     categories: 'T-shirt',
-    image: '../../Images/product.jpg'
+    image: './Images/product.jpg'
   }
 ];
 
@@ -134,7 +134,7 @@ function renderTable() {
 
   tbody.innerHTML = pageItems
     .map(p => {
-      const imageSrc = p.image || '../../images/product-placeholder.png';
+      const imageSrc = p.image || './Images/product.jpg';
       return `
       <tr>
         <td>

@@ -28,6 +28,22 @@ const LayoutManager = (function () {
         }
     }
 
+
+    function setActiveSidebar()
+    {
+        const sidebar = document.querySelector(".sidebar");
+
+        if (!sidebar) 
+            return;
+
+        const page = window.location.pathname.split("/").pop().replace(".html", "");
+        const item = document.querySelector("#" + page + " .nav-link");
+        if (item)
+        {
+            item.classList.add("active");
+        }
+    }
+
     async function renderComponents() {
 
         const components = document.querySelectorAll("[data-component]");
@@ -52,6 +68,7 @@ const LayoutManager = (function () {
         });
 
         await Promise.all(tasks);
+        setActiveSidebar();
     }
 
     async function init() {

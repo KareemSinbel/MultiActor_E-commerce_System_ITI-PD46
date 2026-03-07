@@ -4,82 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Products</title>
-    <link
-      rel="stylesheet"
-      href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"
-    />
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
+    <link rel="stylesheet" href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <link rel="stylesheet" href="../../stylesheets/Admin/product.css" />
     <link rel="stylesheet" href="../../stylesheets/Admin/admin.css" />
   </head>
   <body>
     <!-- TOPBAR -->
-    <div class="topbar d-flex align-items-center">
-      <div class="topbar-brand d-flex align-items-center gap-2 px-3 h-100">
-        <button class="btn d-lg-none me-2" id="menuBtn">
-    <i class="fa-solid fa-bars"></i>
-</button>
-        <i class="fa-solid fa-layer-group"></i> Admin
-      </div>
-      <div
-        class="d-flex align-items-center justify-content-between flex-grow-1 px-3 h-100"
-      >
-        <nav
-          class="d-flex align-items-center gap-2"
-          style="font-size: 0.83rem; color: #9ca3af"
-        >
-          <span>Admin</span>
-          <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem"></i>
-          <span class="text-dark fw-semibold">Products  </span>
-        </nav>
-        <i
-          class="fa-solid fa-up-right-from-square text-secondary"
-          style="font-size: 1rem; cursor: pointer"
-        ></i>
-      </div>
-    </div>
+    <div id="topbar" data-component="admintopbar"></div>
 
     <div class="d-flex">
       <!-- SIDEBAR -->
-  <nav class="sidebar">
-    <ul class="nav flex-column gap-1">
-      <li class="nav-item">
-        <a class="nav-link " href="admin.html">
-          <i class="fa-solid fa-table-columns"></i> Dashboard
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="product.html">
-          <i class="fa-solid fa-box"></i> Products
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="seller.html">
-          <i class="fa-solid fa-cart-shopping"></i> Seller
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="customer.html">
-          <i class="fa-solid fa-users"></i> Customer
-        </a>
-      </li>
-
-    </ul>
-
-    <div class="sidebar-divider"></div>
-
-    <ul class="nav flex-column">
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fa-solid fa-circle-plus"></i> Home
-        </a>
-      </li>
-    </ul>
-  </nav>
+      <div id="sidebar" data-component="sidebar"></div>
 
     
       <main class="flex-grow-1 p-4">
@@ -158,6 +94,6 @@
 
     <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../scripts/Admin/product.js"></script>
-    
+    <script src="../../scripts/layoutManager.js"></script>
   </body>
 </html>

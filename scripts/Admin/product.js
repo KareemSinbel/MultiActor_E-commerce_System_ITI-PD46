@@ -151,11 +151,16 @@ function renderTable() {
         <td><span class="badge bg-success-subtle text-success rounded-pill px-3 py-2">${p.stock}</span></td>
         <td>${p.categories}</td>
         <td class="text-end table-actions">
-          <button class="more-button" type="button" aria-label="More actions">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+          <div class="dropdown">
+            <button class="more-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More actions">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+              <li><button class="dropdown-item py-2 text-danger" type="button"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>
+            </ul>
+          </div>
         </td>
       </tr>
     `;

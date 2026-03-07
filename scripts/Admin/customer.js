@@ -70,7 +70,7 @@ function renderTable() {
           <p class="mb-0 product-name">${c.name}</p>
         </td>
         <td>${c.email}</td>
-        <td>${c.address}</td>
+        <td title="${c.address}" class="address-cell">${c.address}</td>
         <td class="text-end table-actions">
           <div class="dropdown">
             <button class="more-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More actions">
@@ -186,4 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderTable();
+});
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.querySelector(".sidebar");
+
+menuBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("show");
 });

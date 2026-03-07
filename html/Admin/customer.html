@@ -16,6 +16,9 @@
     <!-- TOPBAR -->
     <div class="topbar d-flex align-items-center">
         <div class="topbar-brand d-flex align-items-center gap-2 px-3 h-100">
+            <button class="btn d-lg-none me-2" id="menuBtn">
+    <i class="fa-solid fa-bars"></i>
+</button>
             <i class="fa-solid fa-layer-group"></i> Admin
         </div>
         <div class="d-flex align-items-center justify-content-between flex-grow-1 px-3 h-100">
@@ -59,13 +62,13 @@
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <i class="fa-solid fa-circle-plus"></i> Extras
+                        <i class="fa-solid fa-circle-plus"></i> Home
                     </a>
                 </li>
             </ul>
         </nav>
 
-        <!-- content Dashboard -->
+       
         <main class="flex-grow-1 p-4">
             <div class="page-wrapper">
                 <div class="container-fluid px-0">
@@ -84,7 +87,7 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0 table-products">
+                            <table class="table table-hover align-middle mb-0 table-products table-products--people">
                                 <thead class="table-light">
                                     <tr>
                                         <th scope="col" class="text-center sort-header">

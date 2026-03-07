@@ -265,3 +265,24 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTable();
 });
 
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.querySelector(".sidebar");
+
+menuBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("show");
+});
+
+  const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+
+
+  const currentPag = window.location.pathname.split('/').pop();
+
+  sidebarLinks.forEach(link => {
+    const linkPage = link.getAttribute('href');
+
+    if (linkPage === currentPag) {
+      link.classList.add('active'); 
+    } else {
+      link.classList.remove('active'); 
+    }
+  });

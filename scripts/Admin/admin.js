@@ -2,7 +2,7 @@
 new Chart(document.getElementById('salesBar'), {
   type: 'bar',
   data: {
-    labels: Array(18).fill(''), // 18 يوم/فترة
+    labels: Array(18).fill(''), 
     datasets: [{
       data: [30,50,40,70,55,80,60,90,50,75,65,85,45,70,55,95,60,80],
       backgroundColor: '#6366f1',
@@ -25,7 +25,7 @@ new Chart(document.getElementById('salesBar'), {
 new Chart(document.getElementById('customersLine'), {
   type: 'line',
   data: {
-    labels: Array(14).fill(''), // 14 يوم/فترة
+    labels: Array(14).fill(''), 
     datasets: [{
       data: [30,45,35,50,40,55,35,60,45,55,40,65,50,60],
       borderColor: '#6366f1',
@@ -53,7 +53,7 @@ new Chart(document.getElementById('donut1'), {
   data: {
     labels: CATEGORIES,
     datasets: [{
-      data: [500, 300, 200, 150], // مبيعات حسب الفئة
+      data: [500, 300, 200, 150], 
       backgroundColor: ['#2d3ab1', '#74c0fc', '#4dd9e0', '#ffa94d'],
       borderWidth: 0,
       hoverOffset: 6
@@ -112,3 +112,24 @@ new Chart(document.getElementById('bar1'), {
     }
   }
 });
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.querySelector(".sidebar");
+menuBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("show");
+});
+
+ 
+  const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+
+
+  const currentPage = window.location.pathname.split('/').pop();
+
+  sidebarLinks.forEach(link => {
+    const linkPage = link.getAttribute('href');
+
+    if (linkPage === currentPage) {
+      link.classList.add('active'); 
+    } else {
+      link.classList.remove('active'); 
+    }
+  });

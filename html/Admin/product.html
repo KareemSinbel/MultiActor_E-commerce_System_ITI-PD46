@@ -20,6 +20,9 @@
     <!-- TOPBAR -->
     <div class="topbar d-flex align-items-center">
       <div class="topbar-brand d-flex align-items-center gap-2 px-3 h-100">
+        <button class="btn d-lg-none me-2" id="menuBtn">
+    <i class="fa-solid fa-bars"></i>
+</button>
         <i class="fa-solid fa-layer-group"></i> Admin
       </div>
       <div
@@ -45,7 +48,7 @@
   <nav class="sidebar">
     <ul class="nav flex-column gap-1">
       <li class="nav-item">
-        <a class="nav-link active" href="admin.html">
+        <a class="nav-link " href="admin.html">
           <i class="fa-solid fa-table-columns"></i> Dashboard
         </a>
       </li>
@@ -72,13 +75,13 @@
     <ul class="nav flex-column">
       <li class="nav-item">
         <a class="nav-link" href="#">
-          <i class="fa-solid fa-circle-plus"></i> Extras
+          <i class="fa-solid fa-circle-plus"></i> Home
         </a>
       </li>
     </ul>
   </nav>
 
-      <!-- content Dashboard -->
+    
       <main class="flex-grow-1 p-4">
         <div class="page-wrapper">
           <div class="container-fluid px-0">
@@ -109,9 +112,7 @@
               </div>
 
               <div class="table-responsive">
-                <table
-                  class="table table-hover align-middle mb-0 table-products"
-                >
+              <table class="table table-hover align-middle mb-0 table-products table-products--products">
                   <thead class="table-light">
                     <tr>
                       <th scope="col" class="text-center sort-header">
@@ -157,5 +158,6 @@
 
     <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../scripts/Admin/product.js"></script>
+    
   </body>
 </html>

@@ -126,3 +126,74 @@
   font-weight: 600;
   color: #111;
 }
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 992px) {
+
+  .sidebar {
+    position: fixed;
+    left: -220px;
+    top: 52px;
+    height: calc(100vh - 52px);
+    z-index: 300;
+    transition: 0.3s;
+  }
+
+  .sidebar.show {
+    left: 0;
+  }
+
+  main {
+    width: 100%;
+  }
+
+  .topbar-brand {
+    width: auto;
+    border-right: none;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  main {
+    padding: 15px !important;
+  }
+
+  .card-header-custom {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 10px;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .search-wrapper input {
+    width: 100%;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+}
+@media (max-width: 1200px) {
+
+  .sidebar {
+    width: 170px;
+  }
+
+  .topbar-brand {
+    width: 170px;
+  }
+
+}
+
+
+/* !For table */
+/* ================= RESPONSIVE ================= */
+

@@ -1,0 +1,10 @@
+.TshirtCard:hover{
+    .Tshirt-card-overlay{
+        display: flex !important;
+        cursor: pointer;
+    }
+}
+
+.add-pointer{
+    cursor: pointer;
+}

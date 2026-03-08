@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <style>
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            background-color: var(--brand-light-gray);
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .order-summary-card {
+            border: 1px solid var(--brand-border);
+            padding: 100px 24px;
+            border-radius: 4px;
+        }
+
+        .btn-remove {
+            background: #F2F4F5;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            color: #475156;
+        }
+
+        .cart-table th {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--brand-gray);
+            border-bottom: 1px solid var(--brand-border);
+            padding-bottom: 15px;
+        }
+        .w-fit-content {
+            width: fit-content;
+            display: inline-flex;
+            background: #fff;
+        }
+
+        .cart-table .col-7 { padding-left: 0; }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <!-- topbar -->
+        <div id="topbar-container" data-component="topbar"></div>
+
+        <!-- navbar -->
+        <div id="navbar-container" data-component="navbar"></div>
+        <!-- end nav bar -->
+        <div class="container py-5">
+            <h2 class="fw-bold mb-1">Cart</h2>
+            <nav class="small mb-5 text-secondary">
+                Ecommerce > <span class="text-dark">Cart</span>
+            </nav>
+
+            <div class="row gx-lg-5 justify-content-between">
+                <div class="col-lg-7">
+                    <h5 class="fw-bold mb-4">Your cart</h5>
+                    
+                    <div class="row cart-table mb-3 mx-0 d-none d-md-flex">
+                        <div class="col-6 th">Product</div>
+                        <div class="col-2 th">Price</div>
+                        <div class="col-3 th text-center">Quantity</div>
+                    </div>
+
+                    <div class="row align-items-center py-4 border-bottom mx-0">
+                        <div class="col-md-7 d-flex align-items-center">
+                            <img src="./img/Image.png" class="cart-item-img me-3" alt="T-shirt">
+                            <div>
+                                <h6 class="fw-bold mb-1">Raw Black T-Shirt Lineup</h6>
+                                <p class="small text-secondary mb-0">Color: <span class="badge rounded-circle p-1 bg-success" style="width:10px; height:10px; display:inline-block;"></span> — Size: M</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 mt-3 mt-md-0 fw-bold">
+                            $75.00
+                        </div>
+
+                        <div class="col-md-2 mt-3 mt-md-0">
+                            <div class="border d-flex align-items-center rounded w-fit-content">
+                                <button class="btn btn-sm border-0 px-2">—</button>
+                                <span class="px-2 fw-bold">1</span>
+                                <button class="btn btn-sm border-0 px-2">+</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 text-end">
+                            <button class="btn-remove"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center py-4 border-bottom mx-0">
+                        <div class="col-md-7 d-flex align-items-center">
+                            <img src="./img/Image.png" class="cart-item-img me-3" alt="T-shirt">
+                            <div>
+                                <h6 class="fw-bold mb-1">Raw Black T-Shirt Lineup</h6>
+                                <p class="small text-secondary mb-0">Color: <span class="badge rounded-circle p-1 bg-success" style="width:10px; height:10px; display:inline-block;"></span> — Size: M</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 mt-3 mt-md-0 fw-bold">
+                            $75.00
+                        </div>
+
+                        <div class="col-md-2 mt-3 mt-md-0">
+                            <div class="border d-flex align-items-center rounded w-fit-content">
+                                <button class="btn btn-sm border-0 px-2">—</button>
+                                <span class="px-2 fw-bold">1</span>
+                                <button class="btn btn-sm border-0 px-2">+</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 text-end">
+                            <button class="btn-remove"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-5 mt-lg-0" style="border: 2px solid #F2F4F5;">
+                    <div class="order-summary-card">
+                        <h5 class="fw-bold mb-4">Order Summary</h5>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-secondary">Subtotal</span>
+                            <span class="fw-bold">$ 90.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-secondary">Shipping:</span>
+                            <span class="fw-bold">Free</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4 pb-4 border-bottom">
+                            <span class="text-secondary">Tax:</span>
+                            <span class="fw-bold">$ 3.00</span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="fw-bold h5">Total</span>
+                            <span class="fw-bold h5">$ 100.00</span>
+                        </div>
+
+                        <button class="btn btn-dark-custom w-100 py-3 mb-3 text-uppercase">Checkout</button>
+                        <div class="text-center">
+                            <a href="#" class="text-dark small fw-bold text-decoration-underline">Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--start footer-->
+        <div id="footer-container" data-component="footer" class="mt-5"></div>
+        <!--end footer-->
+    </div>
+
+    <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../scripts/layoutManager.js"></script>
+</body>
+</html>

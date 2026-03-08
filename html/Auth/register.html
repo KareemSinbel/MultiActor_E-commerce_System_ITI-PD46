@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Register</title> 
+ <link rel="stylesheet" href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="../../stylesheets/Auth/login.css">
+
+
+
+</head>
+
+<body>
+        <div id="topbar-container" data-component="topbar"></div>
+
+        <!-- navbar -->
+        <div id="navbar-container" data-component="navbar"></div>
+        <!-- end nav bar -->
+
+<!-- Header -->
+
+<!-- Header -->
+<section class="header-section">
+<div class="container">
+
+<h2 class="fw-bold mb-2">Register</h2>
+
+<div class="small text-muted">
+Ecommerce / Register
+</div>
+
+</div>
+</section>
+
+
+<!-- Register Section -->
+<section class="register-container d-flex align-items-center justify-content-center py-5">
+
+<div class="register-card">
+
+<form>
+
+<!-- Name -->
+<div class="mb-3">
+<label class="form-label">Full Name</label>
+<input type="text" class="form-control" required>
+</div>
+
+<!-- Email -->
+<div class="mb-3">
+<label class="form-label">Email</label>
+<input type="email" class="form-control" required>
+</div>
+
+<!-- Address -->
+<div class="mb-3">
+<label class="form-label">Address</label>
+<input type="text" class="form-control" required>
+</div>
+
+<!-- Password -->
+<div class="mb-4">
+<label class="form-label">Password</label>
+<input type="password" class="form-control" required>
+</div>
+
+
+<!-- Role -->
+<div class="mb-4">
+
+<label class="form-label fw-semibold">
+Register As
+</label>
+
+<div class="row g-2">
+
+<div class="col-4">
+<label class="role-box w-100 text-center">
+<input type="radio" name="role" value="customer" class="form-check-input me-2">
+Customer
+</label>
+</div>
+<div class="col-4">
+<label class="role-box w-100 text-center">
+<input type="radio" name="role" value="customer" class="form-check-input me-2">
+Seller
+</label>
+</div>
+
+<div class="col-4">
+<label class="role-box w-100 text-center">
+<input type="radio" name="role" value="admin" class="form-check-input me-2">
+Admin
+</label>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Button -->
+<button class="btn register-btn w-100">
+Create Account
+</button>
+
+</form>
+
+
+<p class="text-center small text-muted mt-4">
+Already have an account?
+<a href="login.html" class="fw-semibold text-dark text-decoration-none">
+Login
+</a>
+</p>
+
+</div>
+
+</section>
+</section>
+   <!--start footer-->
+        <div id="footer-container" data-component="footer"></div>
+        <!--end footer-->
+ <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../scripts/layoutManager.js"></script>
+</body>
+</html>

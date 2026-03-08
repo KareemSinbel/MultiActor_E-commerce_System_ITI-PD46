@@ -1,0 +1,44 @@
+.header-section {
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+.login-container,
+.register-container {
+  min-height: calc(100vh - 180px);
+}
+
+.login-card,
+.register-card {
+  max-width: 420px;
+  width: 100%;
+}
+
+.login-btn,
+.register-btn {
+  background: #0f172a;
+  color: #fff;
+  padding: 12px;
+}
+
+.login-btn:hover {
+  background: #1e293b;
+  color: #fff;
+}
+
+.role-box {
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.role-box:hover {
+  background: #f8f9fa;
+}
+
+.register-btn:hover {
+  background: #1e293b;
+  color: white;
+}

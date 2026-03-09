@@ -1,0 +1,185 @@
+.carousel, 
+.carousel-inner, 
+.carousel-item {
+    height: 574px;
+}
+
+.carousel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    padding-left: 200px;
+    padding-right: 200px;
+    padding-bottom: 50px;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: #000;
+}
+
+.badge-rating {
+    background-color: #F6F6F6;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 14px;
+    color: #5F6C72;
+}
+.badge-stock {
+    border: 1px solid #E4E7E9;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475156;
+}
+
+.color-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+.color-dot.active {
+    outline: 2px solid #0D6EFD;
+    outline-offset: 2px;
+}
+
+.size-box {
+    width: 45px;
+    height: 40px;
+    border: 1px solid #E4E7E9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: 0.2s;
+}
+.size-box:hover, .size-box.active {
+    border-color: #000;
+    font-weight: bold;
+}
+
+.quantity-group {
+    border: 1px solid #E4E7E9;
+    width: fit-content;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+.btn-add-cart {
+    background-color: #191C1F;
+    color: white;
+    padding: 12px;
+    flex-grow: 1;
+    border-radius: 4px;
+    border: none;
+    font-weight: 600;
+}
+.btn-wishlist {
+    border: 1px solid #E4E7E9;
+    background: white;
+    width: 48px;
+    border-radius: 4px;
+}
+
+@media (min-width: 768px) {
+    .display.row {
+        max-height: 574px;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 767px) {
+    .carousel, 
+    .carousel-inner, 
+    .carousel-item {
+        height: auto;
+        min-height: 300px;
+    }
+    
+    .carousel-item img {
+        padding: 40px;
+    }
+}
+
+.product-tabs-section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.tab-nav {
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+}
+
+.tab-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #5F6C72;
+    font-weight: 500;
+    transition: 0.3s;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.tab-link.active {
+    background-color: #F6F6F6;
+    color: #191C1F;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tab-link i {
+    margin-right: 12px;
+}
+
+.detail-content h4 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #191C1F;
+}
+
+.detail-content p {
+    color: #5F6C72;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.detail-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.detail-list li {
+    color: #5F6C72;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.detail-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #191C1F;
+}
+.TshirtCard:hover{
+    .Tshirt-card-overlay{
+        display: flex !important;
+        cursor: pointer;
+    }
+}
+
+.add-pointer{
+    cursor: pointer;
+}

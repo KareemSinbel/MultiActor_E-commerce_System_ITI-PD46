@@ -112,24 +112,3 @@ new Chart(document.getElementById('bar1'), {
     }
   }
 });
-const menuBtn = document.getElementById("menuBtn");
-const sidebar = document.querySelector(".sidebar");
-menuBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("show");
-});
-
- 
-  const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
-
-
-  const currentPage = window.location.pathname.split('/').pop();
-
-  sidebarLinks.forEach(link => {
-    const linkPage = link.getAttribute('href');
-
-    if (linkPage === currentPage) {
-      link.classList.add('active'); 
-    } else {
-      link.classList.remove('active'); 
-    }
-  });

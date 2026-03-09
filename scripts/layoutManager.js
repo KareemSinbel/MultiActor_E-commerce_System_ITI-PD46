@@ -83,8 +83,10 @@ const LayoutManager = (function () {
 
 })();
 
+let layoutBuilt = new CustomEvent("LayoutBuilt", {detail:{isFinished: true}});
 
 document.addEventListener("DOMContentLoaded", async () => 
 {
     await LayoutManager.init();
+    document.dispatchEvent(layoutBuilt);
 });

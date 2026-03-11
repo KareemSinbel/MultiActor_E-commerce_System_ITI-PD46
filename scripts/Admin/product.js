@@ -1,4 +1,6 @@
 // Demo base product data
+import {productRow} from "../Data Components/productRow.js";
+
 const baseProducts = [
   {
     id: 47514501,
@@ -93,7 +95,7 @@ let currentSearch = '';
 let currentSortField = 'name';
 let currentSortDirection = 'asc';
 
-function renderTable() {
+async function renderTable() {
   const tbody = document.querySelector('#productsTableBody');
   if (!tbody) return;
 
@@ -132,39 +134,12 @@ function renderTable() {
   const start = (currentPage - 1) * pageSize;
   const pageItems = sorted.slice(start, start + pageSize);
 
-  tbody.innerHTML = pageItems
-    .map(p => {
-      const imageSrc = p.image || './Images/product.jpg';
-      return `
-      <tr>
-        <td>
-          <div class="product-thumbnail">
-            <img src="${imageSrc}" alt="${p.name}">
-          </div>
-        </td>
-        <td>
-          <p class="mb-0 product-name">${p.name}</p>
-          <small class="product-meta">ID: ${p.id}</small>
-        </td>
-        <td>${p.sku}</td>
-        <td>$${p.price.toFixed(2)}</td>
-        <td><span class="badge bg-success-subtle text-success rounded-pill px-3 py-2">${p.stock}</span></td>
-        <td>${p.categories}</td>
-        <td class="text-end table-actions">
-          <div class="dropdown">
-            <button class="more-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More actions">
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-              <li><button class="dropdown-item py-2 text-danger" type="button"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-    `;
-    })
+
+  const res = await fetch("https://69b10cdeadac80b427c3d349.mockapi.io/products");
+  const productsAPI = await res.json();
+
+  tbody.innerHTML = productsAPI
+    .map(productRow)
     .join('');
 
   const info = document.querySelector('#productsInfo');
@@ -231,36 +206,36 @@ function renderTable() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('LayoutBuilt', async () => {
   const searchInput = document.querySelector('#productsSearch');
   if (searchInput) {
-    searchInput.addEventListener('input', e => {
+    searchInput.addEventListener('input', async (e) => {
       currentSearch = e.target.value || '';
       currentPage = 1;
-      renderTable();
+      await renderTable();
     });
   }
 
   const pagination = document.querySelector('#productsPagination');
   if (pagination) {
-    pagination.addEventListener('click', e => {
+    pagination.addEventListener('click', async (e) => {
       const btn = e.target.closest('button[data-page]');
       if (!btn) return;
       const page = parseInt(btn.getAttribute('data-page'), 10);
       if (!isNaN(page)) {
         currentPage = page;
-        renderTable();
+        await renderTable();
       }
     });
   }
 
   const sortButton = document.querySelector('.sort-button');
   if (sortButton) {
-    sortButton.addEventListener('click', () => {
+    sortButton.addEventListener('click', async () => {
       currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
-      renderTable();
+      await renderTable();
     });
   }
 
-  renderTable();
+  await renderTable();
 });

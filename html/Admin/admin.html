@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../../stylesheets/Admin/admin.css" />
+  </head>
+  <body>
+    <!-- TOPBAR -->
+    <div id="topbar-container" data-component="admintopbar"></div>
+
+    <div class="d-flex">
+      <!-- SIDEBAR -->
+      <div id="sidebar-container" data-component="sidebar"></div>
+
+      <!-- content Dashboard -->
+      <!-- MAIN -->
+      <main class="flex-grow-1 p-4">
+        <!-- ── TOP STAT CARDS ── -->
+        <div class="row g-3 mb-3">
+          <!-- Total Sales -->
+          <div class="col-md-4">
+            <div class="card p-3 h-100">
+              <div
+                class="d-flex justify-content-between align-items-start mb-1"
+              >
+                <div>
+                  <div class="stat-title">Total Sales</div>
+                  <div class="stat-subtitle">This Month</div>
+                </div>
+                <div class="stat-value">$4,235</div>
+              </div>
+              <canvas id="salesBar" height="55"></canvas>
+            </div>
+          </div>
+
+          <!-- Customers -->
+          <div class="col-md-4">
+            <div class="card p-3 h-100">
+              <div
+                class="d-flex justify-content-between align-items-start mb-1"
+              >
+                <div>
+                  <div class="stat-title">Customers</div>
+                  <div class="stat-subtitle">This Month</div>
+                </div>
+                <div class="stat-value">2,571</div>
+              </div>
+              <canvas id="customersLine" height="55"></canvas>
+            </div>
+          </div>
+
+          <!-- Orders -->
+          <div class="col-md-4">
+            <div class="card p-3 h-100">
+              <div
+                class="d-flex justify-content-between align-items-start mb-2"
+              >
+                <div>
+                  <div class="stat-title">Orders</div>
+                  <div class="orders-goal">Monthly Goals : 1,000</div>
+                </div>
+                <div class="stat-value">734</div>
+              </div>
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <span class="orders-left">266 Left</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" style="width: 73.4%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <!-- ── CHARTS ROW 1 ── -->
+          <div class="row g-4 mb-4">
+            <!-- Live Calls - Donut -->
+            <div class="col-lg-6">
+              <div class="card chart-card shadow-sm h-100">
+                <div class="card-body p-4">
+                  <!-- Title -->
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <span class="chart-card-title">Product Category Sales</span>
+                    <span class="chart-period">This Week <i>&#8964;</i></span>
+                  </div>
+
+                  <!-- Donut Chart + Legend -->
+                  <div class="d-flex align-items-center gap-4">
+                    <!-- Donut Chart -->
+                    <div class="donut-box">
+                      <canvas id="donut1"></canvas>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="d-flex flex-column gap-3">
+                      <div>
+                        <div
+                          class="d-flex align-items-center gap-2 legend-name"
+                        >
+                          <span
+                            class="legend-dot"
+                            style="background: #2d3ab1"
+                          ></span>
+                          Clothing
+                        </div>
+                        <div class="legend-val">500K</div>
+                      </div>
+
+                      <div>
+                        <div
+                          class="d-flex align-items-center gap-2 legend-name"
+                        >
+                          <span
+                            class="legend-dot"
+                            style="background: #74c0fc"
+                          ></span>
+                          Shoes
+                        </div>
+                        <div class="legend-val">300K</div>
+                      </div>
+
+                      <div>
+                        <div
+                          class="d-flex align-items-center gap-2 legend-name"
+                        >
+                          <span
+                            class="legend-dot"
+                            style="background: #4dd9e0"
+                          ></span>
+                          Accessories
+                        </div>
+                        <div class="legend-val">200K</div>
+                      </div>
+
+                      <div>
+                        <div
+                          class="d-flex align-items-center gap-2 legend-name"
+                        >
+                          <span
+                            class="legend-dot"
+                            style="background: #ffa94d"
+                          ></span>
+                          Electronics
+                        </div>
+                        <div class="legend-val">150K</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversions - Bar -->
+            <div class="col-lg-6">
+              <div class="card chart-card shadow-sm h-100">
+                <div class="card-body p-4">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <span class="chart-card-title">Conversions</span>
+                    <span class="chart-period">This Week <i>&#8964;</i></span>
+                  </div>
+                  <canvas id="bar1" height="160"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../scripts/layoutManager.js"></script>
+    <script src="../../scripts/Admin/admin.js"></script>
+    <script src="../../scripts/Admin/adminEvents.js"></script>
+  </body>
+</html>

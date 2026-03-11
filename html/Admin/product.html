@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products</title>
+    <link
+      rel="stylesheet"
+      href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../../stylesheets/Admin/product.css" />
+    <link rel="stylesheet" href="../../stylesheets/Admin/admin.css" />
+  </head>
+  <body>
+    <!-- TOPBAR -->
+    <div id="topbar-container" data-component="admintopbar"></div>
+
+    <div class="d-flex">
+      <!-- SIDEBAR -->
+      <div id="sidebar-container" data-component="sidebar"></div>
+
+      <main class="flex-grow-1 p-4">
+        <div class="page-wrapper">
+          <div class="container-fluid px-0">
+            <div class="card-products">
+              <div class="card-header-custom">
+                <h1 class="card-title mb-0">Products</h1>
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                  <a
+                    href="./addingProduct.html"
+                    class="btn btn-dark rounded-pill px-4"
+                  >
+                    Add product
+                  </a>
+                  <div class="search-wrapper">
+                    <img
+                      class="search-icon"
+                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z' /%3E%3C/svg%3E"
+                      alt=""
+                    />
+                    <input
+                      type="search"
+                      id="productsSearch"
+                      class="form-control"
+                      placeholder="Search products"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table
+                  class="table table-hover align-middle mb-0 table-products table-products--products"
+                >
+                  <thead class="table-light">
+                    <tr>
+                      <th scope="col" class="text-center sort-header">
+                        <button
+                          type="button"
+                          class="sort-button"
+                          data-sort="name"
+                          aria-label="Sort by name"
+                        >
+                          ⇅
+                        </button>
+                      </th>
+                      <th scope="col">Name</th>
+                      <th scope="col">SKU</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Stock</th>
+                      <th scope="col">Categories</th>
+                      <th scope="col" class="text-end">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="productsTableBody"></tbody>
+                </table>
+              </div>
+
+              <div
+                class="d-flex justify-content-between align-items-center border-top px-4 py-3"
+              >
+                <small id="productsInfo" class="text-muted"
+                  >Showing 0–0 of 0 products</small
+                >
+                <nav>
+                  <ul
+                    id="productsPagination"
+                    class="pagination mb-0 pagination-sm custom-pagination"
+                  ></ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../scripts/layoutManager.js"></script>
+    <script src="../../scripts/Admin/product.js" type="module"></script>
+    <script src="../../scripts/Admin/adminEvents.js"></script>
+  </body>
+</html>

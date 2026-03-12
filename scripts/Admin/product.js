@@ -1,92 +1,6 @@
 // Demo base product data
 import {productRow} from "../Data Components/productRow.js";
 
-const baseProducts = [
-  {
-    id: 47514501,
-    name: 'Raw Black T-Shirt Lineup',
-    sku: '47514501',
-    price: 75,
-    stock: 'In Stock',
-    categories: 'T-shirt, Men',
-    image: './Images/product.jpg'
-  },
-  {
-    id: 47514502,
-    name: 'Classic Monochrome Tees',
-    sku: '47514502',
-    price: 35,
-    stock: 'In Stock',
-    categories: 'T-shirt, Men',
-    image: './Images/product.jpg'
-  },
-  {
-    id: 47514503,
-    name: 'Monochromatic Wardrobe',
-    sku: '47514503',
-    price: 27,
-    stock: 'In Stock',
-    categories: 'T-shirt',
-    image: './Images/product.jpg'
-  },
-  {
-    id: 47514504,
-    name: 'Essential Neutrals',
-    sku: '47514504',
-    price: 22,
-    stock: 'In Stock',
-    categories: 'T-shirt, Raw',
-    image: './Images/product.jpg'
-  },
-  {
-    id: 47514505,
-    name: 'UTRAANET Black',
-    sku: '47514505',
-    price: 43,
-    stock: 'In Stock',
-    categories: 'T-shirt, Trend',
-    image: './Images/product.jpg'
-  },
-  {
-    id: 47514506,
-    name: 'Elegant Ebony Sweatshirts',
-    sku: '47514506',
-    price: 35,
-    stock: 'In Stock',
-    categories: 'T-shirt',
-    image: './Images/product.jpg'
-  },
-  {
-    id: 47514507,
-    name: 'Sleek and Cozy Black',
-    sku: '47514507',
-    price: 57,
-    stock: 'In Stock',
-    categories: 'Hoodie',
-    image: './Images/product.jpg'
-  },
-  {
-    id: 47514508,
-    name: 'MOCKUP Black',
-    sku: '47514508',
-    price: 30,
-    stock: 'In Stock',
-    categories: 'T-shirt',
-    image: './Images/product.jpg'
-  }
-];
-
-// expand base products to many pages so pagination can be tested
-const products = [];
-for (let i = 0; i < 10; i++) {
-  baseProducts.forEach((p, index) => {
-    products.push({
-      ...p,
-      id: p.id + i * 100,
-      sku: String(Number(p.sku) + i * 10 + index)
-    });
-  });
-}
 
 // How many rows per page
 const pageSize = 8;
@@ -95,19 +9,23 @@ let currentSearch = '';
 let currentSortField = 'name';
 let currentSortDirection = 'asc';
 
-async function renderTable() {
+function renderTable(productsAPI) 
+{
   const tbody = document.querySelector('#productsTableBody');
-  if (!tbody) return;
+  
+  if (!tbody) 
+    return;
 
-  const filtered = products.filter(p => {
+  const filtered = productsAPI.filter(p => {
     const term = currentSearch.toLowerCase();
     return (
       p.name.toLowerCase().includes(term) ||
       p.sku.toLowerCase().includes(term) ||
-      p.categories.toLowerCase().includes(term)
+      p.categories.forEach(c => c.toLowerCase().includes(term))
     );
   });
 
+  
   // sort
   const sorted = [...filtered].sort((a, b) => {
     if (!currentSortField) return 0;
@@ -134,11 +52,7 @@ async function renderTable() {
   const start = (currentPage - 1) * pageSize;
   const pageItems = sorted.slice(start, start + pageSize);
 
-
-  const res = await fetch("https://69b10cdeadac80b427c3d349.mockapi.io/products");
-  const productsAPI = await res.json();
-
-  tbody.innerHTML = productsAPI
+  tbody.innerHTML = pageItems
     .map(productRow)
     .join('');
 
@@ -206,36 +120,60 @@ async function renderTable() {
   }
 }
 
-document.addEventListener('LayoutBuilt', async () => {
+document.addEventListener('LayoutBuilt',async () => 
+{
+  const url = new URL('https://69b10cdeadac80b427c3d349.mockapi.io/products');
+
+  const res = await fetch(url, {method: 'GET', headers: {'content-type':'application/json'}})
+                    .then(res => 
+                      {
+                        if(res.ok) 
+                          return res;
+                      })
+                    .catch(error => console.log(`error was occured ${error}`));
+
+  const productsAPI = await res.json();
+
   const searchInput = document.querySelector('#productsSearch');
-  if (searchInput) {
-    searchInput.addEventListener('input', async (e) => {
+  if (searchInput) 
+  {
+    searchInput.addEventListener('input', (e) => 
+    {
       currentSearch = e.target.value || '';
       currentPage = 1;
-      await renderTable();
+      renderTable(productsAPI);
     });
   }
 
   const pagination = document.querySelector('#productsPagination');
-  if (pagination) {
-    pagination.addEventListener('click', async (e) => {
+  if (pagination) 
+  {
+    pagination.addEventListener('click', (e) => 
+    {
       const btn = e.target.closest('button[data-page]');
-      if (!btn) return;
+      
+      if (!btn) 
+        return;
+      
       const page = parseInt(btn.getAttribute('data-page'), 10);
-      if (!isNaN(page)) {
+      
+      if (!isNaN(page)) 
+      {
         currentPage = page;
-        await renderTable();
+        renderTable(productsAPI);
       }
     });
   }
 
   const sortButton = document.querySelector('.sort-button');
-  if (sortButton) {
-    sortButton.addEventListener('click', async () => {
+  if (sortButton) 
+  {
+    sortButton.addEventListener('click', () => 
+    {
       currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
-      await renderTable();
+      renderTable(productsAPI);
     });
   }
 
-  await renderTable();
+  renderTable(productsAPI);
 });

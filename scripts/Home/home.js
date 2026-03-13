@@ -78,8 +78,8 @@ function createProductCard(product) {
 
     col.addEventListener("click", () => {
         // window.location.href = `product.html?id=${product.id}`;
-        // window.location.href = `Product Details/productDetails.html`;
-        window.location.href = `layout_Templete.html`;
+        window.location.href = `Product Details/productDetails.html?id=${product.id}`;
+        // window.location.href = `layout_Templete.html`;
         
     });
 

@@ -171,11 +171,17 @@ function saveCustomer(userData) {
 
   let customers = JSON.parse(localStorage.getItem("customers")) || [];
 
+
+  let newId = customers.length > 0 ? customers[customers.length - 1].id + 1 : 1;
+
+  userData.id = newId;
+
   customers.push(userData);
 
   localStorage.setItem("customers", JSON.stringify(customers));
 
   msg.innerHTML = "Customer Registered Successfully";
+  msg.classList.remove("text-danger");
   msg.classList.add("text-success");
 
   form.reset();

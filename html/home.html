@@ -10,7 +10,7 @@
 
 </head>
 <body>
-    <div class=".container-fluid ">
+    <div class="container-fluid p-0">
         <!-- topbar -->
         <div class="container-fluid py-0 bg-dark">
             <p class="text-light my-0 text-center">welcome to out market place</p>
@@ -53,17 +53,13 @@
                         </form>
                     </div>
                     <div class="navactions d-none d-lg-flex">
-
                             <span class="text-dark position-relative  me-3 add-pointer">
                                 <i class="fa-solid fa-cart-arrow-down"></i>
-                                <span class="position-absolute top-20 start-70 translate-middle badge rounded-circle px-1 py-1 bg-danger  ">      
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle px-1 py-1 bg-danger  ">      
                                     9
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
                             </span>
-
-
-                        
                         <span class="text-dark "><i class="fa-regular fa-circle-user add-pointer"></i></span>
                     </div>
                 </div>
@@ -71,33 +67,53 @@
         </div>
         <!-- end nav bar -->
 
+        <!-- new hero  -->
+         <div class="container-fluid bg-light ">
+            <div class="container d-flex justify-content-evenly py-3 py-md-0">
+                <div class="left d-flex flex-column justify-content-start align-items-start col-9 col-md-6 align-self-center">
+                    <h2 class="card-title text-dark">Fresh Arrivals Online</h2>
+                    <p class="card-text">Discover Our Newest Collection Today.</p>
+                    <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> View Collection  </button>
+                </div>
+                <div class="right py-0  align-items-end d-none d-md-flex  col-4 align-items-start justify-content-start" >
+                    <img src="../Img/Hero_Side.png" alt="" class="img-fluid"  >
+                </div>
+            </div>
+         </div>
+         <!-- end hero  -->
+
         <!-- start hero -->
-        <div class="card bg-dark text-white border-0 rounded-0">
-        <img src="../Img/Hero.png" class="card-img border-0 rounded-0" alt="...">
-        <div class="card-img-overlay border-0 rounded-0 container text-dark d-flex flex-column justify-content-center">
-            <h2 class="card-title text-dark">Fresh Arrivals Online</h2>
-            <p class="card-text">Discover Our Newest Collection Today.</p>
-            <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> View Collection <span class="">🡪</span> </button>
+        <div class="d-none card bg-dark text-white border-0 rounded-0">
+        <img src="../Img/HeroBack.png" class="card-img border-0 rounded-0" alt="...">
+        <div class="card-img-overlay border-0 rounded-0 container text-dark d-flex  justify-content-evenly align-items-end py-0 "> 
+            <div class="left d-flex flex-column justify-content-start align-items-start col-6 align-self-center">
+                <h2 class="card-title text-dark">Fresh Arrivals Online</h2>
+                <p class="card-text">Discover Our Newest Collection Today.</p>
+                <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> View Collection <span class="">🡪</span> </button>
+            </div>
+            <div class="right py-0  align-items-end d-none d-md-flex  col-4 align-items-start justify-content-start" >
+                <img src="../Img/Hero_Side.png" alt="" class="img-fluid"  >
+            </div>
         </div>
         </div>
         <!-- end hero -->
         <!-- first section  -->
-         <div class="container d-flex justify-content-around py-5">
-            <div class="card border-0" style="width: 18rem;">
+         <div class="container d-flex flex-column justify-content-center align-items-center py-5 flex-md-row justify-content-md-around">
+            <div class="card border-0 col-9 col-md-4" >
                 <div class="card-body ">
                     <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-truck"></i></span>
                     <h5 class="card-title mt-3">Free Shipping</h5>
                     <p class="card-text text-muted fs-6">Upgrade your style today and get FREE shipping on all orders! Don't miss out.</p>
                 </div>
             </div>
-            <div class="card border-0" style="width: 18rem;">
+            <div class="card border-0 col-9 col-md-4" >
                 <div class="card-body ">
                     <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-award"></i></span>
                     <h5 class="card-title mt-3">Satisfaction Guarantee</h5>
                     <p class="card-text text-muted fs-6">Shop Confidently with our Satisfaction Guarantee: Love it or get a refund.</p>
                 </div>
             </div>
-            <div class="card border-0" style="width: 18rem;">
+            <div class="card border-0 col-9 col-md-4" >
                 <div class="card-body ">
                     <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-shield-heart"></i></span>
                     <h5 class="card-title mt-3">Secure Payment</h5>
@@ -111,60 +127,10 @@
             <h2 class="text-center">Best SElling</h2>
         </div>
          <!-- section three  -->
-        <div class="container d-flex gap-5 justify-content-center py-5">
-            <div class="TshirtCard card border-0 rounded-0 " >
-                <div class="card text-white border-0 rounded-0">
-                    <img src="../Img/Best_Selling/Tshirt1.png" class="card-img border-0 rounded-0" alt="..." >
-                    <div class="Tshirt-card-overlay d-none card-img-overlay border-0 rounded-0 bg-white bg-opacity-50 flex-column p-0 justify-content-between">
-                        <div class="love_container d-flex justify-content-end p-2"><span class="text-muted"><i class="fa-regular fa-heart"></i></span></div>
-                        <button class="btn btn-dark border-0 rounded-0 fs-5"> Add to cart   <span class="fs-6">  <i class="fa-solid fa-cart-plus"></i></span></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Classic Monochrome Tees</h5>
-                    <p class="card-text"><span class="badge rounded-pill bg-white text-muted border me-4">IN STOCK</span> <span class="text-muted">$35.00</span></p>
-                </div>
-            </div>
-            <div class="TshirtCard card border-0 rounded-0 " >
-                <div class="card text-white border-0 rounded-0">
-                    <img src="../Img/Best_Selling/Tshirt1.png" class="card-img border-0 rounded-0" alt="...">
-                    <div class="Tshirt-card-overlay d-none card-img-overlay border-0 rounded-0 bg-white bg-opacity-50 flex-column p-0 justify-content-between">
-                        <div class="love_container d-flex justify-content-end p-2"><span class="text-muted"><i class="fa-regular fa-heart"></i></span></div>
-                        <button class="btn btn-dark border-0 rounded-0 fs-5"> Add to cart   <span class="fs-6">  <i class="fa-solid fa-cart-plus"></i></span></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Classic Monochrome Tees</h5>
-                    <p class="card-text"><span class="badge rounded-pill bg-white text-muted border me-4">IN STOCK</span> <span class="text-muted">$35.00</span></p>
-                </div>
-            </div>
-            <div class="TshirtCard card border-0 rounded-0 " >
-                <div class="card text-white border-0 rounded-0">
-                    <img src="../Img/Best_Selling/Tshirt1.png" class="card-img border-0 rounded-0" alt="...">
-                    <div class="Tshirt-card-overlay d-none card-img-overlay border-0 rounded-0 bg-white bg-opacity-50 flex-column p-0 justify-content-between">
-                        <div class="love_container d-flex justify-content-end p-2"><span class="text-muted"><i class="fa-regular fa-heart"></i></span></div>
-                        <button class="btn btn-dark border-0 rounded-0 fs-5"> Add to cart   <span class="fs-6">  <i class="fa-solid fa-cart-plus"></i></span></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Classic Monochrome Tees</h5>
-                    <p class="card-text"><span class="badge rounded-pill bg-white text-muted border me-4">IN STOCK</span> <span class="text-muted">$35.00</span></p>
-                </div>
-            </div>
-            <div class="TshirtCard card border-0 rounded-0 " >
-                <div class="card text-white border-0 rounded-0">
-                    <img src="../Img/Best_Selling/Tshirt1.png" class="card-img border-0 rounded-0" alt="...">
-                    <div class="Tshirt-card-overlay d-none card-img-overlay border-0 rounded-0 bg-white bg-opacity-50 flex-column p-0 justify-content-between">
-                        <div class="love_container d-flex justify-content-end p-2"><span class="text-muted"><i class="fa-regular fa-heart"></i></span></div>
-                        <button class="btn btn-dark border-0 rounded-0 fs-5"> Add to cart   <span class="fs-6">  <i class="fa-solid fa-cart-plus"></i></span></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Classic Monochrome Tees</h5>
-                    <p class="card-text"><span class="badge rounded-pill bg-white text-muted border me-4">IN STOCK</span> <span class="text-muted">$35.00</span></p>
-                </div>
-            </div>
-        </div>
+<div class="container py-5">
+    <div id="productsRow" class="row d-flex justify-content-center"></div>
+</div>
+
         <!-- end section three  -->
          <!-- start section four -->
         <div class="container-fluid  bg-light my-5">
@@ -174,7 +140,7 @@
                     <p class="card-text text-muted">step into a world of style and explore our diverse collection of clothing catigories.</p> <br/>
                     <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> Start Browsing <span class="">🡪</span> </button>
                 </div>
-                <div class="col-2" >
+                <div class="col-2 d-none d-md-flex" >
                     <img src="../Img/Category_Image.png" class="img-fluid" alt="..." style="width: 90%;">
                 </div>
             </div>
@@ -319,5 +285,6 @@
          </div>
     </div>
     <script src="../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../scripts/Home/home.js"></script>
 </body>
 </html>

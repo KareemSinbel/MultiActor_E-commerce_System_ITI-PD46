@@ -1,0 +1,46 @@
+.TshirtCard:hover
+{
+    .Tshirt-card-overlay{
+        display: flex !important;
+        cursor: pointer;
+    }
+}
+
+.add-pointer
+{
+    cursor: pointer;
+}
+
+.color-circle-container
+{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.color-circle
+{
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    display:inline-block;
+}
+
+.color-circle-container.selected
+{
+    border: 1px solid #0E1422;
+}
+
+.form-check-input
+{
+    border: 2px solid #E6E7E8;
+}
+
+.form-check-input:checked
+{
+    border-color: transparent;
+    background-color: #474B57;
+}

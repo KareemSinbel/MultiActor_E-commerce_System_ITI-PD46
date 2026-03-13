@@ -1,129 +1,108 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login</title>
-    <link
-      rel="stylesheet"
-      href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="../../stylesheets/Auth/login.css" />
-  </head>
+<title>Login</title> 
+ <link rel="stylesheet" href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="../../stylesheets/Auth/login.css">
 
-  <body>
-    <div id="topbar-container" data-component="topbar"></div>
 
-    <!-- navbar -->
-    <div id="navbar-container" data-component="navbar"></div>
-    <!-- end nav bar -->
 
-    <!-- Header -->
+</head>
 
-    <section class="header-section">
-      <div class="container">
-        <h2 class="fw-bold mb-2">Login</h2>
+<body>
+        <div id="topbar-container" data-component="topbar"></div>
 
-        <div class="d-flex align-items-center small text-muted">
-          <span>Ecommerce</span>
-          <i class="bi bi-chevron-right mx-2"></i>
-          <span class="fw-semibold text-dark">Login</span>
-        </div>
-      </div>
-    </section>
+        <!-- navbar -->
+        <div id="navbar-container" data-component="navbar"></div>
+        <!-- end nav bar -->
 
-    <section
-      class="container d-flex align-items-center justify-content-center py-5"
-    >
-      <div class="login-card">
-        <form id="loginForm">
-          <!-- ROLE SELECT -->
-          <div class="mb-4">
-            <label class="form-label fw-semibold">Login As</label>
-            <div class="row g-2">
-              <div class="col-6">
-                <label class="role-box w-100 text-center">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="customer"
-                    class="form-check-input me-2"
-                  />
-                  Customer
-                </label>
-              </div>
-              <div class="col-6">
-                <label class="role-box w-100 text-center">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="seller"
-                    class="form-check-input me-2"
-                  />
-                  Seller
-                </label>
-              </div>
-            </div>
-            <div
-              id="roleError"
-              class="alert alert-danger p-1 invalid-feedback list-unstyled"
-            >
-              Please select a role
-            </div>
-          </div>
+<!-- Header -->
 
-          <!-- Email -->
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" id="emailInp" required />
-            <div
-              id="emailError"
-              class="alert alert-danger p-1 invalid-feedback list-unstyled"
-            >
-              Please enter a valid email
-            </div>
-          </div>
+<section class="header-section">
+<div class="container">
+<h2 class="fw-bold mb-2">Login</h2>
 
-          <!-- Password -->
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="passwordInp"
-              required
-            />
-            <div
-              id="passwordError"
-              class="alert alert-danger p-1 invalid-feedback list-unstyled"
-            >
-              Password must be letters + numbers, min 6 chars
-            </div>
-          </div>
+<div class="d-flex align-items-center small text-muted">
+<span>Ecommerce</span>
+<i class="bi bi-chevron-right mx-2"></i>
+<span class="fw-semibold text-dark">Login</span>
+</div>
 
-          <button type="submit" id="loginBtn" class="btn login-btn w-100">
-            Login
-          </button>
+</div>
+</section>
 
-          <p id="msg" class="text-center mt-2"></p>
-        </form>
-        <p class="text-center small text-muted mt-4">
-          Don't have an account?
-          <a
-            href="register.html"
-            class="text-dark fw-semibold text-decoration-none"
-          >
-            Sign up
-          </a>
-        </p>
-      </div>
-    </section>
-    <!--start footer-->
-    <div id="footer-container" data-component="footer"></div>
-    <!--end footer-->
-    <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../scripts/layoutManager.js"></script>
-    <script src="../../scripts/Authentecation/login.js"></script>
-  </body>
+
+<section class="container d-flex align-items-center justify-content-center  py-5">
+
+<div class="login-card">
+
+<form>
+
+<!-- ROLE SELECT -->
+<div class="mb-4">
+
+<label class="form-label fw-semibold">
+Login As
+</label>
+
+<div class="row g-2">
+
+<div class="col-6">
+<label class="role-box w-100 text-center">
+<input type="radio" name="role" value="customer" class="form-check-input me-2">
+Customer
+</label>
+</div>
+
+<div class="col-6">
+<label class="role-box w-100 text-center">
+<input type="radio" name="role" value="seller" class="form-check-input me-2">
+Seller
+</label>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="mb-3">
+<label class="form-label">Email</label>
+<input type="email" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Password</label>
+<input type="password" class="form-control" required>
+</div>
+
+<div class="text-end mb-3">
+<a href="#" class="small text-secondary text-decoration-none">
+Forgot Password?
+</a>
+</div>
+
+<button class="btn login-btn w-100">
+Login
+</button>
+
+</form>
+<p class="text-center small text-muted mt-4">
+Don't have an account?
+<a href="register.html" class="text-dark fw-semibold text-decoration-none">
+Sign up
+</a>
+</p>
+</div>
+
+</section>
+   <!--start footer-->
+        <div id="footer-container" data-component="footer"></div>
+        <!--end footer-->
+ <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../scripts/layoutManager.js"></script>
+</body>
 </html>

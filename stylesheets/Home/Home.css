@@ -8,3 +8,23 @@
 .add-pointer{
     cursor: pointer;
 }
+
+.nav-pills .nav-link {
+    color: #6c757d;            /* gray text */
+    background: transparent;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+.nav-pills .nav-link:hover {
+    color: #6c757d;            /* keep gray on hover */
+}
+
+.nav-pills .nav-link.active {
+    background: white;
+    color: black;
+    border: 1px solid #dee2e6;
+    border-radius: 999px;
+    font-weight: 500;
+}
+

@@ -6,7 +6,7 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../stylesheets/Home.css">
+    <link rel="stylesheet" href="../../stylesheets/Home/Home.css">
 
 </head>
 <body>
@@ -127,105 +127,67 @@
             <h2 class="text-center">Best SElling</h2>
         </div>
          <!-- section three  -->
-<div class="container py-5">
-    <div id="productsRow" class="row d-flex justify-content-center"></div>
-</div>
+        <div class="container py-5">
+            <div id="productsRow" class="row d-flex justify-content-center"></div>
+        </div>
 
         <!-- end section three  -->
          <!-- start section four -->
-        <div class="container-fluid  bg-light my-5">
+        <div class="container-fluid  bg-light my-5 py-md-2">
             <div class="container  d-flex justify-content-around">
-                <div class="col-4 d-flex flex-column justify-content-center">
+                <div class="col-6 d-flex flex-column justify-content-center">
                     <h2 class="card-title text-dark">Browse Our Fashion Paradise!</h2> <br/>
                     <p class="card-text text-muted">step into a world of style and explore our diverse collection of clothing catigories.</p> <br/>
-                    <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> Start Browsing <span class="">🡪</span> </button>
+                    <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> Start Browsing  </button>
                 </div>
-                <div class="col-2 d-none d-md-flex" >
+                <div class="col-2 d-none d-lg-flex" >
                     <img src="./Img/Category_Image.png" class="img-fluid" alt="..." style="width: 90%;">
                 </div>
             </div>
         </div>
         <!-- end of section  -->
-         <!-- start -->
-        <div class="container-fluid text-center mt-5 py-5">
-            <span class="badge rounded-pill bg-white text-muted border me-4">Featured</span>
-            <span>Latest</span>
-        </div>
+
 
          <!-- start  -->
-        <div class="container d-flex gap-5 justify-content-center py-5">
-            <div class="TshirtCard card border-0 rounded-0 " >
-                <div class="card text-white border-0 rounded-0">
-                    <img src="./Img/Best_Selling/Tshirt1.png" class="card-img border-0 rounded-0" alt="..." >
-                    <div class="Tshirt-card-overlay d-none card-img-overlay border-0 rounded-0 bg-white bg-opacity-50 flex-column p-0 justify-content-between">
-                        <div class="love_container d-flex justify-content-end p-2"><span class="text-muted"><i class="fa-regular fa-heart"></i></span></div>
-                        <button class="btn btn-dark border-0 rounded-0 fs-5"> Add to cart   <span class="fs-6">  <i class="fa-solid fa-cart-plus"></i></span></button>
-                    </div>
+        <div class="container d-flex flex-column gap-5 justify-content-center align-items-center py-5 ">
+            <ul class="nav nav-pills mb-3 " id="pills-tab" role="tablist">
+            <li class="nav-item text-light me-1" role="presentation">
+                <button class="nav-link active " id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#Featured" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Featured</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#Latest" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Latest</button>
+            </li>
+            </ul>
+            <div class="tab-content container py-3" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="Featured">
+                    <div class="row d-flex justify-content-center" id="featuredProducts"></div>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">Classic Monochrome Tees</h5>
-                    <p class="card-text"><span class="badge rounded-pill bg-white text-muted border me-4">IN STOCK</span> <span class="text-muted">$35.00</span></p>
-                </div>
-            </div>
-            <div class="TshirtCard card border-0 rounded-0 " >
-                <div class="card text-white border-0 rounded-0">
-                    <img src="./Img/Best_Selling/Tshirt1.png" class="card-img border-0 rounded-0" alt="...">
-                    <div class="Tshirt-card-overlay d-none card-img-overlay border-0 rounded-0 bg-white bg-opacity-50 flex-column p-0 justify-content-between">
-                        <div class="love_container d-flex justify-content-end p-2"><span class="text-muted"><i class="fa-regular fa-heart"></i></span></div>
-                        <button class="btn btn-dark border-0 rounded-0 fs-5"> Add to cart   <span class="fs-6">  <i class="fa-solid fa-cart-plus"></i></span></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Classic Monochrome Tees</h5>
-                    <p class="card-text"><span class="badge rounded-pill bg-white text-muted border me-4">IN STOCK</span> <span class="text-muted">$35.00</span></p>
-                </div>
-            </div>
-            <div class="TshirtCard card border-0 rounded-0 " >
-                <div class="card text-white border-0 rounded-0">
-                    <img src="./Img/Best_Selling/Tshirt1.png" class="card-img border-0 rounded-0" alt="...">
-                    <div class="Tshirt-card-overlay d-none card-img-overlay border-0 rounded-0 bg-white bg-opacity-50 flex-column p-0 justify-content-between">
-                        <div class="love_container d-flex justify-content-end p-2"><span class="text-muted"><i class="fa-regular fa-heart"></i></span></div>
-                        <button class="btn btn-dark border-0 rounded-0 fs-5"> Add to cart   <span class="fs-6">  <i class="fa-solid fa-cart-plus"></i></span></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Classic Monochrome Tees</h5>
-                    <p class="card-text"><span class="badge rounded-pill bg-white text-muted border me-4">IN STOCK</span> <span class="text-muted">$35.00</span></p>
-                </div>
-            </div>
-            <div class="TshirtCard card border-0 rounded-0 " >
-                <div class="card text-white border-0 rounded-0">
-                    <img src="./Img/Best_Selling/Tshirt1.png" class="card-img border-0 rounded-0" alt="...">
-                    <div class="Tshirt-card-overlay d-none card-img-overlay border-0 rounded-0 bg-white bg-opacity-50 flex-column p-0 justify-content-between">
-                        <div class="love_container d-flex justify-content-end p-2"><span class="text-muted"><i class="fa-regular fa-heart"></i></span></div>
-                        <button class="btn btn-dark border-0 rounded-0 fs-5"> Add to cart   <span class="fs-6">  <i class="fa-solid fa-cart-plus"></i></span></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Classic Monochrome Tees</h5>
-                    <p class="card-text"><span class="badge rounded-pill bg-white text-muted border me-4">IN STOCK</span> <span class="text-muted">$35.00</span></p>
+                <div class="tab-pane fade" id="Latest">
+                    <div class="row d-flex justify-content-center" id="latestProducts"></div>
                 </div>
             </div>
         </div>
 
         <!-- start  -->
         <div class="container-fluid  bg-light mt-5">
-            <div class="container  d-flex justify-content-center py-5">
-                <div class="col-6 d-flex flex-column justify-content-center ps-5">
-                    <h2 class="card-title text-dark">Join Our Newsletter</h2> <br/>
-                    <p class="card-text text-muted">We Love to surprise our subscribers with occasional gifts.</p> <br/>
-                    
-                </div>
-                <div class="col-6 d-flex justify-content-center align-items-center" >
-                    <form class="row g-3 align-middle">
-                        <div class="col-auto">
-                            <label for="staticEmail2" class="visually-hidden">Email</label>
-                            <input type="text" class="form-control bg-light" id="staticEmail2" placeholder="Your email address">
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-dark mb-3">Subscribe</button>
-                        </div>
-                    </form>
+            <div class="container  py-5">
+                <div class="row d">
+                    <div class="col-12 d-flex flex-column justify-content-center ps-5 col-md-6">
+                        <h2 class="card-title text-dark">Join Our Newsletter</h2> <br/>
+                        <p class="card-text text-muted">We Love to surprise our subscribers with occasional gifts.</p> <br/>
+                        
+                    </div>
+                    <div class="col-12 d-flex justify-content-center align-items-center col-md-6" >
+                        <form class="row g-3 align-middle">
+                            <div class="col-auto">
+                                <label for="staticEmail2" class="visually-hidden">Email</label>
+                                <input type="text" class="form-control bg-light" id="staticEmail2" placeholder="Your email address">
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-dark mb-3">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -233,8 +195,8 @@
         <!-- start footer  -->
          <div class="container-fluid">
             <div class="container  ">
-                <div class="footer-top d-flex">
-                    <div class="footer-left col-4 d-flex flex-column p-5">
+                <div class="row footer-top d-flex">
+                    <div class="footer-left col-12 d-flex flex-column p-5 col-lg-4">
                         <div class="brand">
                             <img src="./Img/footer/Logo/Logomark.svg" alt="" class="me-2 add-pointer"> 
                             <span class="fs-4 fw-bolder">Ecommerce</span>
@@ -248,7 +210,7 @@
                             <span class="me-2 fs-5 add-pointer"><i class="fa-brands fa-youtube"></i></span>
                         </div>
                     </div>
-                    <div class="footer-middle col-5 d-flex py-5 text-muted">
+                    <div class="footer-middle col-12 d-flex py-5 text-muted col-lg-5">
                         <div class="footer-support col-4">
                             <p class="mb-4 text-muted">SUPPORT</p>
                             <p>FAQ</p>
@@ -268,7 +230,7 @@
                             <p>Cart</p>
                         </div>
                     </div>
-                    <div class="footer-right col-3 py-5"> 
+                    <div class="footer-right col-12 py-5 col-lg-3"> 
                         <p class="text-muted">ACCEPTED PAYMENTS</p>
                         <div class="footer-payments">
                             <span class="me-3 fs-3 add-pointer text-muted"><i class="fa-brands fa-cc-mastercard"></i></span>

@@ -2,13 +2,112 @@ export function notifyCartUpdated() {
   document?.dispatchEvent(new CustomEvent("CartUpdated"));
 }
 
+export function addToCart(product, options = {}) {
+
+  const user = getLoggedInUser();
+  if (!user) return { success:false, reason:"NOT_LOGGED_IN" };
+
+  const customers = getCustomers();
+  const index = findCustomerIndex(customers, user);
+
+  if (index === -1) return { success:false, reason:"CUSTOMER_NOT_FOUND" };
+
+  const customer = customers[index];
+
+  if (!Array.isArray(customer.cartItem))
+    customer.cartItem = [];
+
+  const cartItem = {
+    id: String(product.id),
+    name: product.name || "",
+    price: Number(product.price) || 0,
+    image: product.image || "",
+    size: options.size || null,
+    color: options.color || null,
+    quantity: options.quantity || 1
+  };
+
+  const existingIndex = customer.cartItem.findIndex(i => i.id === cartItem.id);
+
+  if (existingIndex >= 0) {
+    customer.cartItem[existingIndex].quantity += cartItem.quantity;
+    customer.cartItem[existingIndex].size = cartItem.size;
+    customer.cartItem[existingIndex].color = cartItem.color;
+  } 
+  else {
+    customer.cartItem.push(cartItem);
+  }
+
+  customers[index] = customer;
+  saveCustomers(customers);
+
+  notifyCartUpdated();
+
+  return { success:true };
+}
+
+
+export function toggleWishlist(product) {
+
+  const user = getLoggedInUser();
+  if (!user) return { success:false, reason:"NOT_LOGGED_IN" };
+
+  const customers = getCustomers();
+  const index = findCustomerIndex(customers, user);
+
+  if (index === -1) return { success:false };
+
+  const customer = customers[index];
+
+  if (!Array.isArray(customer.watchList))
+    customer.watchList = [];
+
+  const item = {
+    id: String(product.id),
+    name: product.name || "",
+    price: Number(product.price) || 0,
+    image: product.image || ""
+  };
+
+  const existingIndex = customer.watchList.findIndex(i => i.id === item.id);
+
+  if (existingIndex === -1) {
+    customer.watchList.push(item);
+    saveCustomers(customers);
+    return { success:true, action:"added" };
+  }
+
+  customer.watchList.splice(existingIndex,1);
+  saveCustomers(customers);
+
+  return { success:true, action:"removed" };
+}
+
+
+export function isInWishlist(productId)
+{
+  const user = getLoggedInUser();
+  if (!user) return false;
+
+  const customers = getCustomers();
+  const customer = customers.find(c => String(c.id) === String(user.id));
+
+  if (!customer || !Array.isArray(customer.watchList))
+    return false;
+
+  return customer.watchList.some(p => String(p.id) === String(productId));
+}
+
+
+
+
 export function getCartItemCount() 
 {
   const user = getLoggedInUser();
   if (!user) 
 	return 0;
 
-  const customers = JSON.parse(localStorage.getItem("customers")) || [];
+  const customers = getCustomers();
 
   const customer = customers.find(c => c.id === user.id);
 
@@ -87,3 +186,34 @@ document.addEventListener("CartUpdated", ()=>
 {
   updateCartBadge();
 });
+
+
+
+
+
+
+/***************************************************************/
+
+
+function getCustomers() 
+{
+  try {
+    const raw = localStorage.getItem("customers");
+    const customers = raw ? JSON.parse(raw) : [];
+    return Array.isArray(customers) ? customers : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCustomers(customers) 
+{
+  localStorage.setItem("customers", JSON.stringify(customers));
+}
+
+function findCustomerIndex(customers, user) 
+{
+  if (!user?.id) 
+	return -1;
+  return customers.findIndex(c => String(c.id) === String(user.id));
+}

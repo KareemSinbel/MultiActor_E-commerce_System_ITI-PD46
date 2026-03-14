@@ -1,4 +1,4 @@
-import { showBootstrapToast, notifyCartUpdated } from "../helpers.js"; 
+import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist } from "../helpers.js"; 
 
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
 const LOGIN_URL = "../../html/Auth/login.html";
@@ -172,8 +172,6 @@ function renderDetailList(product) {
 		`SKU: ${product.sku || "N/A"}`,
 		`Available sizes: ${Array.isArray(product.sizesList) ? product.sizesList.join(", ") : "N/A"}`,
 		`Available colors: ${Array.isArray(product.colorsList) ? product.colorsList.join(", ") : "N/A"}`,
-		// `Seller ID: ${product.sellerId || "N/A"}`,
-		// `Product ID: ${product.id || "N/A"}`
 	];
 
 	setHtml(
@@ -182,61 +180,6 @@ function renderDetailList(product) {
 	);
 }
 
-// function getLoggedInUser() {
-// 	try {
-// 		const userRaw = sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
-// 		return userRaw ? JSON.parse(userRaw) : null;
-// 	} catch (error) {
-// 		console.error("Failed to parse logged in user", error);
-// 		return null;
-// 	}
-// }
-
-function getLoggedInUser() {
-    const userRaw = getCookie("loggedInUser"); // cookie only
-    try {
-        return userRaw ? JSON.parse(userRaw) : null;
-    } catch (error) {
-        console.error("Failed to parse loggedInUser cookie", error);
-        return null;
-    }
-}
-
-function getCustomers() {
-	try {
-		const customersRaw = localStorage.getItem("customers");
-		const customers = customersRaw ? JSON.parse(customersRaw) : [];
-		return Array.isArray(customers) ? customers : [];
-	} catch (error) {
-		return [];
-	}
-}
-
-function saveCustomers(customers) {
-	localStorage.setItem("customers", JSON.stringify(customers));
-}
-
-
-// function findCustomerIndex(customers, loggedInUser) {
-// 	if (!loggedInUser) {
-// 		return -1;
-// 	}
-
-// 	const loggedInEmail = String(loggedInUser.email || "").trim().toLowerCase();
-// 	if (!loggedInEmail) {
-// 		return -1;
-// 	}
-
-// 	return customers.findIndex((customer) => {
-// 		const customerEmail = String(customer.email || "").trim().toLowerCase();
-// 		return customerEmail === loggedInEmail;
-// 	});
-// }
-
-function findCustomerIndex(customers, loggedInUser) {
-    if (!loggedInUser?.id) return -1;
-    return customers.findIndex(c => String(c.id) === String(loggedInUser.id));
-}
 
 function redirectToLogin() {
 	window.location.href = LOGIN_URL;
@@ -266,52 +209,6 @@ function getSelectedQuantity() {
 	return Number.isFinite(quantity) && quantity > 0 ? quantity : 1;
 }
 
-function normalizeWatchListEntry(product) {
-	return {
-		id: String(product.id || ""),
-		name: product.name || "",
-		price: Number(product.price) || 0,
-		image: product.image || ""
-	};
-}
-
-function normalizeCartItem(product) {
-	return {
-		id: String(product.id || ""),
-		name: product.name || "",
-		price: Number(product.price) || 0,
-		image: product.image || "",
-		size: getSelectedSize(),
-		color: getSelectedColor(),
-		quantity: getSelectedQuantity()
-	};
-}
-
-function ensureArrayProperty(customer, key) {
-	if (!Array.isArray(customer[key])) {
-		customer[key] = [];
-	}
-}
-
-function getCustomerContext(shouldRedirect = true) {
-	const loggedInUser = getLoggedInUser();
-	const customers = getCustomers();
-	const customerIndex = findCustomerIndex(customers, loggedInUser);
-
-	if (customerIndex === -1) {
-		if (shouldRedirect) {
-			redirectToLogin();
-		}
-		return null;
-	}
-
-	return {
-		customers,
-		customerIndex,
-		customer: customers[customerIndex]
-	};
-}
-
 function getToastContainer() {
 	let container = document.getElementById("product-details-toast-container");
 	if (container) {
@@ -325,42 +222,6 @@ function getToastContainer() {
 	document.body.appendChild(container);
 	return container;
 }
-
-// function showBootstrapToast(message, type = "success") {
-// 	const container = getToastContainer();
-// 	const toast = document.createElement("div");
-
-// 	const typeClassMap = {
-// 		success: "text-bg-success",
-// 		warning: "text-bg-warning",
-// 		danger: "text-bg-danger",
-// 		info: "text-bg-primary"
-// 	};
-
-// 	const bgClass = typeClassMap[type] || typeClassMap.success;
-
-// 	toast.className = `toast align-items-center border-0 ${bgClass}`;
-// 	toast.setAttribute("role", "alert");
-// 	toast.setAttribute("aria-live", "assertive");
-// 	toast.setAttribute("aria-atomic", "true");
-// 	toast.innerHTML = `
-// 		<div class="d-flex">
-// 			<div class="toast-body">${message}</div>
-// 			<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-// 		</div>
-// 	`;
-
-// 	container.appendChild(toast);
-
-// 	if (window.bootstrap && window.bootstrap.Toast) {
-// 		const toastInstance = new window.bootstrap.Toast(toast, { delay: 2200 });
-// 		toast.addEventListener("hidden.bs.toast", () => toast.remove());
-// 		toastInstance.show();
-// 		return;
-// 	}
-
-// 	setTimeout(() => toast.remove(), 2200);
-// }
 
 function updateWishlistButtonState(isActive) {
 	const watchListButton = document.querySelector(".btn-wishlist");
@@ -377,70 +238,47 @@ function updateWishlistButtonState(isActive) {
 	}
 }
 
-function isProductInWatchList(customer, productId) {
-	if (!customer) {
-		return false;
-	}
 
-	ensureArrayProperty(customer, "watchList");
-	return customer.watchList.some((item) => String(item.id) === String(productId));
+function handleAddToCart(product)
+{
+  const result = addToCart(product,{
+    size:getSelectedSize(),
+    color:getSelectedColor(),
+    quantity:getSelectedQuantity()
+  });
+
+  if(!result.success)
+  {
+    window.location.href = LOGIN_URL;
+    return;
+  }
+
+  showBootstrapToast(getToastContainer(),"Product added to cart","success");
 }
 
-function handleAddToCart(product) {
-	const context = getCustomerContext();
-	if (!context) {
+
+function handleAddToWatchList(product)
+{
+	const result = toggleWishlist(product);
+
+	if(!result.success)
+	{
+		window.location.href = LOGIN_URL;
 		return;
 	}
 
-	const { customers, customerIndex, customer } = context;
-	ensureArrayProperty(customer, "cartItem");
-
-	const cartEntry = normalizeCartItem(product);
-	const existingIndex = customer.cartItem.findIndex((item) => String(item.id) === cartEntry.id);
-
-	if (existingIndex >= 0) {
-		const existingQuantity = Number(customer.cartItem[existingIndex].quantity) || 1;
-		customer.cartItem[existingIndex].quantity = existingQuantity + cartEntry.quantity;
-		customer.cartItem[existingIndex].size = cartEntry.size;
-		customer.cartItem[existingIndex].color = cartEntry.color;
-	} else {
-		customer.cartItem.push(cartEntry);
-	}
-
-	saveCustomers(customers);
-	showBootstrapToast(getToastContainer(), "Product added to cart.", "success");
-
-	//Update card badge
-	notifyCartUpdated();
-}
-
-function handleAddToWatchList(product) {
-	const context = getCustomerContext();
-	if (!context) {
-		return;
-	}
-
-	const { customers, customerIndex, customer } = context;
-	ensureArrayProperty(customer, "watchList");
-
-	const watchListEntry = normalizeWatchListEntry(product);
-	const existingIndex = customer.watchList.findIndex((item) => String(item.id) === watchListEntry.id);
-
-	if (existingIndex === -1) {
-		customer.watchList.push(watchListEntry);
-		customers[customerIndex] = customer;
-		saveCustomers(customers);
+	if(result.action === "added")
+	{
 		updateWishlistButtonState(true);
-		showBootstrapToast(getToastContainer(), "Product added to watch list.", "success");
-		return;
+		showBootstrapToast(getToastContainer(),"Product added to watch list","success");
 	}
-
-	customer.watchList.splice(existingIndex, 1);
-	customers[customerIndex] = customer;
-	saveCustomers(customers);
-	updateWishlistButtonState(false);
-	showBootstrapToast(getToastContainer(), "Product removed from watch list.", "info");
+	else
+	{
+		updateWishlistButtonState(false);
+		showBootstrapToast(getToastContainer(),"Product removed from watch list","info");
+	}
 }
+
 
 function bindQuantityActions() {
 	const quantityGroup = document.querySelector(".quantity-group");
@@ -496,8 +334,7 @@ function bindSelectableOptions() {
 }
 
 function bindProductActions(product) {
-	const context = getCustomerContext(false);
-	updateWishlistButtonState(Boolean(context && isProductInWatchList(context.customer, product.id)));
+	updateWishlistButtonState(isInWishlist(product.id));
 
 	const addToCartButton = document.querySelector(".btn-add-cart");
 	if (addToCartButton) {

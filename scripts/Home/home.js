@@ -1,4 +1,4 @@
-import { addToCart, isInWishlist } from "../helpers.js"; 
+import { addToCart, isInWishlist, redirectToLogin } from "../helpers.js"; 
 
 async function getProducts(apiUrl, container, randomCount = null) {
 
@@ -84,7 +84,12 @@ function createProductCard(product) {
 
     col.querySelector(".add-to-cart").addEventListener("click", (e) => {
         e.stopPropagation();
-        addToCart(product);
+        let res = addToCart(product);
+        if(res.success == false)
+        {
+            if(res.reason === "NOT_LOGGED_IN")
+                redirectToLogin();
+        }
     });
 
     return col;

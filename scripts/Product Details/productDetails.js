@@ -1,4 +1,4 @@
-import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist } from "../helpers.js"; 
+import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist, redirectToLogin } from "../helpers.js"; 
 
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
 
@@ -244,7 +244,7 @@ function handleAddToCart(product)
 
   if(!result.success)
   {
-    window.location.href = LOGIN_URL;
+    redirectToLogin();
     return;
   }
 
@@ -258,7 +258,7 @@ function handleAddToWatchList(product)
 
 	if(!result.success)
 	{
-		window.location.href = LOGIN_URL;
+		redirectToLogin();
 		return;
 	}
 

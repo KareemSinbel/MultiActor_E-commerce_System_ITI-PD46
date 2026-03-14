@@ -1,5 +1,5 @@
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
-const LOGIN_URL = "http://127.0.0.1:5500/html/Auth/login.html";
+const LOGIN_URL = "../../html/Auth/login.html";
 
 function getProductIdFromUrl() {
 	const params = new URLSearchParams(window.location.search);
@@ -172,8 +172,8 @@ function renderDetailList(product) {
 		`SKU: ${product.sku || "N/A"}`,
 		`Available sizes: ${Array.isArray(product.sizesList) ? product.sizesList.join(", ") : "N/A"}`,
 		`Available colors: ${Array.isArray(product.colorsList) ? product.colorsList.join(", ") : "N/A"}`,
-		`Seller ID: ${product.sellerId || "N/A"}`,
-		`Product ID: ${product.id || "N/A"}`
+		// `Seller ID: ${product.sellerId || "N/A"}`,
+		// `Product ID: ${product.id || "N/A"}`
 	];
 
 	setHtml(
@@ -546,4 +546,4 @@ async function initProductDetailsPage() {
 	}
 }
 
-document.addEventListener("DOMContentLoaded", initProductDetailsPage);
+document.addEventListener("LayoutBuilt", initProductDetailsPage);

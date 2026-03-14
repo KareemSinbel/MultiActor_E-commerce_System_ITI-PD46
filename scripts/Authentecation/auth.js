@@ -15,9 +15,49 @@
 
 // ____________________ Check Auth ____________________
 
+
+
+// LOG OUT EXAMPLE
+// function logout() {
+//   deleteCookie("loggedInUser");
+//   location.href = "../../html/Auth/login.html";
+// }
+
+
+function setCookie(name, value, hours)
+{
+  const date = new Date();
+  date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+
+  const expires = "expires=" + date.toUTCString();
+  document.cookie = `${name}=${value}; ${expires}; path=/` 
+}
+
+function getCookie(name) 
+{
+    const cookies = document.cookie.split(";");
+
+    for (let cookie of cookies) {
+        const [key, value] = cookie.trim().split("=");
+
+        if (key === name) {
+            return value;
+        }
+    }
+
+    return null;
+}
+
+function deleteCookie(name) 
+{
+  document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+
 function checkAuth() {
 
-  const user = sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
+  const user = getCookie("loggedInUser");  //sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
+  user = userCookie ? JSON.parse(userCookie) : null;  
 
   if (!user) {
 

@@ -3,7 +3,7 @@ const TAX_RATE = 0.0;
 
 function getLoggedInUser() {
     try {
-        const userRaw = sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
+        const userRaw = getCookie("loggedInUser"); //sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
         return userRaw ? JSON.parse(userRaw) : null;
     } catch (error) {
         console.error("Failed to parse logged in user", error);
@@ -223,4 +223,4 @@ function initCartPage() {
     bindCartEvents();
 }
 
-document.addEventListener("DOMContentLoaded", initCartPage);
+document.addEventListener("LayoutBuilt", initCartPage);

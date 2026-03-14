@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <!-- start topbar -->
+        <div data-component="topbar"></div>
+        <!-- end topbar -->
+
+        <!-- navbar -->
+        <div data-component="navbar"></div>
+        <!-- end nav bar -->
+
+        <div id="pageContent"></div> <!-- all pages content goes here -->
+
+        <!-- start newsletter -->
+        <div data-component="newsletter"></div>
+        <!-- end newsletter -->
+
+        <!-- start footer  -->
+        <div data-component="footer"></div>
+        <!-- end footer  -->
+    </div>
+    <script src="../../scripts/Authentecation/auth.js"></script>
+    <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../scripts/layoutManager.js"></script>
+    <script src="../../scripts/helpers.js" type="module"></script>
+    <script src="../../scripts/main.js" type="module"></script>
+</body>
+</html>

@@ -53,11 +53,16 @@ function deleteCookie(name)
   document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
 
+function getLoggedInUser() 
+{
+  const auth = getCookie("loggedInUser");
+  return auth ? JSON.parse(auth) : null;
+}
 
 function checkAuth() {
 
-  const user = getCookie("loggedInUser");  //sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
-  user = userCookie ? JSON.parse(userCookie) : null;  
+  const userCookie = getCookie("loggedInUser");  //sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
+  const user = userCookie ? JSON.parse(userCookie) : null;  
 
   if (!user) {
 

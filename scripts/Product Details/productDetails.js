@@ -1,3 +1,5 @@
+import { showBootstrapToast, notifyCartUpdated } from "../helpers.js"; 
+
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
 const LOGIN_URL = "../../html/Auth/login.html";
 
@@ -12,7 +14,6 @@ async function fetchProductById(productId) {
 
 		if (byIdResponse.ok) {
 			const product = await byIdResponse.json();
-			console.log("Fetched product by id:", product);
 			return product;
 		}
 	} catch (error) {
@@ -21,7 +22,6 @@ async function fetchProductById(productId) {
 
 	const listResponse = await fetch(PRODUCTS_API_URL);
 	const products = await listResponse.json();
-	console.log("Fetched products list:", products);
     
 	return products.find((product) => String(product.id) === String(productId)) || null;
 }
@@ -182,14 +182,24 @@ function renderDetailList(product) {
 	);
 }
 
+// function getLoggedInUser() {
+// 	try {
+// 		const userRaw = sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
+// 		return userRaw ? JSON.parse(userRaw) : null;
+// 	} catch (error) {
+// 		console.error("Failed to parse logged in user", error);
+// 		return null;
+// 	}
+// }
+
 function getLoggedInUser() {
-	try {
-		const userRaw = sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
-		return userRaw ? JSON.parse(userRaw) : null;
-	} catch (error) {
-		console.error("Failed to parse logged in user", error);
-		return null;
-	}
+    const userRaw = getCookie("loggedInUser"); // cookie only
+    try {
+        return userRaw ? JSON.parse(userRaw) : null;
+    } catch (error) {
+        console.error("Failed to parse loggedInUser cookie", error);
+        return null;
+    }
 }
 
 function getCustomers() {
@@ -198,7 +208,6 @@ function getCustomers() {
 		const customers = customersRaw ? JSON.parse(customersRaw) : [];
 		return Array.isArray(customers) ? customers : [];
 	} catch (error) {
-		console.error("Failed to parse customers from localStorage", error);
 		return [];
 	}
 }
@@ -207,20 +216,26 @@ function saveCustomers(customers) {
 	localStorage.setItem("customers", JSON.stringify(customers));
 }
 
+
+// function findCustomerIndex(customers, loggedInUser) {
+// 	if (!loggedInUser) {
+// 		return -1;
+// 	}
+
+// 	const loggedInEmail = String(loggedInUser.email || "").trim().toLowerCase();
+// 	if (!loggedInEmail) {
+// 		return -1;
+// 	}
+
+// 	return customers.findIndex((customer) => {
+// 		const customerEmail = String(customer.email || "").trim().toLowerCase();
+// 		return customerEmail === loggedInEmail;
+// 	});
+// }
+
 function findCustomerIndex(customers, loggedInUser) {
-	if (!loggedInUser) {
-		return -1;
-	}
-
-	const loggedInEmail = String(loggedInUser.email || "").trim().toLowerCase();
-	if (!loggedInEmail) {
-		return -1;
-	}
-
-	return customers.findIndex((customer) => {
-		const customerEmail = String(customer.email || "").trim().toLowerCase();
-		return customerEmail === loggedInEmail;
-	});
+    if (!loggedInUser?.id) return -1;
+    return customers.findIndex(c => String(c.id) === String(loggedInUser.id));
 }
 
 function redirectToLogin() {
@@ -311,41 +326,41 @@ function getToastContainer() {
 	return container;
 }
 
-function showBootstrapToast(message, type = "success") {
-	const container = getToastContainer();
-	const toast = document.createElement("div");
+// function showBootstrapToast(message, type = "success") {
+// 	const container = getToastContainer();
+// 	const toast = document.createElement("div");
 
-	const typeClassMap = {
-		success: "text-bg-success",
-		warning: "text-bg-warning",
-		danger: "text-bg-danger",
-		info: "text-bg-primary"
-	};
+// 	const typeClassMap = {
+// 		success: "text-bg-success",
+// 		warning: "text-bg-warning",
+// 		danger: "text-bg-danger",
+// 		info: "text-bg-primary"
+// 	};
 
-	const bgClass = typeClassMap[type] || typeClassMap.success;
+// 	const bgClass = typeClassMap[type] || typeClassMap.success;
 
-	toast.className = `toast align-items-center border-0 ${bgClass}`;
-	toast.setAttribute("role", "alert");
-	toast.setAttribute("aria-live", "assertive");
-	toast.setAttribute("aria-atomic", "true");
-	toast.innerHTML = `
-		<div class="d-flex">
-			<div class="toast-body">${message}</div>
-			<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-		</div>
-	`;
+// 	toast.className = `toast align-items-center border-0 ${bgClass}`;
+// 	toast.setAttribute("role", "alert");
+// 	toast.setAttribute("aria-live", "assertive");
+// 	toast.setAttribute("aria-atomic", "true");
+// 	toast.innerHTML = `
+// 		<div class="d-flex">
+// 			<div class="toast-body">${message}</div>
+// 			<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+// 		</div>
+// 	`;
 
-	container.appendChild(toast);
+// 	container.appendChild(toast);
 
-	if (window.bootstrap && window.bootstrap.Toast) {
-		const toastInstance = new window.bootstrap.Toast(toast, { delay: 2200 });
-		toast.addEventListener("hidden.bs.toast", () => toast.remove());
-		toastInstance.show();
-		return;
-	}
+// 	if (window.bootstrap && window.bootstrap.Toast) {
+// 		const toastInstance = new window.bootstrap.Toast(toast, { delay: 2200 });
+// 		toast.addEventListener("hidden.bs.toast", () => toast.remove());
+// 		toastInstance.show();
+// 		return;
+// 	}
 
-	setTimeout(() => toast.remove(), 2200);
-}
+// 	setTimeout(() => toast.remove(), 2200);
+// }
 
 function updateWishlistButtonState(isActive) {
 	const watchListButton = document.querySelector(".btn-wishlist");
@@ -393,7 +408,10 @@ function handleAddToCart(product) {
 	}
 
 	saveCustomers(customers);
-	showBootstrapToast("Product added to cart.", "success");
+	showBootstrapToast(getToastContainer(), "Product added to cart.", "success");
+
+	//Update card badge
+	notifyCartUpdated();
 }
 
 function handleAddToWatchList(product) {
@@ -413,7 +431,7 @@ function handleAddToWatchList(product) {
 		customers[customerIndex] = customer;
 		saveCustomers(customers);
 		updateWishlistButtonState(true);
-		showBootstrapToast("Product added to watch list.", "success");
+		showBootstrapToast(getToastContainer(), "Product added to watch list.", "success");
 		return;
 	}
 
@@ -421,7 +439,7 @@ function handleAddToWatchList(product) {
 	customers[customerIndex] = customer;
 	saveCustomers(customers);
 	updateWishlistButtonState(false);
-	showBootstrapToast("Product removed from watch list.", "info");
+	showBootstrapToast(getToastContainer(), "Product removed from watch list.", "info");
 }
 
 function bindQuantityActions() {
@@ -541,7 +559,6 @@ async function initProductDetailsPage() {
 		bindQuantityActions();
 		bindProductActions(product);
 	} catch (error) {
-		console.error("Failed to load product details", error);
 		renderNotFound("Failed to load product");
 	}
 }

@@ -1,3 +1,5 @@
+import {notifyCartUpdated} from "../helpers.js";
+
 const CART_LOGIN_URL = "http://127.0.0.1:5500/html/Auth/login.html";
 const TAX_RATE = 0.0;
 
@@ -24,6 +26,7 @@ function getCustomers() {
 
 function saveCustomers(customers) {
     localStorage.setItem("customers", JSON.stringify(customers));
+    notifyCartUpdated();
 }
 
 function redirectToLogin() {
@@ -31,16 +34,16 @@ function redirectToLogin() {
 }
 
 function findCustomerIndex(customers, loggedInUser) {
-    if (!loggedInUser) {
+    if (!loggedInUser || !loggedInUser.id) {
         return -1;
     }
 
-    const loggedInEmail = String(loggedInUser.email || "").trim().toLowerCase();
-    if (!loggedInEmail) {
-        return -1;
-    }
+    // const loggedInEmail = String(loggedInUser.email || "").trim().toLowerCase();
+    // if (!loggedInEmail) {
+    //     return -1;
+    // }
 
-    return customers.findIndex((customer) => String(customer.email || "").trim().toLowerCase() === loggedInEmail);
+    return customers.findIndex((customer) => Number(customer.id) === Number(loggedInUser.id));
 }
 
 function formatPrice(value) {

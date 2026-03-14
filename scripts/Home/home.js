@@ -132,11 +132,23 @@ function showError(container) {
 }
 
 const productsRow = document.getElementById("productsRow");
+const Featured = document.getElementById("featuredProducts");
+const Latest = document.getElementById("latestProducts");
 
 const API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
 
 getProducts(
     API_URL,
     productsRow,
+    4
+);
+getProducts(
+    API_URL,
+    Featured,
+    4
+);
+getProducts(
+    API_URL,
+    Latest,
     4
 );

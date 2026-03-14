@@ -1,7 +1,6 @@
 import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist } from "../helpers.js"; 
 
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
-const LOGIN_URL = "../../html/Auth/login.html";
 
 function getProductIdFromUrl() {
 	const params = new URLSearchParams(window.location.search);
@@ -180,10 +179,6 @@ function renderDetailList(product) {
 	);
 }
 
-
-function redirectToLogin() {
-	window.location.href = LOGIN_URL;
-}
 
 function getSelectedSize() {
 	const activeSize = document.querySelector("#product-sizes .size-box.active");

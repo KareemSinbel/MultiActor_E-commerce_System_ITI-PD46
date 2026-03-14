@@ -1,3 +1,5 @@
+import { addToCart, isInWishlist } from "../helpers.js"; 
+
 async function getProducts(apiUrl, container, randomCount = null) {
 
     showLoading(container);
@@ -87,8 +89,6 @@ function createProductCard(product) {
 
     return col;
 }
-
-
 
 
 

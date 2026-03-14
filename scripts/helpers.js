@@ -2,10 +2,15 @@ export function notifyCartUpdated() {
   document?.dispatchEvent(new CustomEvent("CartUpdated"));
 }
 
-export function addToCart(product, options = {}) {
+export function redirectToLogin() {
+	window.location.href = "../../html/Auth/login.html";
+}
 
+export function addToCart(product, options = {}) 
+{
   const user = getLoggedInUser();
-  if (!user) return { success:false, reason:"NOT_LOGGED_IN" };
+  if (!user) 
+    return { success:false, reason:"NOT_LOGGED_IN" };
 
   const customers = getCustomers();
   const index = findCustomerIndex(customers, user);
@@ -22,8 +27,8 @@ export function addToCart(product, options = {}) {
     name: product.name || "",
     price: Number(product.price) || 0,
     image: product.image || "",
-    size: options.size || null,
-    color: options.color || null,
+    size: options.size || product.sizesList[0],
+    color: options.color || product.colorsList[0],
     quantity: options.quantity || 1
   };
 
@@ -97,7 +102,6 @@ export function isInWishlist(productId)
 
   return customer.watchList.some(p => String(p.id) === String(productId));
 }
-
 
 
 

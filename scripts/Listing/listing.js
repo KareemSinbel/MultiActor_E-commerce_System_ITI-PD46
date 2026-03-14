@@ -1,4 +1,5 @@
 import { productCard } from "../Data Components/productCard.js";
+import { addToCart, redirectToLogin, showBootstrapToast} from "../helpers.js"; 
 
 /* =========================
    LISTING STATE
@@ -116,11 +117,25 @@ function renderProducts(products) {
   }
 
   products.forEach(p => {
-    $container.append(`
+    let rowHtml = productCard(p);
+
+    let $row = $(`
       <div class="col-12 col-sm-6 col-lg-4">
-        ${productCard(p)}
+        ${rowHtml}
       </div>
     `);
+
+    $row.find(".add-to-cart").on("click", (e) => 
+    {
+      e.preventDefault();
+      e.stopPropagation();
+      let res = addToCart(p);
+
+      if(res.reason === "NOT_LOGGED_IN")
+        redirectToLogin();
+    });
+
+    $container.append($row);
   });
 
   updateResultsInfo(products.length);

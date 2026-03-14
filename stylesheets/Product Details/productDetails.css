@@ -1,15 +1,49 @@
 .carousel, 
 .carousel-inner, 
 .carousel-item {
-    height: 574px;
+    height: min(574px, 65vh);
+}
+
+.product-image-stage {
+    min-height: min(574px, 65vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.product-image-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F6F6F6;
+}
+
+.product-image-element {
+    height: min(574px, 65vh);
+    width: 100%;
+    object-fit: contain;
+    padding-left: clamp(30px, 10vw, 200px);
+    padding-right: clamp(30px, 10vw, 200px);
+    padding-bottom: 50px;
+    cursor: default;
+    user-select: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.product-image-element.is-loaded {
+    opacity: 1;
 }
 
 .carousel-item img {
     height: 100%;
     width: 100%;
     object-fit: contain;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: clamp(30px, 10vw, 200px);
+    padding-right: clamp(30px, 10vw, 200px);
     padding-bottom: 50px;
 }
 
@@ -52,6 +86,22 @@
     outline-offset: 2px;
 }
 
+.color-chip {
+    border: 1px solid #E4E7E9;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: #475156;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.color-chip.active {
+    border-color: #191C1F;
+    color: #191C1F;
+    font-weight: 600;
+}
+
 .size-box {
     width: 45px;
     height: 40px;
@@ -60,7 +110,6 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin-right: 8px;
     transition: 0.2s;
 }
 .size-box:hover, .size-box.active {
@@ -90,10 +139,16 @@
     border-radius: 4px;
 }
 
+.btn-wishlist.active {
+    background: #191C1F;
+    border-color: #191C1F;
+    color: #FFFFFF;
+}
+
 @media (min-width: 768px) {
     .display.row {
-        max-height: 574px;
-        overflow: hidden;
+        max-height: none;
+        overflow: visible;
     }
 }
 
@@ -104,9 +159,30 @@
         height: auto;
         min-height: 300px;
     }
+
+    .product-image-stage {
+        min-height: 300px;
+    }
+
+    .product-image-element {
+        height: auto;
+        min-height: 300px;
+        padding: 24px;
+        padding-bottom: 35px;
+    }
     
     .carousel-item img {
-        padding: 40px;
+        padding: 24px;
+        padding-bottom: 35px;
+    }
+
+    .product-tabs-section {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .tab-link {
+        padding: 10px 14px;
     }
 }
 
@@ -173,13 +249,21 @@
     left: 0;
     color: #191C1F;
 }
-.TshirtCard:hover{
-    .Tshirt-card-overlay{
-        display: flex !important;
-        cursor: pointer;
-    }
+.TshirtCard:hover .Tshirt-card-overlay {
+    display: flex !important;
+    cursor: pointer;
 }
 
 .add-pointer{
     cursor: pointer;
+}
+
+@media (max-width: 991px) {
+    .display.row {
+        row-gap: 1.5rem;
+    }
+
+    .details h2 {
+        font-size: 1.5rem;
+    }
 }

@@ -17,7 +17,7 @@
 
 function checkAuth() {
 
-  const user = sessionStorage.getItem("loggedInUser");
+  const user = sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
 
   if (!user) {
 

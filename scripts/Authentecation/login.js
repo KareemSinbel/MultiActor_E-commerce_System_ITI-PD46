@@ -58,6 +58,7 @@ async function handleLogin(role) {
   msg.className = "text-center text-success mt-2";
 
   sessionStorage.setItem("loggedInUser", JSON.stringify(user));
+  localStorage.setItem("loggedInUser", JSON.stringify(user));
   loginForm.reset();
 
   setTimeout(() => {

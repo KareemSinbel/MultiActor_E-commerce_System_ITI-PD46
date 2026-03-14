@@ -1,5 +1,5 @@
-// Demo base product data
-import {productRow} from "../Data Components/productRow.js";
+import { productRow } from "../Data Components/productRow.js";
+import { generatePaginationHTML, sortTableData } from "../Utils/tableUtils.js";
 
 
 // How many rows per page
@@ -27,23 +27,7 @@ function renderTable(productsAPI)
 
   
   // sort
-  const sorted = [...filtered].sort((a, b) => {
-    if (!currentSortField) return 0;
-    let av = a[currentSortField];
-    let bv = b[currentSortField];
-
-    if (currentSortField === 'price') {
-      av = Number(av);
-      bv = Number(bv);
-    } else {
-      av = String(av).toLowerCase();
-      bv = String(bv).toLowerCase();
-    }
-
-    if (av < bv) return currentSortDirection === 'asc' ? -1 : 1;
-    if (av > bv) return currentSortDirection === 'asc' ? 1 : -1;
-    return 0;
-  });
+  const sorted = sortTableData(filtered, currentSortField, currentSortDirection);
 
   const total = sorted.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -65,64 +49,34 @@ function renderTable(productsAPI)
 
   const pagination = document.querySelector('#productsPagination');
   if (pagination) {
-    const items = [];
-
-    const buildPages = () => {
-      const pages = [];
-      if (totalPages <= 7) {
-        for (let i = 1; i <= totalPages; i++) pages.push(i);
-        return pages;
-      }
-
-      pages.push(1);
-      const start = Math.max(2, currentPage - 1);
-      const end = Math.min(totalPages - 1, currentPage + 1);
-
-      if (start > 2) pages.push('ellipsis');
-      for (let i = start; i <= end; i++) pages.push(i);
-      if (end < totalPages - 1) pages.push('ellipsis');
-
-      pages.push(totalPages);
-      return pages;
-    };
-
-    const pages = buildPages();
-
-    items.push(`
-      <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-        <button class="page-link" data-page="${currentPage - 1}">&lsaquo;</button>
-      </li>
-    `);
-
-    pages.forEach(p => {
-      if (p === 'ellipsis') {
-        items.push(`
-          <li class="page-item disabled">
-            <span class="page-link border-0">…</span>
-          </li>
-        `);
-      } else {
-        items.push(`
-          <li class="page-item ${p === currentPage ? 'active' : ''}">
-            <button class="page-link" data-page="${p}">${p}</button>
-          </li>
-        `);
-      }
-    });
-
-    items.push(`
-      <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-        <button class="page-link" data-page="${currentPage + 1}">&rsaquo;</button>
-      </li>
-    `);
-
-    pagination.innerHTML = items.join('');
+      pagination.innerHTML = generatePaginationHTML(currentPage, totalPages);
   }
 }
 
 document.addEventListener('LayoutBuilt',async () => 
 {
-  const url = new URL('https://69b10cdeadac80b427c3d349.mockapi.io/products');
+  let fetchUrl = 'https://69b10cdeadac80b427c3d349.mockapi.io/products';
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const sellerIdParam = urlParams.get('sellerId');
+  
+  const loggedInUserStr = sessionStorage.getItem('loggedInUser');
+  let loggedInUser = null;
+  if (loggedInUserStr) {
+      try {
+          loggedInUser = JSON.parse(loggedInUserStr);
+      } catch (e) {
+          console.error("Error parsing user info", e);
+      }
+  }
+
+  if (sellerIdParam) {
+      fetchUrl = `https://69b10cdeadac80b427c3d349.mockapi.io/sellers/${sellerIdParam}/products`;
+  } else if (loggedInUser && loggedInUser.role === 'seller') {
+      fetchUrl = `https://69b10cdeadac80b427c3d349.mockapi.io/sellers/${loggedInUser.id}/products`;
+  }
+
+  const url = new URL(fetchUrl);
 
   const res = await fetch(url, {method: 'GET', headers: {'content-type':'application/json'}})
                     .then(res => 
@@ -132,7 +86,10 @@ document.addEventListener('LayoutBuilt',async () =>
                       })
                     .catch(error => console.log(`error was occured ${error}`));
 
-  const productsAPI = await res.json();
+  let productsAPI = [];
+  if (res && res.ok) {
+     productsAPI = await res.json();
+  }
 
   const searchInput = document.querySelector('#productsSearch');
   if (searchInput) 
@@ -143,6 +100,42 @@ document.addEventListener('LayoutBuilt',async () =>
       currentPage = 1;
       renderTable(productsAPI);
     });
+  }
+
+  const tableBody = document.querySelector('#productsTableBody');
+  if (tableBody) {
+      tableBody.addEventListener('click', (e) => {
+          const deleteBtn = e.target.closest('.btn-delete');
+          if (!deleteBtn) return;
+          
+          const id = deleteBtn.getAttribute('data-id');
+          Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Yes, delete it!'
+          }).then(async (result) => {
+              if (result.isConfirmed) {
+                  try {
+                      const deleteUrl = `${fetchUrl}/${id}`;
+                      const deleteRes = await fetch(deleteUrl, { method: 'DELETE' });
+                      if (deleteRes.ok) {
+                          productsAPI = productsAPI.filter(p => String(p.id) !== String(id));
+                          renderTable(productsAPI);
+                          Swal.fire('Deleted!', 'The product has been deleted.', 'success');
+                      } else {
+                          Swal.fire('Error!', 'Failed to delete product. Please try again.', 'error');
+                      }
+                  } catch (error) {
+                      console.error('Error deleting product:', error);
+                      Swal.fire('Error!', 'An error occurred while deleting.', 'error');
+                  }
+              }
+          });
+      });
   }
 
   const pagination = document.querySelector('#productsPagination');

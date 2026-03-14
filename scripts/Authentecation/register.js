@@ -171,7 +171,13 @@ function saveCustomer(userData) {
 
   let customers = JSON.parse(localStorage.getItem("customers")) || [];
 
-  customers.push(userData);
+  const newCustomer = {
+    id: generateCustomerId(customers), // unique id
+    ...userData,
+    cartItem: []
+  };
+
+  customers.push(newCustomer);
 
   localStorage.setItem("customers", JSON.stringify(customers));
 
@@ -225,3 +231,26 @@ function allValidations(element) {
 }
 
 // __________________________ End Functions _________________________________
+
+
+
+//Get last ID
+function generateCustomerId(customers) 
+{
+  
+  let lastId = localStorage.getItem("lastCustomerId");
+
+  if (!lastId && customers.length) {
+    lastId = customers[customers.length - 1].id;
+  }
+
+
+  lastId = lastId ? parseInt(lastId) : 0;
+
+  const newId = lastId + 1;
+
+  localStorage.setItem("lastCustomerId", newId);
+
+  return newId;
+}
+

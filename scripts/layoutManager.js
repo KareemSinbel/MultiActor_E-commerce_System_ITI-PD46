@@ -84,4 +84,20 @@ document.addEventListener("DOMContentLoaded", async () =>
 
     let layoutBuilt = new CustomEvent("LayoutBuilt", {detail:{isFinished: true}});
     document?.dispatchEvent(layoutBuilt);
+    document?.dispatchEvent(new CustomEvent("LayoutBuilt", {detail:{isFinished: true}}));
+
+    
+
+    if(!checkAuth())
+    {
+        let nav = document.getElementById("icons-container");
+        nav.classList.remove("d-lg-flex");
+        nav.classList.add("d-none");    
+    }
+    else
+    {
+        let nav = document.getElementById("icons-container");
+        nav.classList.add("d-lg-flex");
+        nav.classList.remove("d-none");    
+    }
 });

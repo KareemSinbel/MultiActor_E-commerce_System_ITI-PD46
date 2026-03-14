@@ -57,7 +57,11 @@ async function handleLogin(role) {
   msg.innerHTML = "Login Successful! Redirecting...";
   msg.className = "text-center text-success mt-2";
 
-  sessionStorage.setItem("loggedInUser", JSON.stringify(user));
+  // sessionStorage.setItem("loggedInUser", JSON.stringify(user));
+  // localStorage.setItem("loggedInUser", JSON.stringify(user));
+
+  setCookie("loggedInUser", JSON.stringify({ id: user.id, role: user.role }), 1); // 1 hour
+
   loginForm.reset();
 
   setTimeout(() => {

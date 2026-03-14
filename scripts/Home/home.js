@@ -1,3 +1,5 @@
+import { addToCart, isInWishlist, redirectToLogin } from "../helpers.js"; 
+
 async function getProducts(apiUrl, container, randomCount = null) {
 
     showLoading(container);
@@ -74,21 +76,24 @@ function createProductCard(product) {
 
 
     col.addEventListener("click", () => {
-        // window.location.href = `product.html?id=${product.id}`;
-        window.location.href = `Product Details/productDetails.html?id=${product.id}`;
-        // window.location.href = `layout_Templete.html`;
+        const detailsUrl = new URL("../Product Details/productDetails.html", window.location.href);
+        detailsUrl.searchParams.set("id", product.id);
+        window.location.href = detailsUrl.toString();
         
     });
 
     col.querySelector(".add-to-cart").addEventListener("click", (e) => {
         e.stopPropagation();
-        addToCart(product);
+        let res = addToCart(product);
+        if(res.success == false)
+        {
+            if(res.reason === "NOT_LOGGED_IN")
+                redirectToLogin();
+        }
     });
 
     return col;
 }
-
-
 
 
 
@@ -132,11 +137,23 @@ function showError(container) {
 }
 
 const productsRow = document.getElementById("productsRow");
+const Featured = document.getElementById("featuredProducts");
+const Latest = document.getElementById("latestProducts");
 
 const API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
 
 getProducts(
     API_URL,
     productsRow,
+    4
+);
+getProducts(
+    API_URL,
+    Featured,
+    4
+);
+getProducts(
+    API_URL,
+    Latest,
     4
 );

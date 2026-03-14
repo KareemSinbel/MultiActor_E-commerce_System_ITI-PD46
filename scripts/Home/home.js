@@ -74,9 +74,9 @@ function createProductCard(product) {
 
 
     col.addEventListener("click", () => {
-        // window.location.href = `product.html?id=${product.id}`;
-        window.location.href = `../Product%20Details/productDetails.html?id=${product.id}`;
-        // window.location.href = `layout_Templete.html`;
+        const detailsUrl = new URL("../Product Details/productDetails.html", window.location.href);
+        detailsUrl.searchParams.set("id", product.id);
+        window.location.href = detailsUrl.toString();
         
     });
 

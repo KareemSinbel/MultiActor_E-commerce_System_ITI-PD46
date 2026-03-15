@@ -104,7 +104,8 @@ const user = getLoggedInUser();
 
 if(!checkAuth())
 {
-    
+if (window.location.pathname.includes("/admin")) return;
+if (window.location.pathname.includes("/Customer")) return;
     document.getElementById("user-name").style.display = "none";
     document.getElementById("logout-btn").style.display = "none";
     document.getElementById("icons-container").classList.add("d-none") ;
@@ -118,7 +119,8 @@ if(!checkAuth())
 }
 else
 {
-    
+if (window.location.pathname.includes("/Admin")) return;
+if (window.location.pathname.includes("/Customer")) return;
     document.getElementById("login-btn").style.display = "none";
      document.getElementById("icons-container").classList.remove("d-none") ;
     document.getElementById("icons-container").classList.add("d-lg-flex") ;

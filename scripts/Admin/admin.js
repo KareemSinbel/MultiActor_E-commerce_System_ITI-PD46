@@ -1,114 +1,208 @@
-// ── Total Sales Bar ──
-new Chart(document.getElementById('salesBar'), {
-  type: 'bar',
-  data: {
-    labels: Array(18).fill(''), 
-    datasets: [{
-      data: [30,50,40,70,55,80,60,90,50,75,65,85,45,70,55,95,60,80],
-      backgroundColor: '#6366f1',
-      borderRadius: 3,
-      barThickness: 8
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false }, tooltip: { enabled: false } },
-    scales: {
-      x: { display: false },
-      y: { display: false, beginAtZero: true }
-    },
-    animation: { duration: 800 }
-  }
-});
 
-// ── Customers Line ──
-new Chart(document.getElementById('customersLine'), {
-  type: 'line',
-  data: {
-    labels: Array(14).fill(''), 
-    datasets: [{
-      data: [30,45,35,50,40,55,35,60,45,55,40,65,50,60],
-      borderColor: '#6366f1',
-      borderWidth: 2,
-      pointRadius: 0,
-      tension: 0.4,
-      fill: false
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false }, tooltip: { enabled: false } },
-    scales: {
-      x: { display: false },
-      y: { display: false, beginAtZero: false }
-    },
-    animation: { duration: 800 }
-  }
-});
+// ====================== Get Products from API ======================
+async function getProducts() {
+  const res = await fetch("https://69b10cdeadac80b427c3d349.mockapi.io/products");
+  if (!res.ok) throw new Error("Failed to fetch products");
+  const data = await res.json();
+  return data.filter(p => p.id);
+}
 
-// ── Donut Chart: Product Categories ──
-const CATEGORIES = ['Clothing', 'Shoes', 'Accessories', 'Electronics'];
-new Chart(document.getElementById('donut1'), {
-  type: 'doughnut',
-  data: {
-    labels: CATEGORIES,
-    datasets: [{
-      data: [500, 300, 200, 150], 
-      backgroundColor: ['#2d3ab1', '#74c0fc', '#4dd9e0', '#ffa94d'],
-      borderWidth: 0,
-      hoverOffset: 6
-    }]
-  },
-  options: {
-    cutout: '70%',
-    plugins: { legend: { display: true, position: 'bottom' } },
-    animation: { duration: 1000 }
-  }
-});
+// ====================== Color Palette ======================
+const COLOR_PALETTE = [
+  "#2d3ab1", "#74c0fc", "#4dd9e0", "#ffa94d",
+  "#f06595", "#a9e34b", "#cc5de8", "#20c997",
+  "#ff6b6b", "#339af0"
+];
 
-// ── Bar Chart: Weekly Sales for Top Products ──
-const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-new Chart(document.getElementById('bar1'), {
-  type: 'bar',
-  data: {
-    labels: DAYS,
-    datasets: [
-      {
-        label: 'Classic Tees',
-        data: [40, 65, 50, 75, 55, 85, 45],
-        backgroundColor: '#2d3ab1',
-        borderRadius: 5,
-        barThickness: 12
-      },
-      {
-        label: 'Sneakers',
-        data: [30, 50, 45, 60, 40, 70, 35],
-        backgroundColor: '#4dd9e0',
-        borderRadius: 5,
-        barThickness: 12
-      },
-      {
-        label: 'Accessories',
-        data: [20, 35, 30, 40, 25, 50, 20],
-        backgroundColor: '#ffa94d',
-        borderRadius: 5,
-        barThickness: 12
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: true, position: 'top' } },
-    scales: {
-      x: {
-        grid: { display: false },
-        ticks: { color: '#6b7280', font: { size: 12 } }
-      },
-      y: {
-        beginAtZero: true,
-        ticks: { stepSize: 20, color: '#6b7280', font: { size: 12 } },
-        grid: { color: '#e5e7eb' }
-      }
+function getColor(index) {
+  return COLOR_PALETTE[index % COLOR_PALETTE.length];
+}
+
+// ====================== Dashboard Data ======================
+async function getDashboardData() {
+  const products = await getProducts();
+
+  
+  const categorySalesMap = {};
+  const categoryStockMap = {};
+
+  products.forEach(p => {
+    const cat = p.category || "Other";
+    const revenue = (p.price || 0) * (p.stock || 0); 
+
+    if (!categorySalesMap[cat]) {
+      categorySalesMap[cat] = 0;
+      categoryStockMap[cat] = 0;
     }
+    categorySalesMap[cat] += revenue;
+    categoryStockMap[cat] += (p.stock || 0);
+  });
+
+  const totalSales = Object.values(categorySalesMap).reduce((a, b) => a + b, 0);
+  const totalOrders = products.reduce((acc, p) => acc + (p.stock || 0), 0);
+  const totalCustomers = products.length;
+
+  return {
+    products,
+    totalSales,
+    totalOrders,
+    totalCustomers,
+    categorySalesMap,
+    dailySales: generateDailyData(totalSales),
+    weeklyData: generateWeeklyData(products)
+  };
+}
+
+// ====================== Data Generators ======================
+function generateDailyData(total) {
+  const arr = [];
+  const base = Math.max(20, Math.floor(total / 18));
+  for (let i = 0; i < 18; i++) {
+    const v = Math.floor(Math.random() * 30) - 15;
+    arr.push(Math.max(5, base + v));
   }
-});
+  return arr;
+}
+
+function generateWeeklyData(products) {
+  const categories = [...new Set(products.map(p => p.category).filter(Boolean))].slice(0, 3);
+  const datasets = {};
+  categories.forEach(cat => {
+    datasets[cat] = [];
+    for (let i = 0; i < 7; i++) {
+      datasets[cat].push(Math.floor(20 + Math.random() * 60));
+    }
+  });
+  return { categories, datasets };
+}
+
+// ====================== Render Stats ======================
+async function renderStats() {
+  
+   const data = await getDashboardData();
+
+  const MONTHLY_GOAL = 1000;
+
+  document.getElementById("totalSalesValue").textContent = `$${data.totalSales.toLocaleString()}`;
+  document.getElementById("customersValue").textContent = data.totalCustomers.toLocaleString();
+  document.getElementById("ordersValue").textContent = data.totalOrders.toLocaleString();
+
+  //  Orders progress - dynamic
+  const left = Math.max(0, MONTHLY_GOAL - data.totalOrders);
+  const percent = Math.min(100, (data.totalOrders / MONTHLY_GOAL) * 100).toFixed(1);
+
+  document.getElementById("ordersLeft").textContent = `${left.toLocaleString()} Left`;
+  document.getElementById("ordersProgress").style.width = `${percent}%`;
+}
+
+// ====================== Render Charts ======================
+async function renderCharts() {
+  const data = await getDashboardData();
+
+  // ── Mini Bar Chart (Daily Sales) ──
+  new Chart(document.getElementById("salesBar"), {
+    type: "bar",
+    data: {
+      labels: Array(18).fill(""),
+      datasets: [{
+        data: data.dailySales,
+        backgroundColor: "#6366f1",
+        barThickness: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: { x: { display: false }, y: { display: false } }
+    }
+  });
+
+  // ── Mini Line Chart (Customers) ──
+  const lineData = Array.from({ length: 14 }, (_, i) =>
+    Math.floor(data.totalCustomers + Math.sin(i * 0.8) * 5)
+  );
+  new Chart(document.getElementById("customersLine"), {
+    type: "line",
+    data: {
+      labels: Array(14).fill(""),
+      datasets: [{
+        data: lineData,
+        borderColor: "#6366f1",
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.4,
+        fill: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: { x: { display: false }, y: { display: false } }
+    }
+  });
+
+ 
+  const categories = Object.keys(data.categorySalesMap);
+  const values = Object.values(data.categorySalesMap);
+  const colors = categories.map((_, i) => getColor(i));
+
+ 
+  const legendContainer = document.getElementById("donutLegend");
+  legendContainer.innerHTML = categories.map((cat, i) => `
+    <div>
+      <div class="d-flex align-items-center gap-2 legend-name">
+        <span class="legend-dot" style="background: ${colors[i]}"></span>
+        ${cat}
+      </div>
+      <div class="legend-val">$${Math.round(values[i]).toLocaleString()}</div>
+    </div>
+  `).join("");
+
+  new Chart(document.getElementById("donut1"), {
+    type: "doughnut",
+    data: {
+      labels: categories,
+      datasets: [{
+        data: values,
+        backgroundColor: colors,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      cutout: "70%",
+      responsive: true,
+      plugins: { legend: { display: false }, tooltip: { enabled: true } }
+    }
+  });
+
+
+  const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const { categories: weekCats, datasets: weekDatasets } = data.weeklyData;
+
+  new Chart(document.getElementById("bar1"), {
+    type: "bar",
+    data: {
+      labels: DAYS,
+      datasets: weekCats.map((cat, i) => ({
+        label: cat,
+        data: weekDatasets[cat],
+        backgroundColor: getColor(i),
+        borderRadius: 5,
+        barThickness: 12
+      }))
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: "top" } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+}
+
+// ====================== Initialize Dashboard ======================
+async function initDashboard() {
+  await renderStats();
+  await renderCharts();
+}
+
+document.addEventListener("DOMContentLoaded", initDashboard);

@@ -16,4 +16,14 @@ document.addEventListener("LayoutBuilt", function(event)
   {
       item.classList.add("active");
   }
+    const logoutBtn = document.getElementById("logout-btn");
+   
+    
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", function() {
+       deleteCookie("loggedInUser");
+      window.location.href = "../../html/Home/home.html";
+    });
+  }
+  
 });

@@ -1,6 +1,5 @@
-import { notifyCartUpdated, showBootstrapToast } from "../helpers.js";
+import {notifyCartUpdated, redirectToLogin, toggleBreadcrumb} from "../helpers.js";
 
-const CART_LOGIN_URL = "http://127.0.0.1:5500/html/Auth/login.html";
 const TAX_RATE = 0.0;
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
 let checkoutModalInstance = null;
@@ -33,10 +32,6 @@ function getCustomers() {
 function saveCustomers(customers) {
     localStorage.setItem("customers", JSON.stringify(customers));
     notifyCartUpdated();
-}
-
-function redirectToLogin() {
-    window.location.href = CART_LOGIN_URL;
 }
 
 function findCustomerIndex(customers, loggedInUser) {
@@ -341,4 +336,12 @@ function initCartPage() {
     bindCheckoutAction();
 }
 
-document.addEventListener("LayoutBuilt", initCartPage);
+document.addEventListener("pageLoaded", function(e)
+{
+    if (e.detail.page === "cart") 
+    { 
+        toggleBreadcrumb("Cart");
+        
+        initCartPage();
+    }
+});

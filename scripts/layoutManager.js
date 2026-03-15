@@ -1,4 +1,7 @@
-const LayoutManager = (function () {
+import { Router } from "./router.js"
+import { updateCartBadge } from "./helpers.js"
+
+export const LayoutManager = (function () {
 
     const templates = {};
     const basePath = "../components/";
@@ -44,14 +47,27 @@ const LayoutManager = (function () {
         await Promise.all(tasks);
     }
 
-    async function init() {
+    /**
+     * Dynamically render a single component into a given container
+     * @param {string} name - component name (matches template file)
+     * @param {HTMLElement} container - DOM element to inject the template into
+     */
+    async function renderComponent(name, container) 
+    {
+        if (!container) return;
+        const template = await loadTemplate(name);
+        container.innerHTML = template;
+    }
 
+    async function init() 
+    {
         await renderComponents();
-
+        document?.dispatchEvent(new CustomEvent("LayoutBuilt", {detail:{isFinished: true}}));
     }
 
     return {
-        init
+        init,
+        renderComponent
     };
 
 })();
@@ -59,34 +75,31 @@ const LayoutManager = (function () {
 document.addEventListener("DOMContentLoaded", async () => 
 {
     await LayoutManager.init();
-
-    // Role-based visibility logic
-    const loggedInUserStr = sessionStorage.getItem('loggedInUser');
-    let isSeller = false;
-
-    if (loggedInUserStr) {
-        try {
-            const user = JSON.parse(loggedInUserStr);
-            if (user && user.role === 'seller') {
-                isSeller = true;
-            }
-        } catch (e) {
-            console.error("Error checking roles", e);
-        }
-    }
-
-    if (!isSeller) {
-        const productNavItem = document.getElementById('product');
-        if (productNavItem) {
-            productNavItem.remove();
-        }
-    }
-
-    let layoutBuilt = new CustomEvent("LayoutBuilt", {detail:{isFinished: true}});
-    document?.dispatchEvent(layoutBuilt);
-    document?.dispatchEvent(new CustomEvent("LayoutBuilt", {detail:{isFinished: true}}));
-
     
+    //Update cart
+    updateCartBadge();
+    
+    //Making logo navigating and cursor set to pointer using Attributes
+    const mainLogo = document.getElementById("main-logo");
+    mainLogo.setAttribute("role", "button");
+
+    mainLogo.addEventListener("click", function()
+    {   
+        Router.navigate("home");
+    });
+
+
+    const searchInput = document.getElementById("search-input");
+    searchInput.addEventListener("click", function()
+    {
+        Router.navigate("listing");
+    });
+
+    const cartIcon = document.getElementById("cart-icon");
+    cartIcon.addEventListener("click", function()
+    {
+       Router.navigate("cart"); 
+    });
 
     if(!checkAuth())
     {
@@ -96,6 +109,28 @@ document.addEventListener("DOMContentLoaded", async () =>
     }
     else
     {
+        const loggedInUserStr = getLoggedInUser();
+        let isSeller = false;
+
+        if (loggedInUserStr) 
+        {
+            try {
+                if (loggedInUserStr.role === 'seller') {
+                    isSeller = true;
+                }
+            } catch (e) {
+                console.error("Error checking roles", e);
+            }
+        }
+
+        if (!isSeller) 
+        {
+            const productNavItem = document.getElementById('product');
+            if (productNavItem) {
+                productNavItem.remove();
+            }
+        }
+
         let nav = document.getElementById("icons-container");
         nav.classList.add("d-lg-flex");
         nav.classList.remove("d-none");    

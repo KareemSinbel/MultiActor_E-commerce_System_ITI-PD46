@@ -1,109 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listing</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <link rel="stylesheet" href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../stylesheets/Listing/listing.css">
-</head>
-<body>
-    <div id="main-container" class="container-fluid m-0 p-0">
-        <!-- topbar -->
-        <div id="topbar-container" data-component="topbar"></div>
+<div id="filter-btn" class="mb-3 d-lg-none mt-3 container">
+    <button 
+        class="btn btn-dark"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#filtersCanvas">
+        <i class="fa-solid fa-filter"></i> Filters
+    </button>
+</div>
 
-        <!-- navbar -->
-        <div id="navbar-container" data-component="navbar"></div>
-        <!-- end nav bar -->
+<!-- start body -->
+<div id="container-body" class="container mt-4">
+    <div class="row">
+        <!-- filter bar -->
+        <aside id="filterbar" class="col-lg-3 mb-4 d-none d-lg-block">
+            <div data-component="filterbar"></div>
+        </aside>
 
-        <!--Breadcrumb divider start-->
-        <div id="breadcrumb-main-container" class="container-fluid col-12 pt-3">
-            <div id="breadcrumb-container" class="container">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Ecommerce</li>
-                        <li class="breadcrumb-item active" aria-current="page">Search</li>
-                    </ol>
+        <!-- main start-->
+        <main class="col-12 col-md-8 col-lg-9">
+            <div class="container">
+                <h6 class="mb-3">Applied Filters:</h6>
+                <div class="applied-filters-container d-flex flex-wrap">
+                    <div class="filter-pill d-flex align-items-center ps-3">
+                        <p>Perfume</p>
+                        <button class="btn-close"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="results-info-container" class="container">
+                <small id="resultsinfo">Showing 0–0 Of 0 Results.</small>
+            </div>
+
+            <div id="products-container" class="row g-4 container">
+            </div>
+
+            <!-- Pagination start -->
+            <div class="custom-pagination-container d-flex align-items-center justify-content-center">
+                <nav class="d-flex align-items-center justify-content-center">
+                    <ul id="productsPagination"  class="pagination mb-0 pagination-sm custom-pagination">
+                    </ul>
                 </nav>
             </div>
-        </div>
-        <!--Breadcrumb divider end-->
+            <!-- Pagination end -->
 
-        <div id="filter-btn" class="mb-3 d-lg-none mt-3 container">
-            <button 
-                class="btn btn-dark"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#filtersCanvas">
-                <i class="fa-solid fa-filter"></i> Filters
-            </button>
-        </div>
-
-        <!-- start body -->
-        <div id="container-body" class="container mt-4">
-            <div class="row">
-                <!-- filter bar -->
-                <aside id="filterbar" class="col-lg-3 mb-4 d-none d-lg-block">
-                    <div data-component="filterbar"></div>
-                </aside>
-
-                <!-- main start-->
-                <main class="col-12 col-md-8 col-lg-9">
-                    <div class="container">
-                        <h6 class="mb-3">Applied Filters:</h6>
-                        <div class="applied-filters-container d-flex flex-wrap">
-                            <div class="filter-pill d-flex align-items-center ps-3">
-                                <p>Perfume</p>
-                                <button class="btn-close"></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="results-info-container" class="container">
-                        <small id="resultsinfo">Showing 0–0 Of 0 Results.</small>
-                    </div>
-
-                    <div id="products-container" class="row g-4 container">
-                    </div>
-
-                    <!-- Pagination start -->
-                    <div class="custom-pagination-container d-flex align-items-center justify-content-center">
-                        <nav class="d-flex align-items-center justify-content-center">
-                            <ul id="productsPagination"  class="pagination mb-0 pagination-sm custom-pagination">
-                            </ul>
-                        </nav>
-                    </div>
-                    <!-- Pagination end -->
-
-                </main>
-                <!-- main start-->
-            </div>
-        </div>
-        <!-- end body -->
-
-        <!-- OFFCANVAS FILTER (mobile only, always in DOM) -->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="filtersCanvas">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title">Filters</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-            </div>
-            <div class="offcanvas-body" id="offcanvasFilterContainer">
-            </div>
-        </div>
-
-
-        <!-- start NewsLetter  -->
-        <div id="footer-container" data-component="newsletter"></div>
-
-        <!--start footer-->
-        <div id="footer-container" data-component="footer"></div>
-        <!--end footer-->
+        </main>
+        <!-- main start-->
     </div>
-    <script src="../../Libraries/JQuery/jquery-4.0.0.min.js"></script>
-    <script src="../../scripts/Authentecation/auth.js"></script>
-    <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../scripts/layoutManager.js"></script>
-    <script src="../../scripts/helpers.js" type="module"></script>
-    <script src="../../scripts/Listing/listing.js" type="module"></script>
-</body>
-</html>
+</div>
+<!-- end body -->
+
+<!-- OFFCANVAS FILTER (mobile only, always in DOM) -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="filtersCanvas">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Filters</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body" id="offcanvasFilterContainer">
+    </div>
+</div>

@@ -20,7 +20,7 @@ export function productCard(p)
 
     return `
         <div class="TshirtCard card h-100 border-0 rounded-0" >
-            <a class="nav-link" href="../Product Details/productDetails.html?id=${p.id}">
+            <a class="nav-link product">
                 <div class="card text-white border-0 rounded-0">
                     <img src="${p.image}" class="card-img border-0 rounded-0 product-image" alt="${p.name}" >        
                     <div class="Tshirt-card-overlay d-none card-img-overlay border-0 rounded-0 bg-white bg-opacity-50 flex-column p-0 justify-content-between">

@@ -1,3 +1,5 @@
+import { toggleWishlist, addToCart, showBootstrapToast, isInWishlist, redirectToLogin } from "../helpers.js";
+import { productCard } from "../Data Components/productCard.js";
 import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist, redirectToLogin, toggleBreadcrumb } from "../helpers.js"; 
 
 
@@ -190,6 +192,50 @@ function initPage()
 		const activeSize = document.querySelector("#product-sizes .size-box.active");
 		return activeSize ? activeSize.textContent.trim() : null;
 	}
+
+function renderRelatedProducts(products) {
+	const container = document.getElementById("related-products-container");
+	if (!container) {
+		return;
+	}
+
+	if (!Array.isArray(products) || products.length === 0) {
+		container.innerHTML = '<div class="col-12 text-center text-muted py-4">No similar products found for this category.</div>';
+		return;
+	}
+
+	container.innerHTML = products
+		.map((product) => {
+			const normalizedProduct = {
+				...product,
+				price: Number(product.price) || 0
+			};
+
+			return `<div class="col-12 col-sm-6 col-lg-3">${productCard(normalizedProduct)}</div>`;
+		})
+		.join("");
+
+	container.querySelectorAll(".add-to-cart").forEach((button, index) => {
+		button.addEventListener("click", (event) => {
+			event.preventDefault();
+			event.stopPropagation();
+
+			const product = products[index];
+			const result = addToCart(product, {
+				size: Array.isArray(product.sizesList) ? product.sizesList[0] : null,
+				color: Array.isArray(product.colorsList) ? product.colorsList[0] : null,
+				quantity: 1
+			});
+
+			if (!result.success) {
+				redirectToLogin();
+				return;
+			}
+
+			showBootstrapToast(getToastContainer(), "Product added to cart", "success");
+		});
+	});
+}
 
 	function getSelectedColor() {
 		const activeColor = document.querySelector("#product-colors .active");

@@ -1,12 +1,18 @@
 import {notifyCartUpdated, redirectToLogin, toggleBreadcrumb} from "../helpers.js";
 
 const TAX_RATE = 0.0;
+const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
+let checkoutModalInstance = null;
+let cartEventsBound = false;
 
-function getLoggedInUser() {
-    try {
-        const userRaw = getCookie("loggedInUser"); //sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser");
+function getLoggedInUser() 
+{
+    try 
+    {
+        const userRaw = getCookie("loggedInUser");
         return userRaw ? JSON.parse(userRaw) : null;
-    } catch (error) {
+    } catch (error) 
+    {
         console.error("Failed to parse logged in user", error);
         return null;
     }
@@ -17,8 +23,8 @@ function getCustomers() {
         const customersRaw = localStorage.getItem("customers");
         const customers = customersRaw ? JSON.parse(customersRaw) : [];
         return Array.isArray(customers) ? customers : [];
-    } catch (error) {
-        console.error("Failed to parse customers from localStorage", error);
+    } catch (error) 
+    {
         return [];
     }
 }
@@ -183,9 +189,11 @@ function removeCartItem(productId) {
 
 function bindCartEvents() {
     const container = document.getElementById("cart-items-container");
-    if (!container) {
+    if (!container || cartEventsBound) {
         return;
     }
+
+    cartEventsBound = true;
 
     container.addEventListener("click", (event) => {
         const actionElement = event.target.closest("[data-action]");
@@ -211,6 +219,112 @@ function bindCartEvents() {
     });
 }
 
+async function reduceProductStockInApi(cartItem) {
+    const productId = encodeURIComponent(String(cartItem.id));
+    const productUrl = `${PRODUCTS_API_URL}/${productId}`;
+
+    const getResponse = await fetch(productUrl);
+    const product = await getResponse.json();
+    const cartQuantity = Number(cartItem.quantity) || 1;
+    const currentStock = Number(product.stock) || 0;
+    const newStock = Math.max(0, currentStock - cartQuantity);
+
+    await fetch(productUrl, {
+        method: "PUT",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({
+            ...product,
+            stock: newStock
+        })
+    });
+}
+
+async function processCheckout() {
+    const context = getCartContext();
+    if (!context) {
+        return;
+    }
+
+    const { customers, customerIndex, customer } = context;
+    const cartItems = Array.isArray(customer.cartItem) ? customer.cartItem : [];
+    const toastContainer = document.getElementById("cart-toast-container");
+
+    if (cartItems.length === 0) {
+        showBootstrapToast(toastContainer, "Your cart is empty.", "info");
+        return;
+    }
+
+    const checkoutButton = document.getElementById("checkout-button");
+    const confirmCheckoutButton = document.getElementById("confirm-checkout-button");
+    if (checkoutButton) {
+        checkoutButton.disabled = true;
+    }
+    if (confirmCheckoutButton) {
+        confirmCheckoutButton.disabled = true;
+    }
+
+    for (const item of cartItems) {
+        await reduceProductStockInApi(item);
+    }
+
+    customer.cartItem = [];
+    customers[customerIndex] = customer;
+    saveCustomers(customers);
+    renderCartItems(customer.cartItem);
+    if (checkoutModalInstance) {
+        checkoutModalInstance.hide();
+    }
+
+    showBootstrapToast(toastContainer, "Payment completed successfully.", "success");
+
+    if (checkoutButton) {
+        checkoutButton.disabled = false;
+    }
+    if (confirmCheckoutButton) {
+        confirmCheckoutButton.disabled = false;
+    }
+}
+
+function openCheckoutModal() {
+    const context = getCartContext();
+    if (!context) {
+        return;
+    }
+
+    const cartItems = Array.isArray(context.customer.cartItem) ? context.customer.cartItem : [];
+    const toastContainer = document.getElementById("cart-toast-container");
+    if (cartItems.length === 0) {
+        showBootstrapToast(toastContainer, "Your cart is empty.", "info");
+        return;
+    }
+
+    const modalElement = document.getElementById("checkoutConfirmModal");
+    if (!modalElement || !window.bootstrap || !window.bootstrap.Modal) {
+        processCheckout();
+        return;
+    }
+
+    if (!checkoutModalInstance) {
+        checkoutModalInstance = new window.bootstrap.Modal(modalElement);
+    }
+
+    checkoutModalInstance.show();
+}
+
+function bindCheckoutAction() {
+    const checkoutButton = document.getElementById("checkout-button");
+    const confirmCheckoutButton = document.getElementById("confirm-checkout-button");
+
+    if (!checkoutButton || !confirmCheckoutButton) {
+        return;
+    }
+
+    checkoutButton.addEventListener("click", openCheckoutModal);
+    confirmCheckoutButton.addEventListener("click", processCheckout);
+}
+
 function initCartPage() {
     const context = getCartContext();
     if (!context) {
@@ -219,6 +333,7 @@ function initCartPage() {
 
     renderCartItems(context.customer.cartItem);
     bindCartEvents();
+    bindCheckoutAction();
 }
 
 document.addEventListener("pageLoaded", function(e)

@@ -46,22 +46,56 @@ async function ensureAdminSellerExists() {
     }
 
     const sellers = await response.json();
-    const hasAdmin = sellers.some(
+    let adminSeller = sellers.find(
       (seller) => String(seller.role || "").toLowerCase() === "admin"
     );
 
-    if (hasAdmin) {
-      return;
+    if (!adminSeller) {
+      const createResponse = await fetch(SELLERS_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(DEFAULT_ADMIN_SELLER)
+      });
+
+      if (!createResponse.ok) {
+        return;
+      }
+
+      adminSeller = await createResponse.json();
     }
 
-    const createResponse = await fetch(SELLERS_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(DEFAULT_ADMIN_SELLER)
-    });
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
 
-    if (!createResponse.ok) {
-      return;
+    const adminEmail = String(
+      adminSeller?.email || DEFAULT_ADMIN_SELLER.email
+    ).toLowerCase();
+
+    const alreadyInCustomers = customers.some(
+      (customer) => String(customer.email || "").toLowerCase() === adminEmail
+    );
+
+    if (!alreadyInCustomers) {
+      const numericIds = customers
+        .map((customer) => Number(customer.id))
+        .filter((id) => !Number.isNaN(id));
+
+      const maxExistingId = numericIds.length ? Math.max(...numericIds) : 0;
+      const lastCustomerId = Number(localStorage.getItem("lastCustomerId"));
+      const safeLastId = Number.isNaN(lastCustomerId) ? 0 : lastCustomerId;
+      const newCustomerId = Math.max(maxExistingId, safeLastId) + 1;
+
+      customers.push({
+        id: newCustomerId,
+        name: adminSeller?.name || DEFAULT_ADMIN_SELLER.name,
+        email: adminSeller?.email || DEFAULT_ADMIN_SELLER.email,
+        address: adminSeller?.address || DEFAULT_ADMIN_SELLER.address,
+        password: adminSeller?.password || DEFAULT_ADMIN_SELLER.password,
+        role: "customer",
+        cartItem: []
+      });
+
+      localStorage.setItem("customers", JSON.stringify(customers));
+      localStorage.setItem("lastCustomerId", String(newCustomerId));
     }
   } catch (error) {
     console.error("Failed to ensure admin seller exists:", error);

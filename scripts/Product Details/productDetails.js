@@ -1,4 +1,5 @@
-import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist } from "../helpers.js"; 
+import { toggleWishlist, addToCart, showBootstrapToast, isInWishlist, redirectToLogin } from "../helpers.js";
+import { productCard } from "../Data Components/productCard.js";
 
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
 
@@ -23,6 +24,27 @@ async function fetchProductById(productId) {
 	const products = await listResponse.json();
     
 	return products.find((product) => String(product.id) === String(productId)) || null;
+}
+
+async function fetchProductsByCategory(category, excludedProductId) {
+	if (!category) {
+		return [];
+	}
+
+	try {
+		const response = await fetch(`${PRODUCTS_API_URL}?category=${encodeURIComponent(category)}`);
+		if (!response.ok) {
+			throw new Error("Failed to fetch products by category");
+		}
+
+		const products = await response.json();
+		return (Array.isArray(products) ? products : [])
+			.filter((product) => String(product.id) !== String(excludedProductId))
+			.slice(0, 4);
+	} catch (error) {
+		console.error("Failed to fetch related products", error);
+		return [];
+	}
 }
 
 function setText(id, value) {
@@ -233,6 +255,50 @@ function updateWishlistButtonState(isActive) {
 	}
 }
 
+function renderRelatedProducts(products) {
+	const container = document.getElementById("related-products-container");
+	if (!container) {
+		return;
+	}
+
+	if (!Array.isArray(products) || products.length === 0) {
+		container.innerHTML = '<div class="col-12 text-center text-muted py-4">No similar products found for this category.</div>';
+		return;
+	}
+
+	container.innerHTML = products
+		.map((product) => {
+			const normalizedProduct = {
+				...product,
+				price: Number(product.price) || 0
+			};
+
+			return `<div class="col-12 col-sm-6 col-lg-3">${productCard(normalizedProduct)}</div>`;
+		})
+		.join("");
+
+	container.querySelectorAll(".add-to-cart").forEach((button, index) => {
+		button.addEventListener("click", (event) => {
+			event.preventDefault();
+			event.stopPropagation();
+
+			const product = products[index];
+			const result = addToCart(product, {
+				size: Array.isArray(product.sizesList) ? product.sizesList[0] : null,
+				color: Array.isArray(product.colorsList) ? product.colorsList[0] : null,
+				quantity: 1
+			});
+
+			if (!result.success) {
+				redirectToLogin();
+				return;
+			}
+
+			showBootstrapToast(getToastContainer(), "Product added to cart", "success");
+		});
+	});
+}
+
 
 function handleAddToCart(product)
 {
@@ -244,7 +310,7 @@ function handleAddToCart(product)
 
   if(!result.success)
   {
-    window.location.href = LOGIN_URL;
+	redirectToLogin();
     return;
   }
 
@@ -258,7 +324,7 @@ function handleAddToWatchList(product)
 
 	if(!result.success)
 	{
-		window.location.href = LOGIN_URL;
+		redirectToLogin();
 		return;
 	}
 
@@ -387,6 +453,8 @@ async function initProductDetailsPage() {
 		}
 
 		renderProduct(product);
+		const relatedProducts = await fetchProductsByCategory(product.category, product.id);
+		renderRelatedProducts(relatedProducts);
 		bindSelectableOptions();
 		bindQuantityActions();
 		bindProductActions(product);

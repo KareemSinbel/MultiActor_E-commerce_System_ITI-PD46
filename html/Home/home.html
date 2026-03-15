@@ -1,122 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <link rel="stylesheet" href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../stylesheets/Home/Home.css">
-
-</head>
-<body>
-    <div class="container-fluid p-0">
-        <!-- topbar -->
-        <div data-component="topbar"></div>
-        <!-- navbar -->
-        <div data-component="navbar"></div>
-        <!-- end nav bar -->
-
-        <!-- new hero  -->
-         <div class="container-fluid bg-light ">
-            <div class="container d-flex justify-content-evenly py-3 py-md-0">
-                <div class="left d-flex flex-column justify-content-start align-items-start col-9 col-md-6 align-self-center">
-                    <h2 class="card-title text-dark">Fresh Arrivals Online</h2>
-                    <p class="card-text">Discover Our Newest Collection Today.</p>
-                    <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> View Collection  </button>
-                </div>
-                <div class="right py-0  align-items-end d-none d-md-flex  col-4 align-items-start justify-content-start" >
-                    <img src="./Img/Hero_Side.png" alt="" class="img-fluid"  >
-                </div>
-            </div>
-         </div>
-         <!-- end hero  -->
-         
-        <!-- first section  -->
-         <div class="container d-flex flex-column justify-content-center align-items-center py-5 flex-md-row justify-content-md-around">
-            <div class="card border-0 col-9 col-md-4" >
-                <div class="card-body ">
-                    <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-truck"></i></span>
-                    <h5 class="card-title mt-3">Free Shipping</h5>
-                    <p class="card-text text-muted fs-6">Upgrade your style today and get FREE shipping on all orders! Don't miss out.</p>
-                </div>
-            </div>
-            <div class="card border-0 col-9 col-md-4" >
-                <div class="card-body ">
-                    <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-award"></i></span>
-                    <h5 class="card-title mt-3">Satisfaction Guarantee</h5>
-                    <p class="card-text text-muted fs-6">Shop Confidently with our Satisfaction Guarantee: Love it or get a refund.</p>
-                </div>
-            </div>
-            <div class="card border-0 col-9 col-md-4" >
-                <div class="card-body ">
-                    <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-shield-heart"></i></span>
-                    <h5 class="card-title mt-3">Secure Payment</h5>
-                    <p class="card-text text-muted fs-6">Your security is our priority. Your payments are secure with us.</p>
-                </div>
-            </div>
-         </div>
-
-        <!-- start section two  -->
-        <div class="container-fluid  py-5 ">
-            <p class="text-muted my-0 text-center ">Shop Now</p>
-            <h2 class="text-center">Best Selling</h2>
+<!-- new hero  -->
+<div class="container-fluid bg-light ">
+    <div class="container d-flex justify-content-evenly py-3 py-md-0">
+        <div class="left d-flex flex-column justify-content-start align-items-start col-9 col-md-6 align-self-center">
+            <h2 class="card-title text-dark">Fresh Arrivals Online</h2>
+            <p class="card-text">Discover Our Newest Collection Today.</p>
+            <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> View Collection  </button>
         </div>
-        <!-- end section two  -->
-
-
-        <!-- start section products  -->
-        <div class="container py-5">
-            <div id="productsRow" class="row d-flex justify-content-center"></div>
+        <div class="right py-0  align-items-end d-none d-md-flex  col-4 align-items-start justify-content-start" >
+            <img src="../Home/Img/Hero_Side.png" alt="" class="img-fluid"  >
         </div>
-        <!-- end section products  -->
-
-        <!-- start section four -->
-        <div class="container-fluid  bg-light my-5 py-md-2">
-            <div class="container  d-flex justify-content-around">
-                <div class="col-6 d-flex flex-column justify-content-center">
-                    <h2 class="card-title text-dark">Browse Our Fashion Paradise!</h2> <br/>
-                    <p class="card-text text-muted">step into a world of style and explore our diverse collection of clothing catigories.</p> <br/>
-                    <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> Start Browsing  </button>
-                </div>
-                <div class="col-2 d-none d-lg-flex" >
-                    <img src="./Img/Category_Image.png" class="img-fluid" alt="..." style="width: 90%;">
-                </div>
-            </div>
-        </div>
-        <!-- end of section  -->
-
-
-         <!-- start  featured | latest -->
-        <div class="container d-flex flex-column gap-5 justify-content-center align-items-center py-5 ">
-            <ul class="nav nav-pills mb-3 " id="pills-tab" role="tablist">
-                <li class="nav-item text-light me-1" role="presentation">
-                    <button class="nav-link active " id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#Featured" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Featured</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#Latest" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Latest</button>
-                </li>
-            </ul>
-            <div class="tab-content container py-3" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="Featured">
-                    <div class="row d-flex justify-content-center" id="featuredProducts"></div>
-                </div>
-                <div class="tab-pane fade" id="Latest">
-                    <div class="row d-flex justify-content-center" id="latestProducts"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- start newsletter -->
-        <div data-component="newsletter"></div>
-
-        <!-- start footer  -->
-        <div data-component="footer"></div>
     </div>
-    <script src="../../scripts/Authentecation/auth.js"></script>
-    <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../scripts/layoutManager.js"></script>
-    <script src="../../scripts/helpers.js" type="module"></script>
-    <script src="../../scripts/Home/home.js" type="module"></script>
-</body>
-</html>
+    </div>
+    <!-- end hero  -->
+    
+<!-- first section  -->
+    <div class="container d-flex flex-column justify-content-center align-items-center py-5 flex-md-row justify-content-md-around">
+    <div class="card border-0 col-9 col-md-4" >
+        <div class="card-body ">
+            <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-truck"></i></span>
+            <h5 class="card-title mt-3">Free Shipping</h5>
+            <p class="card-text text-muted fs-6">Upgrade your style today and get FREE shipping on all orders! Don't miss out.</p>
+        </div>
+    </div>
+    <div class="card border-0 col-9 col-md-4" >
+        <div class="card-body ">
+            <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-award"></i></span>
+            <h5 class="card-title mt-3">Satisfaction Guarantee</h5>
+            <p class="card-text text-muted fs-6">Shop Confidently with our Satisfaction Guarantee: Love it or get a refund.</p>
+        </div>
+    </div>
+    <div class="card border-0 col-9 col-md-4" >
+        <div class="card-body ">
+            <span class="rounded-circle bg-light p-2 ms-1"><i class="fa-solid fa-shield-heart"></i></span>
+            <h5 class="card-title mt-3">Secure Payment</h5>
+            <p class="card-text text-muted fs-6">Your security is our priority. Your payments are secure with us.</p>
+        </div>
+    </div>
+    </div>
+
+<!-- start section two  -->
+<div class="container-fluid  py-5 ">
+    <p class="text-muted my-0 text-center ">Shop Now</p>
+    <h2 class="text-center">Best Selling</h2>
+</div>
+<!-- end section two  -->
+
+
+<!-- start section products  -->
+<div class="container py-5">
+    <div id="productsRow" class="row d-flex justify-content-center"></div>
+</div>
+<!-- end section products  -->
+
+<!-- start section four -->
+<div class="container-fluid  bg-light my-5 py-md-2">
+    <div class="container  d-flex justify-content-around">
+        <div class="col-6 d-flex flex-column justify-content-center">
+            <h2 class="card-title text-dark">Browse Our Fashion Paradise!</h2> <br/>
+            <p class="card-text text-muted">step into a world of style and explore our diverse collection of clothing catigories.</p> <br/>
+            <button class="btn btn-dark btn-lg " style="max-width: fit-content;"> Start Browsing  </button>
+        </div>
+        <div class="col-2 d-none d-lg-flex" >
+            <img src="../Home/Img/Category_Image.png" class="img-fluid" alt="..." style="width: 90%;">
+        </div>
+    </div>
+</div>
+<!-- end of section  -->
+
+<div class="container d-flex flex-column gap-5 justify-content-center align-items-center py-5 ">
+    <ul class="nav nav-pills mb-3 " id="pills-tab" role="tablist">
+        <li class="nav-item text-light me-1" role="presentation">
+            <button class="nav-link active " id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#Featured" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Featured</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#Latest" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Latest</button>
+        </li>
+    </ul>
+    <div class="tab-content container py-3" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="Featured">
+            <div class="row d-flex justify-content-center" id="featuredProducts"></div>
+        </div>
+        <div class="tab-pane fade" id="Latest">
+            <div class="row d-flex justify-content-center" id="latestProducts"></div>
+        </div>
+    </div>
+</div>

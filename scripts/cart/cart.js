@@ -2,6 +2,7 @@ import {notifyCartUpdated} from "../helpers.js";
 
 const CART_LOGIN_URL = "http://127.0.0.1:5500/html/Auth/login.html";
 const TAX_RATE = 0.0;
+let cartEventsBound = false;
 
 function getLoggedInUser() {
     try {
@@ -188,9 +189,11 @@ function removeCartItem(productId) {
 
 function bindCartEvents() {
     const container = document.getElementById("cart-items-container");
-    if (!container) {
+    if (!container || cartEventsBound) {
         return;
     }
+
+    cartEventsBound = true;
 
     container.addEventListener("click", (event) => {
         const actionElement = event.target.closest("[data-action]");

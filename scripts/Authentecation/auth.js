@@ -1,5 +1,15 @@
 // ____________________ Auth Guard ____________________
 
+const SELLERS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/sellers";
+
+const DEFAULT_ADMIN_SELLER = {
+  name: "System Admin",
+  email: "admin@ecommerce.local",
+  address: "Main Branch",
+  password: "Admin123",
+  role: "admin"
+};
+
 // (function () {
 
 //   const user = sessionStorage.getItem("loggedInUser");
@@ -22,6 +32,43 @@
 //   deleteCookie("loggedInUser");
 //   location.href = "../../html/Auth/login.html";
 // }
+
+
+async function ensureAdminSellerExists() {
+  try {
+    const response = await fetch(SELLERS_API_URL, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const sellers = await response.json();
+    const hasAdmin = sellers.some(
+      (seller) => String(seller.role || "").toLowerCase() === "admin"
+    );
+
+    if (hasAdmin) {
+      return;
+    }
+
+    const createResponse = await fetch(SELLERS_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(DEFAULT_ADMIN_SELLER)
+    });
+
+    if (!createResponse.ok) {
+      return;
+    }
+  } catch (error) {
+    console.error("Failed to ensure admin seller exists:", error);
+  }
+}
+
+ensureAdminSellerExists();
 
 
 function setCookie(name, value, hours)

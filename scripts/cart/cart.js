@@ -5,15 +5,28 @@ const TAX_RATE = 0.0;
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
 let checkoutModalInstance = null;
 
-function getLoggedInUser() {
-    const userRaw = getCookie("loggedInUser");
-    return userRaw ? JSON.parse(userRaw) : null;
+function getLoggedInUser() 
+{
+    try 
+    {
+        const userRaw = getCookie("loggedInUser");
+        return userRaw ? JSON.parse(userRaw) : null;
+    } catch (error) 
+    {
+        console.error("Failed to parse logged in user", error);
+        return null;
+    }
 }
 
 function getCustomers() {
-    const customersRaw = localStorage.getItem("customers");
-    const customers = customersRaw ? JSON.parse(customersRaw) : [];
-    return Array.isArray(customers) ? customers : [];
+    try {
+        const customersRaw = localStorage.getItem("customers");
+        const customers = customersRaw ? JSON.parse(customersRaw) : [];
+        return Array.isArray(customers) ? customers : [];
+    } catch (error) 
+    {
+        return [];
+    }
 }
 
 function saveCustomers(customers) {

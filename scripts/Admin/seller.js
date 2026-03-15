@@ -1,24 +1,7 @@
-const baseSellers = [
-    { id: 1, name: 'Esther Howard', email: 'esther.howard@gmail.com', address: '8642 Yule Street, Arvada CO 80007', initials: 'EH' },
-    { id: 2, name: 'Wade Warren', email: 'wade.warren@gmail.com', address: '5331 Rexford Court, Montgomery AL 36116', initials: 'WW' },
-    { id: 3, name: 'Brooklyn Simmons', email: 'brooklyn.simmons@gmail.com', address: '2325 Eastridge Circle, Moore OK 73160', initials: 'BS' },
-    { id: 4, name: 'Robert Fox', email: 'robert.fox@gmail.com', address: '2436 Naples Avenue, Panama City FL 32405', initials: 'RF' },
-    { id: 5, name: 'Dianne Russell', email: 'dianne.russell@gmail.com', address: '6095 Terry Lane, Golden CO 80403', initials: 'DR' },
-    { id: 6, name: 'Ralph Edwards', email: 'ralph.edwards@gmail.com', address: '4001 Anderson Road, Nashville TN 37217', initials: 'RE' },
-    { id: 7, name: 'Theresa Webb', email: 'theresa.webb@gmail.com', address: '19141 Pine Ridge Circle, Anchorage AK 99516', initials: 'TW' },
-    { id: 8, name: 'Arlene McCoy', email: 'arlene.mccoy@gmail.com', address: '2613 Cottonwood Street, Anchorage AK 99508', initials: 'AM' }
-];
+import { sellerRow } from "../Data Components/sellerRow.js";
+import { generatePaginationHTML, sortTableData } from "../Utils/tableUtils.js";
 
-const sellers = [];
-for (let i = 0; i < 10; i++) {
-    baseSellers.forEach((s) => {
-        sellers.push({
-            ...s,
-            id: s.id + i * 10
-        });
-    });
-}
-
+let sellers = [];
 const pageSize = 8;
 let currentPage = 1;
 let currentSearch = '';
@@ -32,21 +15,13 @@ function renderTable() {
     const filtered = sellers.filter(s => {
         const term = currentSearch.toLowerCase();
         return (
-            s.name.toLowerCase().includes(term) ||
-            s.email.toLowerCase().includes(term) ||
-            s.address.toLowerCase().includes(term)
+            (s.name && s.name.toLowerCase().includes(term)) ||
+            (s.email && s.email.toLowerCase().includes(term)) ||
+            (s.address && s.address.toLowerCase().includes(term))
         );
     });
 
-    const sorted = [...filtered].sort((a, b) => {
-        if (!currentSortField) return 0;
-        let av = String(a[currentSortField]).toLowerCase();
-        let bv = String(b[currentSortField]).toLowerCase();
-
-        if (av < bv) return currentSortDirection === 'asc' ? -1 : 1;
-        if (av > bv) return currentSortDirection === 'asc' ? 1 : -1;
-        return 0;
-    });
+    const sorted = sortTableData(filtered, currentSortField, currentSortDirection);
 
     const total = sorted.length;
     const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -55,39 +30,7 @@ function renderTable() {
     const start = (currentPage - 1) * pageSize;
     const pageItems = sorted.slice(start, start + pageSize);
 
-    const formatInitials = (initials) => {
-        return `<div style="width: 48px; height: 48px; border-radius: 4px; background-color: #F6F6F6; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-weight: 500;">${initials}</div>`;
-    };
-
-    tbody.innerHTML = pageItems
-        .map(s => {
-            return `
-      <tr>
-        <td>
-          ${formatInitials(s.initials)}
-        </td>
-        <td>
-          <p class="mb-0 product-name">${s.name}</p>
-        </td>
-        <td>${s.email}</td>
-        <td title="${s.address}" class="address-cell">${s.address}</td>
-        <td class="text-end table-actions">
-          <div class="dropdown">
-            <button class="more-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More actions">
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-              <li><a class="dropdown-item py-2" href="product.html?sellerId=${s.id}"><i class="fa-solid fa-box-open me-2"></i>Show products</a></li>
-              <li><button class="dropdown-item py-2 text-danger" type="button"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-    `;
-        })
-        .join('');
+    tbody.innerHTML = pageItems.map(sellerRow).join('');
 
     const info = document.querySelector('#sellersInfo');
     if (info) {
@@ -98,70 +41,63 @@ function renderTable() {
 
     const pagination = document.querySelector('#sellersPagination');
     if (pagination) {
-        const items = [];
-
-        const buildPages = () => {
-            const pages = [];
-            if (totalPages <= 7) {
-                for (let i = 1; i <= totalPages; i++) pages.push(i);
-                return pages;
-            }
-
-            pages.push(1);
-            const start = Math.max(2, currentPage - 1);
-            const end = Math.min(totalPages - 1, currentPage + 1);
-
-            if (start > 2) pages.push('ellipsis');
-            for (let i = start; i <= end; i++) pages.push(i);
-            if (end < totalPages - 1) pages.push('ellipsis');
-
-            if (pages[pages.length - 1] !== totalPages) {
-                pages.push(totalPages);
-            }
-            return pages;
-        };
-
-        const pages = buildPages();
-
-        items.push(`
-      <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-        <button class="page-link" data-page="${currentPage - 1}">&lsaquo;</button>
-      </li>
-    `);
-
-        pages.forEach(p => {
-            if (p === 'ellipsis') {
-                items.push(`
-          <li class="page-item disabled">
-            <span class="page-link border-0">…</span>
-          </li>
-        `);
-            } else {
-                items.push(`
-          <li class="page-item ${p === currentPage ? 'active' : ''}">
-            <button class="page-link" data-page="${p}">${p}</button>
-          </li>
-        `);
-            }
-        });
-
-        items.push(`
-      <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-        <button class="page-link" data-page="${currentPage + 1}">&rsaquo;</button>
-      </li>
-    `);
-
-        pagination.innerHTML = items.join('');
+        pagination.innerHTML = generatePaginationHTML(currentPage, totalPages);
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('LayoutBuilt', async () => {
+    // Fetch sellers from API
+    try {
+        const url = new URL('https://69b10cdeadac80b427c3d349.mockapi.io/sellers');
+        const res = await fetch(url, { method: 'GET', headers: { 'content-type': 'application/json' } });
+        if (res.ok) {
+            sellers = await res.json();
+        }
+    } catch (error) {
+        console.error(`Error fetching sellers: ${error}`);
+    }
+
     const searchInput = document.querySelector('#sellersSearch');
     if (searchInput) {
         searchInput.addEventListener('input', e => {
             currentSearch = e.target.value || '';
             currentPage = 1;
             renderTable();
+        });
+    }
+
+    const tableBody = document.querySelector('#sellersTableBody');
+    if (tableBody) {
+        tableBody.addEventListener('click', (e) => {
+            const deleteBtn = e.target.closest('.btn-delete');
+            if (!deleteBtn) return;
+            
+            const id = deleteBtn.getAttribute('data-id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const res = await fetch(`https://69b10cdeadac80b427c3d349.mockapi.io/sellers/${id}`, { method: 'DELETE' });
+                        if (res.ok) {
+                            sellers = sellers.filter(s => String(s.id) !== String(id));
+                            renderTable();
+                            Swal.fire('Deleted!', 'The seller has been deleted.', 'success');
+                        } else {
+                            Swal.fire('Error!', 'Failed to delete seller. Please try again.', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error deleting seller:', error);
+                        Swal.fire('Error!', 'An error occurred while deleting.', 'error');
+                    }
+                }
+            });
         });
     }
 

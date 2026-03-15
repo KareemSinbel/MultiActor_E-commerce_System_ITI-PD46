@@ -43,7 +43,7 @@ export function productRow(p)
             <span></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-            <li><button class="dropdown-item py-2 text-danger" type="button"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>
+            <li><button class="dropdown-item py-2 text-danger btn-delete" data-action="delete" data-id="${p.id}" type="button"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>
           </ul>
         </div>
       </td>

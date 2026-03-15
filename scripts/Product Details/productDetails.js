@@ -310,7 +310,7 @@ function handleAddToCart(product)
 
   if(!result.success)
   {
-	redirectToLogin();
+    redirectToLogin();
     return;
   }
 

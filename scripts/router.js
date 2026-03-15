@@ -5,7 +5,19 @@ export const Router = (function () {
         routes[name] = { htmlPath, jsPath, cssPath };
     }
 
-    async function navigate(name, params = {}) {
+    async function navigate(name, params = {}) 
+    {
+        const currentParams = new URLSearchParams(window.location.search);
+        const currentPage = currentParams.get("page");
+
+        const sameParams = Object.keys(params)
+            .filter(k => k !== "_initialLoad")
+            .every(k => currentParams.get(k) === params[k]);
+
+        if (currentPage === name && sameParams && !params._initialLoad) {
+            return; // skip only if page + params are identical
+        }
+
         const content = document.querySelector('#pageContent');
         if (!content) return;
 
@@ -54,10 +66,17 @@ export const Router = (function () {
             }
 
             // Update URL
-            const url = new URL(window.location);
-            url.searchParams.set('page', name);
-            Object.keys(params).forEach(k => url.searchParams.set(k, params[k]));
-            window.history.pushState({}, '', url);
+            const url = new URL(window.location.origin + window.location.pathname);
+            url.searchParams.set("page", name);
+
+            Object.keys(params).forEach(k => {
+                if (k !== "_initialLoad") {
+                    url.searchParams.set(k, params[k]);
+                }
+            });
+
+            if (!params._initialLoad)
+                window.history.pushState({}, '', url);
 
         } catch (err) {
             console.error(err);
@@ -68,9 +87,13 @@ export const Router = (function () {
     }
 
     // Handle browser back/forward
-    window.addEventListener('popstate', () => {
-        const page = new URLSearchParams(window.location.search).get('page') || 'home';
-        navigate(page);
+    window.addEventListener('popstate', async () => 
+    {
+        const params = Object.fromEntries(new URLSearchParams(window.location.search));
+        const page = params.page || 'home';
+
+        // Force navigation on back/forward
+        await Router.navigate(page, { ...params, _initialLoad: true });
     });
 
     return { addRoute, navigate };

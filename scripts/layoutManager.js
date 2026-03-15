@@ -1,3 +1,5 @@
+import { Router } from "./router.js"
+
 const LayoutManager = (function () {
 
     const templates = {};
@@ -62,6 +64,16 @@ document.addEventListener("DOMContentLoaded", async () =>
     document?.dispatchEvent(new CustomEvent("LayoutBuilt", {detail:{isFinished: true}}));
 
     
+    //Making logo navigating and cursor set to pointer using Attributes
+    const mainLogo = document.getElementById("main-logo");
+    mainLogo.setAttribute("role", "button");
+
+    document.getElementById("main-logo").addEventListener("click", function()
+    {   
+        Router.navigate("home");
+    });
+
+
 
     if(!checkAuth())
     {

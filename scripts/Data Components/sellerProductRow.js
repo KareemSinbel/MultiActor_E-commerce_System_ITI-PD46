@@ -18,34 +18,17 @@ export function productRow(p)
     stockObj['State'] = 'danger';
   }
 
+  const statusVal = p.status ?? p.state;
   let statusObj = { StatusStr: 'Pending', State: 'warning' };
-  if (p.status === 1) {
+  if (statusVal === 1) {
     statusObj.StatusStr = "Approved";
     statusObj.State = "success";
-  } else if (p.status === -1) {
+  } else if (statusVal === -1) {
     statusObj.StatusStr = "Declined";
     statusObj.State = "danger";
   } else {
     statusObj.StatusStr = "Pending";
     statusObj.State = "warning";
-  }
-
-  const loggedInUserStr = sessionStorage.getItem('loggedInUser');
-  let isAdmin = false;
-  if (loggedInUserStr) {
-      try {
-          const user = JSON.parse(loggedInUserStr);
-          if (user && user.role === 'admin') isAdmin = true;
-      } catch (e) {}
-  }
-
-  let dropdownItems = `<li><button class="dropdown-item py-2 text-danger btn-delete" data-action="delete" data-id="${p.id}" type="button"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>`;
-  
-  if (isAdmin && (p.status === 0 || p.status === undefined)) {
-      dropdownItems = `
-        <li><button class="dropdown-item py-2 text-success btn-approve" data-id="${p.id}" type="button"><i class="fa-solid fa-check me-2"></i>Approve</button></li>
-        <li><button class="dropdown-item py-2 text-warning btn-decline" data-id="${p.id}" type="button"><i class="fa-solid fa-xmark me-2"></i>Decline</button></li>
-      ` + dropdownItems;
   }
 
   return `
@@ -63,7 +46,7 @@ export function productRow(p)
       <td>$${p.price.toFixed(2)}</td>
       <td><span class="badge bg-${stockObj['State']}-subtle text-${stockObj['State']} rounded-pill px-3 py-2">${stockObj['StockStr']}</span></td>
       <td><span class="badge bg-${statusObj['State']}-subtle text-${statusObj['State']} rounded-pill px-3 py-2">${statusObj['StatusStr']}</span></td>
-      <td>${p.categories}</td>
+      <td>${Array.isArray(p.categories) ? p.categories.join(", ") : (p.category || p.categories || "")}</td>
       <td class="text-end table-actions">
         <div class="dropdown">
           <button class="more-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More actions">
@@ -72,7 +55,7 @@ export function productRow(p)
             <span></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-            ${dropdownItems}
+            <li><button class="dropdown-item py-2 text-danger btn-delete" data-action="delete" data-id="${p.id}" type="button"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>
           </ul>
         </div>
       </td>

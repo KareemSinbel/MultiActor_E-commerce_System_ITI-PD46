@@ -70,10 +70,11 @@ document.addEventListener('LayoutBuilt',async () =>
       }
   }
 
+  let targetSellerId = null;
   if (sellerIdParam) {
-      fetchUrl = `https://69b10cdeadac80b427c3d349.mockapi.io/sellers/${sellerIdParam}/products`;
+      targetSellerId = sellerIdParam;
   } else if (loggedInUser && loggedInUser.role === 'seller') {
-      fetchUrl = `https://69b10cdeadac80b427c3d349.mockapi.io/sellers/${loggedInUser.id}/products`;
+      targetSellerId = String(loggedInUser.id);
   }
 
   const url = new URL(fetchUrl);
@@ -88,7 +89,11 @@ document.addEventListener('LayoutBuilt',async () =>
 
   let productsAPI = [];
   if (res && res.ok) {
-     productsAPI = await res.json();
+     const allProducts = await res.json();
+     productsAPI = Array.isArray(allProducts) ? allProducts : [];
+     if (targetSellerId) {
+         productsAPI = productsAPI.filter(p => String(p.sellerId) === targetSellerId);
+     }
   }
 
   const searchInput = document.querySelector('#productsSearch');
@@ -106,6 +111,84 @@ document.addEventListener('LayoutBuilt',async () =>
   if (tableBody) {
       tableBody.addEventListener('click', (e) => {
           const deleteBtn = e.target.closest('.btn-delete');
+          const approveBtn = e.target.closest('.btn-approve');
+          const declineBtn = e.target.closest('.btn-decline');
+
+          if (approveBtn) {
+              const id = approveBtn.getAttribute('data-id');
+              const idx = productsAPI.findIndex(p => String(p.id) === String(id));
+              if (idx > -1) {
+                  Swal.fire({
+                      title: 'Approve Product?',
+                      text: "Make this product available?",
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: 'Yes, approve it!'
+                  }).then(async (result) => {
+                      if (result.isConfirmed) {
+                          try {
+                              productsAPI[idx].status = 1;
+                              const updateUrl = `https://69b10cdeadac80b427c3d349.mockapi.io/products/${id}`;
+                              const putRes = await fetch(updateUrl, {
+                                  method: 'PUT',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify(productsAPI[idx])
+                              });
+                              if (putRes.ok) {
+                                  renderTable(productsAPI);
+                                  Swal.fire('Approved!', 'The product has been approved.', 'success');
+                              } else {
+                                  // Revert locally if fail
+                                  productsAPI[idx].status = 0;
+                                  Swal.fire('Error!', 'Failed to approve.', 'error');
+                              }
+                          } catch (error) {
+                              productsAPI[idx].status = 0;
+                              console.error(error);
+                          }
+                      }
+                  });
+              }
+              return;
+          }
+
+          if (declineBtn) {
+              const id = declineBtn.getAttribute('data-id');
+              const idx = productsAPI.findIndex(p => String(p.id) === String(id));
+              if (idx > -1) {
+                  Swal.fire({
+                      title: 'Decline Product?',
+                      text: "Reject this product?",
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonText: 'Yes, decline it!'
+                  }).then(async (result) => {
+                      if (result.isConfirmed) {
+                          try {
+                              productsAPI[idx].status = -1;
+                              const updateUrl = `https://69b10cdeadac80b427c3d349.mockapi.io/products/${id}`;
+                              const putRes = await fetch(updateUrl, {
+                                  method: 'PUT',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify(productsAPI[idx])
+                              });
+                              if (putRes.ok) {
+                                  renderTable(productsAPI);
+                                  Swal.fire('Declined!', 'The product has been declined.', 'success');
+                              } else {
+                                  productsAPI[idx].status = 0;
+                                  Swal.fire('Error!', 'Failed to decline.', 'error');
+                              }
+                          } catch (error) {
+                              productsAPI[idx].status = 0;
+                              console.error(error);
+                          }
+                      }
+                  });
+              }
+              return;
+          }
+
           if (!deleteBtn) return;
           
           const id = deleteBtn.getAttribute('data-id');
@@ -120,7 +203,7 @@ document.addEventListener('LayoutBuilt',async () =>
           }).then(async (result) => {
               if (result.isConfirmed) {
                   try {
-                      const deleteUrl = `${fetchUrl}/${id}`;
+                      const deleteUrl = `https://69b10cdeadac80b427c3d349.mockapi.io/products/${id}`;
                       const deleteRes = await fetch(deleteUrl, { method: 'DELETE' });
                       if (deleteRes.ok) {
                           productsAPI = productsAPI.filter(p => String(p.id) !== String(id));

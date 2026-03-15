@@ -71,49 +71,55 @@ document.addEventListener('DOMContentLoaded', () =>
       const colors = [...document.querySelectorAll(".color-dot.selected")]
                       .map(c => c.style.backgroundColor);
 
+      const categoryValue = (document.getElementById("category").value || "").trim();
+      const title = (document.getElementById("title").value || "").trim();
+      const description = (document.getElementById("description").value || "").trim();
+      const price = Number(document.getElementById("price").value);
+      const quantity = Number(document.getElementById("quantity").value) || 0;
+      const sku = (document.getElementById("sku").value || "").trim();
+
       let sellerId = "1";
       const loggedInUserStr = sessionStorage.getItem("loggedInUser");
       try {
         if (loggedInUserStr) {
           const user = JSON.parse(loggedInUserStr);
-          if (user && user.id) sellerId = String(user.id);
+          if (user && user.role === "seller" && user.id) sellerId = String(user.id);
         }
       } catch (e) {}
 
-      const product = 
-      {
-        name: document.getElementById("title").value,
-        description: document.getElementById("description").value,
-        price: Number(document.getElementById("price").value),
-        stock: Number(document.getElementById("quantity").value),
-        sku: document.getElementById("sku").value,
-        categories: [document.getElementById("category").value],
-        sizesList: sizes,
-        colorsList: colors,
-        image: "https://picsum.photos/400/300", // temporary placeholder
+      // Payload matches API shape: state = 0 (Pending), 1 (Approved), -1 (Declined)
+      const product = {
+        name: title || "Untitled Product",
+        description: description || "",
+        price: Number.isFinite(price) ? price : 0,
+        stock: quantity,
+        sku: sku || "SKU-" + Date.now(),
+        categories: [categoryValue || "General"],
+        sizesList: Array.isArray(sizes) ? sizes : [],
+        colorsList: Array.isArray(colors) ? colors : [],
+        image: "https://picsum.photos/400/300",
         starsTotalPoints: 0,
         numOfReviews: 0,
-        status: 1, // Auto-approve products added by Admin
+        status: 0,
         sellerId: sellerId
       };
-        
+
       try
       {
-        const res = await fetch
-        (
+        const res = await fetch(
           "https://69b10cdeadac80b427c3d349.mockapi.io/products",
           {
             method: "POST",
-            headers: 
-            {
-              "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(product)
           }
         );
 
-        if (!res.ok) 
+        if (!res.ok) {
+          const errText = await res.text();
+          console.error("API error:", res.status, errText);
           throw new Error("Failed to create product");
+        }
 
         alert("Product added successfully");
 

@@ -1,51 +1,85 @@
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-2">
-        <div class="container-fluid d-flex justify-content-center">
-            <a id="main-logo" class="navbar-brand me-5">
-                <img src="../Home/Img/Logomark.svg" class="me-2" alt="logo" style="width: 20%;"><span class="fw-bolder">Ecommerce</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon custom-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse pe-5" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../Home/home.html">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Categories
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <input id="search-input" class="form-control me-2" type="search" placeholder="Search Products..." aria-label="Search">  
-                </form>
-            </div>
-            <div id="icons-container" class="navactions d-none d-lg-flex">
-                    <span class="text-dark position-relative  me-3 add-pointer">
-                        <a id="cart-icon" class="nav-link">
-                            <i class="fa-solid fa-cart-arrow-down"></i>
-                        </a>
-                        <span id="cart-notification" class="position-absolute top-0 start-100 translate-middle badge rounded-circle px-1 py-1 bg-danger  ">      
-                            9
-                            <span class="visually-hidden">unread messages</span>
-                        </span>
-                    </span>
-                <span class="text-dark "><i class="fa-regular fa-circle-user add-pointer"></i></span>
-            </div>
-        </div>
-    </nav>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white py-2">
+    <div class="container-fluid d-flex justify-content-center">
+      <a class="navbar-brand me-5" href="../Home/home.html">
+        <img
+          src="../Home/Img/Logomark.svg"
+          class="me-2"
+          alt="logo"
+          style="width: 20%"
+        /><span class="fw-bolder">Ecommerce</span>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon custom-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse pe-5" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="../Home/home.html"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search Products..."
+            aria-label="Search"
+          />
+        </form>
+      </div>
+      <div id="icons-container" class="navactions d-none d-lg-flex">
+        <span class="text-dark position-relative me-3 add-pointer">
+          <a class="nav-link" href="../Cart/cart.html">
+            <i class="fa-solid fa-cart-arrow-down"></i>
+          </a>
+          <span
+            id="cart-notification"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-circle px-1 py-1 bg-danger"
+          >
+            9
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </span>
+      </div>
+      <div>
+         <li class="nav-item dropdown list-unstyled">
+          <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+          >
+            <span class="text-dark">
+              <i class="fa-regular fa-circle-user add-pointer"></i>
+            </span>
+          </a>
+
+          <ul class="dropdown-menu list-unstyled">
+            <li><a class="dropdown-item" id="user-name"></a></li>
+            <li><a class="dropdown-item " id="login-btn" role="button">Login</a></li>
+            <li><a class="dropdown-item " id="logout-btn" role="button">Logout</a></li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </nav>
 </div>

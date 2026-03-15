@@ -10,6 +10,15 @@ const DEFAULT_ADMIN_SELLER = {
   role: "admin"
 };
 
+const DEFAULT_ADMIN_CUSTOMER = {
+  name: "System Admin",
+  email: "admin@ecommerce.local",
+  address: "Main Branch",
+  password: "Admin123",
+  role: "admin",
+  cartItem: []
+};
+
 // (function () {
 
 //   const user = sessionStorage.getItem("loggedInUser");
@@ -86,12 +95,7 @@ async function ensureAdminSellerExists() {
 
       customers.push({
         id: newCustomerId,
-        name: adminSeller?.name || DEFAULT_ADMIN_SELLER.name,
-        email: adminSeller?.email || DEFAULT_ADMIN_SELLER.email,
-        address: adminSeller?.address || DEFAULT_ADMIN_SELLER.address,
-        password: adminSeller?.password || DEFAULT_ADMIN_SELLER.password,
-        role: "customer",
-        cartItem: []
+        ...DEFAULT_ADMIN_CUSTOMER
       });
 
       localStorage.setItem("customers", JSON.stringify(customers));

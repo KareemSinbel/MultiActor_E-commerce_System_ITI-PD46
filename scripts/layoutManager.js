@@ -1,5 +1,5 @@
 import { Router } from "./router.js"
-import { notifyCartUpdated } from "./helpers.js"
+import { updateCartBadge } from "./helpers.js"
 
 export const LayoutManager = (function () {
 
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () =>
     await LayoutManager.init();
     
     //Update cart
-    notifyCartUpdated();
+    updateCartBadge();
     
     //Making logo navigating and cursor set to pointer using Attributes
     const mainLogo = document.getElementById("main-logo");
@@ -93,6 +93,12 @@ document.addEventListener("DOMContentLoaded", async () =>
     searchInput.addEventListener("click", function()
     {
         Router.navigate("listing");
+    });
+
+    const cartIcon = document.getElementById("cart-icon");
+    cartIcon.addEventListener("click", function()
+    {
+       Router.navigate("cart"); 
     });
 
     if(!checkAuth())

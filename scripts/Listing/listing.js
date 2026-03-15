@@ -1,5 +1,5 @@
 import { productCard } from "../Data Components/productCard.js";
-import { addToCart, redirectToLogin, showBootstrapToast} from "../helpers.js"; 
+import { addToCart, redirectToLogin, showBootstrapToast, toggleBreadcrumb} from "../helpers.js"; 
 import { Router } from "../router.js";
 import {LayoutManager} from "../layoutManager.js"
 
@@ -295,6 +295,9 @@ $(document).on("pageLoaded", async function(e)
 {
   if (e.detail.page === "listing") 
   {
+    
+    toggleBreadcrumb("Search");
+
     const filterContainer = document.querySelector("[data-component='filterbar']");
     if (filterContainer) {
         await LayoutManager.renderComponent("filterbar", filterContainer);

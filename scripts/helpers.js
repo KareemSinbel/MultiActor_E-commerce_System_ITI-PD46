@@ -129,7 +129,11 @@ export function getCartItemCount()
 // }
 
 
-export function showBootstrapToast(container ,message, type = "success") {
+export function showBootstrapToast(message, container,type = "success") 
+{
+  if(!container)
+    container = container = getToastContainer();
+  
 	const toast = document.createElement("div");
 
 	const typeClassMap = {
@@ -181,14 +185,35 @@ export function updateCartBadge() {
 }
 
 
-document.addEventListener("CartUpdated", ()=> 
+export function toggleBreadcrumb(text, visible = true)
 {
-  updateCartBadge();
-});
+  const breadcrumbContainer = document.getElementById("breadcrumb-main-container");
 
+  if(breadcrumbContainer)
+  {
+    if(visible)
+    {
+      breadcrumbContainer.classList.remove("d-none");
+    }
+    else
+    {
+      breadcrumbContainer.classList.add("d-none");
+    }
+
+    document.getElementById("breadcrumb-current").textContent = text;
+  }
+}
 
 
 /***************************************************************/
+
+
+document.addEventListener("CartUpdated", (e)=> 
+{
+  console.log(e.target);
+  updateCartBadge();
+  showBootstrapToast("Product added to cart", getToastContainer());
+});
 
 
 function getCustomers() 
@@ -213,3 +238,18 @@ function findCustomerIndex(customers, user)
 	return -1;
   return customers.findIndex(c => String(c.id) === String(user.id));
 }
+
+
+function getToastContainer() {
+		let container = document.getElementById("product-details-toast-container");
+		if (container) {
+			return container;
+		}
+
+		container = document.createElement("div");
+		container.id = "product-details-toast-container";
+		container.className = "toast-container position-fixed top-0 end-0 p-3";
+		container.style.zIndex = "1080";
+		document.body.appendChild(container);
+		return container;
+	}

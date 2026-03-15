@@ -1,4 +1,4 @@
-import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist, redirectToLogin } from "../helpers.js"; 
+import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist, redirectToLogin, toggleBreadcrumb } from "../helpers.js"; 
 
 
 
@@ -210,20 +210,6 @@ function initPage()
 		return Number.isFinite(quantity) && quantity > 0 ? quantity : 1;
 	}
 
-	function getToastContainer() {
-		let container = document.getElementById("product-details-toast-container");
-		if (container) {
-			return container;
-		}
-
-		container = document.createElement("div");
-		container.id = "product-details-toast-container";
-		container.className = "toast-container position-fixed top-0 end-0 p-3";
-		container.style.zIndex = "1080";
-		document.body.appendChild(container);
-		return container;
-	}
-
 	function updateWishlistButtonState(isActive) {
 		const watchListButton = document.querySelector(".btn-wishlist");
 		if (!watchListButton) {
@@ -242,19 +228,17 @@ function initPage()
 
 	function handleAddToCart(product)
 	{
-	const result = addToCart(product,{
-		size:getSelectedSize(),
-		color:getSelectedColor(),
-		quantity:getSelectedQuantity()
-	});
+		const result = addToCart(product,{
+			size:getSelectedSize(),
+			color:getSelectedColor(),
+			quantity:getSelectedQuantity()
+		});
 
-	if(!result.success)
-	{
-		redirectToLogin();
-		return;
-	}
-
-	showBootstrapToast(getToastContainer(),"Product added to cart","success");
+		if(!result.success)
+		{
+			redirectToLogin();
+			return;
+		}
 	}
 
 
@@ -271,12 +255,12 @@ function initPage()
 		if(result.action === "added")
 		{
 			updateWishlistButtonState(true);
-			showBootstrapToast(getToastContainer(),"Product added to watch list","success");
+			showBootstrapToast("Product added to wish list");
 		}
 		else
 		{
 			updateWishlistButtonState(false);
-			showBootstrapToast(getToastContainer(),"Product removed from watch list","info");
+			showBootstrapToast("Product removed from wish list", null, "danger");
 		}
 	}
 
@@ -409,6 +393,9 @@ document.addEventListener("pageLoaded", (e) =>
 {
     if (e.detail.page === "productDetails") 
     {
+
+		toggleBreadcrumb("Details");
+
         initPage();
     }
 });

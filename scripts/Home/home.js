@@ -1,4 +1,4 @@
-import { addToCart, redirectToLogin } from "../../scripts/helpers.js"; 
+import { addToCart, redirectToLogin, toggleBreadcrumb } from "../../scripts/helpers.js"; 
 import { Router } from "../router.js";
 
 function initPage() 
@@ -109,7 +109,8 @@ function initPage()
             Router.navigate("productDetails", { id: product.id });
         });
 
-        col.querySelector(".add-to-cart").addEventListener("click", (e) => {
+        col.querySelector(".add-to-cart").addEventListener("click", (e) => 
+        {
             e.stopPropagation();
             let res = addToCart(product);
             if(res.success == false)
@@ -169,6 +170,8 @@ document.addEventListener("pageLoaded", (e) =>
 {
     if (e.detail.page === "home") 
     {
+        toggleBreadcrumb("Home", false);
+
         initPage(); // only run initPage if home is loaded
     }
 });

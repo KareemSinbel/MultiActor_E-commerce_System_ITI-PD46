@@ -1,6 +1,7 @@
 import { Router } from "./router.js"
+import { notifyCartUpdated } from "./helpers.js"
 
-const LayoutManager = (function () {
+export const LayoutManager = (function () {
 
     const templates = {};
     const basePath = "../components/";
@@ -46,14 +47,27 @@ const LayoutManager = (function () {
         await Promise.all(tasks);
     }
 
-    async function init() {
+    /**
+     * Dynamically render a single component into a given container
+     * @param {string} name - component name (matches template file)
+     * @param {HTMLElement} container - DOM element to inject the template into
+     */
+    async function renderComponent(name, container) 
+    {
+        if (!container) return;
+        const template = await loadTemplate(name);
+        container.innerHTML = template;
+    }
 
+    async function init() 
+    {
         await renderComponents();
-
+        document?.dispatchEvent(new CustomEvent("LayoutBuilt", {detail:{isFinished: true}}));
     }
 
     return {
-        init
+        init,
+        renderComponent
     };
 
 })();
@@ -61,19 +75,25 @@ const LayoutManager = (function () {
 document.addEventListener("DOMContentLoaded", async () => 
 {
     await LayoutManager.init();
-    document?.dispatchEvent(new CustomEvent("LayoutBuilt", {detail:{isFinished: true}}));
-
+    
+    //Update cart
+    notifyCartUpdated();
     
     //Making logo navigating and cursor set to pointer using Attributes
     const mainLogo = document.getElementById("main-logo");
     mainLogo.setAttribute("role", "button");
 
-    document.getElementById("main-logo").addEventListener("click", function()
+    mainLogo.addEventListener("click", function()
     {   
         Router.navigate("home");
     });
 
 
+    const searchInput = document.getElementById("search-input");
+    searchInput.addEventListener("click", function()
+    {
+        Router.navigate("listing");
+    });
 
     if(!checkAuth())
     {

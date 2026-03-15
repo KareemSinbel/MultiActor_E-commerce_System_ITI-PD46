@@ -181,18 +181,10 @@ export function updateCartBadge() {
 }
 
 
-document.addEventListener("LayoutBuilt", ()=>
-{
-  updateCartBadge();
-});
-
 document.addEventListener("CartUpdated", ()=> 
 {
   updateCartBadge();
 });
-
-
-
 
 
 

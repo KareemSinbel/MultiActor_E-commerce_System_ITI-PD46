@@ -76,9 +76,20 @@ document.addEventListener("DOMContentLoaded", async () =>
 {
     await LayoutManager.init();
     
+
+    //Update navbar
+    updateNavbar();
+
     //Update cart
     updateCartBadge();
     
+
+    /************************EVENTS********************************/
+    document.addEventListener("AuthChanged", () => 
+    {
+        updateNavbar();
+    });
+
     //Making logo navigating and cursor set to pointer using Attributes
     const mainLogo = document.getElementById("main-logo");
     mainLogo.setAttribute("role", "button");
@@ -101,46 +112,43 @@ document.addEventListener("DOMContentLoaded", async () =>
        Router.navigate("cart"); 
     });
 
-    // if(!checkAuth())
-    // {
-    //     let nav = document.getElementById("icons-container");
-    //     nav.classList.remove("d-lg-flex");
-    //     nav.classList.add("d-none");    
-    // }
-    // else
-    // {
-    //     let nav = document.getElementById("icons-container");
-    //     nav.classList.add("d-lg-flex");
-    //     nav.classList.remove("d-none");    
-    // }
+
+    document.getElementById("login-btn").addEventListener("click", function(){
+            Router.navigate("login");
+    });
+
+    document.getElementById("logout-btn").addEventListener("click", function(){
+        deleteCookie("loggedInUser");
+        document?.dispatchEvent(new CustomEvent("AuthChanged"));
+        Router.navigate("home");
+    });
+});
+
+
+function updateNavbar()
+{
     const user = getLoggedInUser();
 
-    if(!checkAuth())
+    if(!user)
     {
-        
         document.getElementById("user-name").style.display = "none";
         document.getElementById("logout-btn").style.display = "none";
-        document.getElementById("icons-container").classList.add("d-none") ;
-        document.getElementById("icons-container").classList.remove("d-lg-flex") ;
+
+        document.getElementById("icons-container").classList.add("d-none");
+        document.getElementById("icons-container").classList.remove("d-lg-flex");
 
         document.getElementById("login-btn").style.display = "block";
-
-        document.getElementById("login-btn").addEventListener("click", function(){
-            window.location.href = "../../html/Auth/login.html";
-        });
     }
     else
     {
+        document.getElementById("user-name").style.display = "block";
         document.getElementById("login-btn").style.display = "none";
-        document.getElementById("icons-container").classList.remove("d-none") ;
-        document.getElementById("icons-container").classList.add("d-lg-flex") ;
-        if(user){
-            document.getElementById("user-name").innerText = user.username || user.name;
-        }
 
-        document.getElementById("logout-btn").addEventListener("click", function(){
-            deleteCookie("loggedInUser");
-            window.location.href = "../../html/Main Page/index.html";
-        });
+        document.getElementById("icons-container").classList.remove("d-none");
+        document.getElementById("icons-container").classList.add("d-lg-flex");
+
+        document.getElementById("user-name").innerText = user.name;
+
+        document.getElementById("logout-btn").style.display = "block";
     }
-});
+}

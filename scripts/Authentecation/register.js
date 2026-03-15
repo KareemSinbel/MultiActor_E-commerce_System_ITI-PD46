@@ -1,256 +1,285 @@
-// __________________________ Start Global _________________________________
-
-const allInput = document.querySelectorAll("input");
-const form = document.getElementById("registerForm");
-const registerBtn = document.getElementById("registerBtn");
-const msg = document.getElementById("msg");
-
-let isValid = false;
-
-// __________________________ End Global _________________________________
+import { toggleBreadcrumb } from "../helpers.js";
+import { Router } from "../router.js";
 
 
 
-// __________________________ Start Events _________________________________
-
-form.addEventListener("submit", function (e) {
-
-  e.preventDefault();
-
-  if (isValid) {
-    setForms();
-  }
-
-});
+async function initPage()
+{
+  // __________________________ Start Global _________________________________
 
 
-form.addEventListener("input", function () {
+  const allInput = document.querySelectorAll("input");
+  const form = document.getElementById("registerForm");
+  const registerBtn = document.getElementById("registerBtn");
+  const msg = document.getElementById("msg");
 
-  if (
-    allValidations(allInput[0]) &&
-    allValidations(allInput[1]) &&
-    allValidations(allInput[2]) &&
-    allValidations(allInput[3])
-  ) {
-    isValid = true;
-  } else {
-    isValid = false;
-  }
+  let isValid = false;
 
-});
-
-// __________________________ End Events _________________________________
+  // __________________________ End Global _________________________________
 
 
 
-// __________________________ Start Functions _________________________________
+  // __________________________ Start Events _________________________________
 
-async function setForms() {
+  form.addEventListener("submit", function (e) {
 
-  const role = document.querySelector('input[name="role"]:checked')?.value;
+    e.preventDefault();
 
-  if (!role) {
+    if (isValid) {
+      setForms();
+    }
 
-    msg.innerHTML = "Please select role";
-    msg.classList.add("text-danger");
-    return;
+  });
 
-  }
 
-  const user = {
+  form.addEventListener("input", function () {
 
-    name: allInput[0].value,
-    email: allInput[1].value,
-    address: allInput[2].value,
-    password: allInput[3].value,
-    role: role
+    if (
+      allValidations(allInput[0]) &&
+      allValidations(allInput[1]) &&
+      allValidations(allInput[2]) &&
+      allValidations(allInput[3])
+    ) {
+      isValid = true;
+    } else {
+      isValid = false;
+    }
 
-  };
+  });
 
-  const emailExists = await checkEmailExists(user.email, role);
-
-  if (emailExists) {
-
-    msg.innerHTML = "Email already exists";
-    msg.classList.add("text-danger");
-    msg.classList.remove("text-success");
-
-    return;
-
-  }
-
-  if (role === "seller") {
-
-    registerSeller(user);
-
-  } else if (role === "customer") {
-
-    saveCustomer(user);
-
-  }
-
-}
+  // __________________________ End Events _________________________________
 
 
 
-// __________________________ Check Email _________________________________
+  // __________________________ Start Functions _________________________________
 
-async function checkEmailExists(email, role) {
+  async function setForms() {
 
-  email = email.toLowerCase();
+    const role = document.querySelector('input[name="role"]:checked')?.value;
 
-  // check customer
-  if (role === "customer") {
+    if (!role) {
 
-    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+      msg.innerHTML = "Please select role";
+      msg.classList.add("text-danger");
+      return;
 
-    return customers.some(user => user.email.toLowerCase() === email);
+    }
+
+    const user = {
+
+      name: allInput[0].value,
+      email: allInput[1].value,
+      address: allInput[2].value,
+      password: allInput[3].value,
+      role: role
+
+    };
+
+    const emailExists = await checkEmailExists(user.email, role);
+
+    if (emailExists) {
+
+      msg.innerHTML = "Email already exists";
+      msg.classList.add("text-danger");
+      msg.classList.remove("text-success");
+
+      return;
+
+    }
+
+    if (role === "seller") {
+
+      registerSeller(user);
+
+    } else if (role === "customer") {
+
+      saveCustomer(user);
+
+    }
 
   }
 
-  // check seller
-  if (role === "seller") {
 
-    const response = await fetch("https://69b10cdeadac80b427c3d349.mockapi.io/sellers");
 
-    const sellers = await response.json();
+  // __________________________ Check Email _________________________________
 
-    return sellers.some(user => user.email.toLowerCase() === email);
+  async function checkEmailExists(email, role) {
+
+    email = email.toLowerCase();
+
+    // check customer
+    if (role === "customer") {
+
+      const customers = JSON.parse(localStorage.getItem("customers")) || [];
+
+      return customers.some(user => user.email.toLowerCase() === email);
+
+    }
+
+    // check seller
+    if (role === "seller") {
+
+      const response = await fetch("https://69b10cdeadac80b427c3d349.mockapi.io/sellers");
+
+      const sellers = await response.json();
+
+      return sellers.some(user => user.email.toLowerCase() === email);
+
+    }
 
   }
 
-}
 
 
+  // __________________________ Seller API _________________________________
 
-// __________________________ Seller API _________________________________
+  async function registerSeller(userData) {
 
-async function registerSeller(userData) {
+    try {
 
-  try {
-
-    const response = await fetch(
-      "https://69b10cdeadac80b427c3d349.mockapi.io/sellers",
-      {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": "application/json"
+      const response = await fetch(
+        "https://69b10cdeadac80b427c3d349.mockapi.io/sellers",
+        {
+          method: "POST",
+          body: JSON.stringify(userData),
+          headers: {
+            "Content-Type": "application/json"
+          }
         }
-      }
-    );
+      );
 
-    const finalResponse = await response.json();
+      const finalResponse = await response.json();
 
-    console.log(finalResponse);
+      console.log(finalResponse);
 
-    msg.innerHTML = "Seller Registered Successfully";
+      msg.innerHTML = "Seller Registered Successfully";
+      msg.classList.add("text-success");
+
+      form.reset();
+
+      setTimeout(() => {
+
+        Router.navigate("login");
+
+      }, 1000);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  }
+
+
+
+  // __________________________ Customer LocalStorage _________________________________
+
+  function saveCustomer(userData) {
+
+    let customers = JSON.parse(localStorage.getItem("customers")) || [];
+
+    const newCustomer = {
+      id: generateCustomerId(customers), // unique id
+      ...userData,
+      cartItem: []
+    };
+
+    customers.push(newCustomer);
+
+    localStorage.setItem("customers", JSON.stringify(customers));
+
+    msg.innerHTML = "Customer Registered Successfully";
     msg.classList.add("text-success");
 
     form.reset();
 
     setTimeout(() => {
 
-      location.href = "login.html";
+      Router.navigate("login");
 
-    }, 1000);
-
-  } catch (error) {
-
-    console.log(error);
+    }, 1200);
 
   }
 
-}
 
 
+  // __________________________ Validations _________________________________
 
-// __________________________ Customer LocalStorage _________________________________
+  function allValidations(element) {
 
-function saveCustomer(userData) {
+    const regex = {
 
-  let customers = JSON.parse(localStorage.getItem("customers")) || [];
+      nameInp: /^[A-Za-z\u0600-\u06FF ]{3,20}$/,
 
-  const newCustomer = {
-    id: generateCustomerId(customers), // unique id
-    ...userData,
-    cartItem: []
-  };
+      emailInp: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
 
-  customers.push(newCustomer);
+      addressInp: /^[A-Za-z0-9\u0600-\u06FF\s]{5,50}$/,
 
-  localStorage.setItem("customers", JSON.stringify(customers));
+      passwordInp: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
 
-  msg.innerHTML = "Customer Registered Successfully";
-  msg.classList.add("text-success");
+    };
 
-  form.reset();
+    if (regex[element.id]?.test(element.value)) {
 
-  setTimeout(() => {
+      element.classList.add("is-valid");
+      element.classList.remove("is-invalid");
 
-    location.href = "login.html";
+      return true;
 
-  }, 1200);
+    } else {
 
-}
+      element.classList.add("is-invalid");
+      element.classList.remove("is-valid");
 
+      return false;
 
-
-// __________________________ Validations _________________________________
-
-function allValidations(element) {
-
-  const regex = {
-
-    nameInp: /^[A-Za-z\u0600-\u06FF ]{3,20}$/,
-
-    emailInp: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-
-    addressInp: /^[A-Za-z0-9\u0600-\u06FF\s]{5,50}$/,
-
-    passwordInp: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
-
-  };
-
-  if (regex[element.id]?.test(element.value)) {
-
-    element.classList.add("is-valid");
-    element.classList.remove("is-invalid");
-
-    return true;
-
-  } else {
-
-    element.classList.add("is-invalid");
-    element.classList.remove("is-valid");
-
-    return false;
+    }
 
   }
 
+  // __________________________ End Functions _________________________________
+
+
+
+  //Get last ID
+  function generateCustomerId(customers) 
+  {
+    
+    let lastId = localStorage.getItem("lastCustomerId");
+
+    if (!lastId && customers.length) {
+      lastId = customers[customers.length - 1].id;
+    }
+
+
+    lastId = lastId ? parseInt(lastId) : 0;
+
+    const newId = lastId + 1;
+
+    localStorage.setItem("lastCustomerId", newId);
+
+    return newId;
+  }
 }
 
-// __________________________ End Functions _________________________________
 
-
-
-//Get last ID
-function generateCustomerId(customers) 
+document.addEventListener("pageLoaded", async (e)=>
 {
+  if (e.detail.page === "register") 
+    {
+      toggleBreadcrumb("Register");
   
-  let lastId = localStorage.getItem("lastCustomerId");
+      await initPage();
 
-  if (!lastId && customers.length) {
-    lastId = customers[customers.length - 1].id;
-  }
+      const loginBtn = document.getElementById("login-btn-register");
+      loginBtn.setAttribute("role", "button");
 
+      console.log(loginBtn);
 
-  lastId = lastId ? parseInt(lastId) : 0;
-
-  const newId = lastId + 1;
-
-  localStorage.setItem("lastCustomerId", newId);
-
-  return newId;
-}
-
+      loginBtn.addEventListener("click", function()
+      {
+        Router.navigate("login");
+      });
+    }
+});

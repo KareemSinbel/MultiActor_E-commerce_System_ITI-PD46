@@ -1,4 +1,5 @@
 import {notifyCartUpdated, redirectToLogin, toggleBreadcrumb} from "../helpers.js";
+import { Router } from "../router.js";
 
 const TAX_RATE = 0.0;
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
@@ -325,7 +326,9 @@ function bindCheckoutAction() {
     confirmCheckoutButton.addEventListener("click", processCheckout);
 }
 
-function initCartPage() {
+function initCartPage() 
+{
+    cartEventsBound = false;
     const context = getCartContext();
     if (!context) {
         return;
@@ -341,7 +344,15 @@ document.addEventListener("pageLoaded", function(e)
     if (e.detail.page === "cart") 
     { 
         toggleBreadcrumb("Cart");
-        
+
+        const contineShopping = document.getElementById("contine-shoppting");
+        contineShopping.setAttribute("role", "button");
+
+        contineShopping.addEventListener("click", function()
+        {
+            Router.navigate("home");
+        });
+
         initCartPage();
     }
 });

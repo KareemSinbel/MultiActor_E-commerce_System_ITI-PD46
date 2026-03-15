@@ -210,7 +210,6 @@ export function toggleBreadcrumb(text, visible = true)
 
 document.addEventListener("CartUpdated", (e)=> 
 {
-  console.log(e.target);
   updateCartBadge();
   showBootstrapToast("Product added to cart", getToastContainer());
 });

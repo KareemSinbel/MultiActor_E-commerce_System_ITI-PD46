@@ -139,5 +139,13 @@ document.addEventListener("pageLoaded", async (e) =>
     toggleBreadcrumb("Login");
 
     await initPage();
+
+    const signupBtn = document.getElementById("signup-btn");
+    signupBtn.setAttribute("role", "button");
+
+    signupBtn.addEventListener("click", function()
+    {
+      Router.navigate("register");
+    });
   }
 });

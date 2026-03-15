@@ -1,143 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Register</title> 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-<link rel="stylesheet" href="../../Libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="../../stylesheets/Auth/login.css">
-
-
-
-</head>
-
-<body>
-        <div id="topbar-container" data-component="topbar"></div>
-
-        <!-- navbar -->
-        <div id="navbar-container" data-component="navbar"></div>
-        <!-- end nav bar -->
-
-<!-- Header -->
-
-<!-- Header -->
-<section class="header-section">
-<div class="container">
-
-<h2 class="fw-bold mb-2">Register</h2>
-
-<div class="small text-muted">
-Ecommerce / Register
-</div>
-
-</div>
-</section>
-
-
 <!-- Register Section -->
 <section class="container d-flex align-items-center justify-content-center  py-5">
 
-<div class="register-card">
+        <div class="register-card">
 
-<form id="registerForm">
+                <form id="registerForm">
 
-<!-- Name -->
-<div class="mb-3">
-<label class="form-label">Full Name</label>
-<input type="text" id="nameInp" class="form-control" required>
+                        <!-- Name -->
+                        <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" id="nameInp" class="form-control" required>
 
-<ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
-<li>Minimum Length 3 and Maximum Length 20</li>
-</ul>
-</div>
+                                <ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
+                                        <li>Minimum Length 3 and Maximum Length 20</li>
+                                </ul>
+                        </div>
 
-<!-- Email -->
-<div class="mb-3">
-<label class="form-label">Email</label>
-<input type="email" id="emailInp" class="form-control" required>
+                        <!-- Email -->
+                        <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" id="emailInp" class="form-control" required>
 
-<ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
-<li>Email is required</li>
-<li>Invalid Email Format</li>
-</ul>
-</div>
+                                <ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
+                                        <li>Email is required</li>
+                                        <li>Invalid Email Format</li>
+                                </ul>
+                        </div>
 
-<!-- Address -->
-<div class="mb-3">
-<label class="form-label">Address</label>
-<input type="text" id="addressInp" class="form-control" required>
+                        <!-- Address -->
+                        <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <input type="text" id="addressInp" class="form-control" required>
 
-<ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
-<li>Address must be between 5 and 50 characters</li>
-</ul>
-</div>
+                                <ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
+                                        <li>Address must be between 5 and 50 characters</li>
+                                </ul>
+                        </div>
 
-<!-- Password -->
-<div class="mb-4">
-<label class="form-label">Password</label>
-<input type="password" id="passwordInp" class="form-control" required>
+                        <!-- Password -->
+                        <div class="mb-4">
+                                <label class="form-label">Password</label>
+                                <input type="password" id="passwordInp" class="form-control" required>
 
-<ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
-<li>Minimum 6 characters with letters and numbers</li>
-</ul>
-</div>
+                                <ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
+                                        <li>Minimum 6 characters with letters and numbers</li>
+                                </ul>
+                        </div>
 
-<!-- Role -->
-<div class="mb-4">
+                        <!-- Role -->
+                        <div class="mb-4">
 
-<label class="form-label fw-semibold">
-Register As
-</label>
+                                <label class="form-label fw-semibold">
+                                        Register As
+                                </label>
 
-<div class="row g-2">
+                                <div class="row g-2">
 
-<div class="col-6">
-<label class="role-box w-100 text-center">
-<input type="radio" name="role" value="customer" class="form-check-input me-2">
-Customer
-</label>
-</div>
+                                        <div class="col-6">
+                                                <label class="role-box w-100 text-center">
+                                                        <input type="radio" name="role" value="customer"
+                                                                class="form-check-input me-2">
+                                                        Customer
+                                                </label>
+                                        </div>
 
-<div class="col-6">
-<label class="role-box w-100 text-center">
-<input type="radio" name="role" value="seller" class="form-check-input me-2">
-Seller
-</label>
-</div>
+                                        <div class="col-6">
+                                                <label class="role-box w-100 text-center">
+                                                        <input type="radio" name="role" value="seller"
+                                                                class="form-check-input me-2">
+                                                        Seller
+                                                </label>
+                                        </div>
 
-</div>
+                                </div>
 
-</div>
+                        </div>
 
-<!-- Button -->
-<button id="registerBtn" class="btn register-btn w-100">
-Create Account
-</button>
+                        <!-- Button -->
+                        <button id="registerBtn" class="btn register-btn w-100">
+                                Create Account
+                        </button>
 
-<p id="msg" class="text-center mt-2"></p>
+                        <p id="msg" class="text-center mt-2"></p>
 
-</form>
+                </form>
 
 
-<p class="text-center small text-muted mt-4">
-Already have an account?
-<a href="login.html" class="fw-semibold text-dark text-decoration-none">
-Login
-</a>
-</p>
+                <p class="text-center small text-muted mt-4">
+                        Already have an account?
+                        <a id="login-btn-register" class="fw-semibold text-dark text-decoration-none">
+                                Login
+                        </a>
+                </p>
 
-</div>
+        </div>
 
 </section>
-
-   <!--start footer-->
-        <div id="footer-container" data-component="footer"></div>
-        <!--end footer-->
- <script src="../../Libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../../scripts/layoutManager.js"></script>
-  <script src="../../scripts/helpers.js" type="module"></script>
-  <script src="../../scripts/Authentecation/register.js"></script>
-</body>
-</html>

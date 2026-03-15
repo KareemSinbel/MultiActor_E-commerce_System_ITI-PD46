@@ -4,6 +4,7 @@ const CART_LOGIN_URL = "http://127.0.0.1:5500/html/Auth/login.html";
 const TAX_RATE = 0.0;
 const PRODUCTS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/products";
 let checkoutModalInstance = null;
+let cartEventsBound = false;
 
 function getLoggedInUser() 
 {
@@ -193,9 +194,11 @@ function removeCartItem(productId) {
 
 function bindCartEvents() {
     const container = document.getElementById("cart-items-container");
-    if (!container) {
+    if (!container || cartEventsBound) {
         return;
     }
+
+    cartEventsBound = true;
 
     container.addEventListener("click", (event) => {
         const actionElement = event.target.closest("[data-action]");

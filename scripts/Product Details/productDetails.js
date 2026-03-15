@@ -1,7 +1,6 @@
-import { toggleWishlist, addToCart, showBootstrapToast, isInWishlist, redirectToLogin } from "../helpers.js";
 import { productCard } from "../Data Components/productCard.js";
 import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist, redirectToLogin, toggleBreadcrumb } from "../helpers.js"; 
-
+import {Router} from "../router.js"
 
 
 function initPage()
@@ -31,6 +30,27 @@ function initPage()
 		const products = await listResponse.json();
 		
 		return products.find((product) => String(product.id) === String(productId)) || null;
+	}
+
+	async function fetchProductsByCategory(category, excludedProductId) 
+	{
+		if (!category) {
+			return [];
+		}
+
+		try {
+			const response = await fetch(`${PRODUCTS_API_URL}?category=${encodeURIComponent(category)}`);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products by category");
+			}
+
+			const products = await response.json();
+			return (Array.isArray(products) ? products : [])
+				.filter((product) => String(product.id) !== String(excludedProductId))
+				.slice(0, 4);
+		} catch (error) {
+			return [];
+		}
 	}
 
 	function setText(id, value) {
@@ -213,7 +233,16 @@ function renderRelatedProducts(products) {
 
 			return `<div class="col-12 col-sm-6 col-lg-3">${productCard(normalizedProduct)}</div>`;
 		})
-		.join("");
+		.join("");	
+
+	container.querySelectorAll(".product").forEach((button, index)=>
+	{
+		button.addEventListener("click", (event)=>
+		{
+			const product = products[index];
+			Router.navigate("productDetails", { id: product.id });
+		})
+	});
 
 	container.querySelectorAll(".add-to-cart").forEach((button, index) => {
 		button.addEventListener("click", (event) => {
@@ -425,6 +454,8 @@ function renderRelatedProducts(products) {
 			}
 
 			renderProduct(product);
+			const relatedProducts = await fetchProductsByCategory(product.category, product.id);
+			renderRelatedProducts(relatedProducts);
 			bindSelectableOptions();
 			bindQuantityActions();
 			bindProductActions(product);

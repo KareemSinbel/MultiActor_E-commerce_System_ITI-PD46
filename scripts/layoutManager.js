@@ -82,11 +82,7 @@ document.addEventListener("DOMContentLoaded", async () =>
         }
     }
 
-    let layoutBuilt = new CustomEvent("LayoutBuilt", {detail:{isFinished: true}});
-    document?.dispatchEvent(layoutBuilt);
     document?.dispatchEvent(new CustomEvent("LayoutBuilt", {detail:{isFinished: true}}));
-
-    
 
     // if(!checkAuth())
     // {

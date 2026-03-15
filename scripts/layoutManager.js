@@ -88,16 +88,48 @@ document.addEventListener("DOMContentLoaded", async () =>
 
     
 
-    if(!checkAuth())
-    {
-        let nav = document.getElementById("icons-container");
-        nav.classList.remove("d-lg-flex");
-        nav.classList.add("d-none");    
+    // if(!checkAuth())
+    // {
+    //     let nav = document.getElementById("icons-container");
+    //     nav.classList.remove("d-lg-flex");
+    //     nav.classList.add("d-none");    
+    // }
+    // else
+    // {
+    //     let nav = document.getElementById("icons-container");
+    //     nav.classList.add("d-lg-flex");
+    //     nav.classList.remove("d-none");    
+    // }
+const user = getLoggedInUser();
+
+if(!checkAuth())
+{
+    
+    document.getElementById("user-name").style.display = "none";
+    document.getElementById("logout-btn").style.display = "none";
+    document.getElementById("icons-container").classList.add("d-none") ;
+    document.getElementById("icons-container").classList.remove("d-lg-flex") ;
+
+    document.getElementById("login-btn").style.display = "block";
+
+    document.getElementById("login-btn").addEventListener("click", function(){
+        window.location.href = "../../html/Auth/login.html";
+    });
+}
+else
+{
+    
+    document.getElementById("login-btn").style.display = "none";
+     document.getElementById("icons-container").classList.remove("d-none") ;
+    document.getElementById("icons-container").classList.add("d-lg-flex") ;
+    if(user){
+        document.getElementById("user-name").innerText = user.username || user.name;
     }
-    else
-    {
-        let nav = document.getElementById("icons-container");
-        nav.classList.add("d-lg-flex");
-        nav.classList.remove("d-none");    
-    }
+
+    document.getElementById("logout-btn").addEventListener("click", function(){
+        deleteCookie("loggedInUser");
+        window.location.href = "../../html/Home/home.html";
+    });
+}
+
 });

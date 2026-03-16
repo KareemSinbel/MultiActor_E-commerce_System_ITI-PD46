@@ -1,4 +1,4 @@
-import {notifyCartUpdated, redirectToLogin, toggleBreadcrumb} from "../helpers.js";
+import {notifyCartUpdated, redirectToLogin, showBootstrapToast, toggleBreadcrumb, validateStockLimit} from "../helpers.js";
 import { Router } from "../router.js";
 
 const TAX_RATE = 0.0;
@@ -30,9 +30,9 @@ function getCustomers() {
     }
 }
 
-function saveCustomers(customers) {
+function saveCustomers(customers, toastOptions = { showToast: false }) {
     localStorage.setItem("customers", JSON.stringify(customers));
-    notifyCartUpdated();
+    notifyCartUpdated(toastOptions);
 }
 
 function findCustomerIndex(customers, loggedInUser) {
@@ -167,10 +167,27 @@ function updateCartItemQuantity(productId, direction) {
     }
 
     const currentQuantity = Number(item.quantity) || 1;
-    item.quantity = direction === "increase" ? currentQuantity + 1 : Math.max(1, currentQuantity - 1);
+
+    if (direction === "increase") {
+        const nextQuantity = currentQuantity + 1;
+        const stockValidation = validateStockLimit(item, nextQuantity);
+
+        if (!stockValidation.success) {
+            showBootstrapToast(stockValidation.message, document.getElementById("cart-toast-container"), "info");
+            return;
+        }
+
+        item.quantity = nextQuantity;
+    } else {
+        item.quantity = Math.max(1, currentQuantity - 1);
+    }
 
     customers[customerIndex] = customer;
-    saveCustomers(customers);
+    saveCustomers(customers, {
+        message: direction === "decrease" ? "Product removed from cart" : "Product added to cart",
+        type: direction === "decrease" ? "info" : "success",
+        container: document.getElementById("cart-toast-container")
+    });
     renderCartItems(customer.cartItem);
 }
 
@@ -184,7 +201,11 @@ function removeCartItem(productId) {
     customer.cartItem = customer.cartItem.filter((item) => String(item.id) !== String(productId));
 
     customers[customerIndex] = customer;
-    saveCustomers(customers);
+    saveCustomers(customers, {
+        message: "Product removed from cart",
+        type: "info",
+        container: document.getElementById("cart-toast-container")
+    });
     renderCartItems(customer.cartItem);
 }
 
@@ -253,7 +274,7 @@ async function processCheckout() {
     const toastContainer = document.getElementById("cart-toast-container");
 
     if (cartItems.length === 0) {
-        showBootstrapToast(toastContainer, "Your cart is empty.", "info");
+        showBootstrapToast("Your cart is empty.", toastContainer, "info");
         return;
     }
 
@@ -272,13 +293,13 @@ async function processCheckout() {
 
     customer.cartItem = [];
     customers[customerIndex] = customer;
-    saveCustomers(customers);
+    saveCustomers(customers, { showToast: false });
     renderCartItems(customer.cartItem);
     if (checkoutModalInstance) {
         checkoutModalInstance.hide();
     }
 
-    showBootstrapToast(toastContainer, "Payment completed successfully.", "success");
+    showBootstrapToast("Payment completed successfully.", toastContainer, "success");
 
     if (checkoutButton) {
         checkoutButton.disabled = false;
@@ -297,7 +318,7 @@ function openCheckoutModal() {
     const cartItems = Array.isArray(context.customer.cartItem) ? context.customer.cartItem : [];
     const toastContainer = document.getElementById("cart-toast-container");
     if (cartItems.length === 0) {
-        showBootstrapToast(toastContainer, "Your cart is empty.", "info");
+        showBootstrapToast("Your cart is empty.", toastContainer, "info");
         return;
     }
 

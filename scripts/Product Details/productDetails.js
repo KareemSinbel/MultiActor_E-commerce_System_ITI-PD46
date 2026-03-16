@@ -1,5 +1,5 @@
 import { productCard } from "../Data Components/productCard.js";
-import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist, redirectToLogin, toggleBreadcrumb } from "../helpers.js"; 
+import { toggleWishlist , addToCart, showBootstrapToast, isInWishlist, redirectToLogin, toggleBreadcrumb, validateStockLimit } from "../helpers.js"; 
 import {Router} from "../router.js"
 
 
@@ -285,11 +285,14 @@ function renderRelatedProducts(products) {
 			});
 
 			if (!result.success) {
-				redirectToLogin();
+				if (result.reason === "NOT_LOGGED_IN") {
+					redirectToLogin();
+					return;
+				}
+
+				showBootstrapToast(result.message || "Unable to add this product to cart.", null, "info");
 				return;
 			}
-
-			showBootstrapToast(getToastContainer(), "Product added to cart", "success");
 		});
 	});
 }
@@ -339,7 +342,12 @@ function renderRelatedProducts(products) {
 
 		if(!result.success)
 		{
-			redirectToLogin();
+			if (result.reason === "NOT_LOGGED_IN") {
+				redirectToLogin();
+				return;
+			}
+
+			showBootstrapToast(result.message || "Unable to add this product to cart.", null, "info");
 			return;
 		}
 	}
@@ -368,7 +376,7 @@ function renderRelatedProducts(products) {
 	}
 
 
-	function bindQuantityActions() 
+	function bindQuantityActions(product) 
 	{
 		const quantityGroup = document.querySelector(".quantity-group");
 		if (!quantityGroup) {
@@ -390,7 +398,15 @@ function renderRelatedProducts(products) {
 
 		plusButton.addEventListener("click", () => {
 			const current = Number(quantitySpan.textContent.trim()) || 1;
-			quantitySpan.textContent = String(current + 1);
+			const nextQuantity = current + 1;
+			const stockValidation = validateStockLimit(product, nextQuantity);
+
+			if (!stockValidation.success) {
+				showBootstrapToast(stockValidation.message, null, "info");
+				return;
+			}
+
+			quantitySpan.textContent = String(nextQuantity);
 		});
 	}
 
@@ -485,7 +501,7 @@ function renderRelatedProducts(products) {
 			const relatedProducts = await fetchProductsByCategory(product.category, product.id);
 			renderRelatedProducts(relatedProducts);
 			bindSelectableOptions();
-			bindQuantityActions();
+			bindQuantityActions(product);
 			bindProductActions(product);
 		} catch (error) {
 			renderNotFound("Failed to load product");

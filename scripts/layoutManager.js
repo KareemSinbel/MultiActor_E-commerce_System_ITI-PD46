@@ -99,6 +99,25 @@ document.addEventListener("DOMContentLoaded", async () =>
         Router.navigate("home");
     });
 
+    const homeLink = document.getElementById("HomeNavLink");
+    homeLink.setAttribute("role", "button");
+    homeLink.addEventListener("click", function()
+    {   
+        Router.navigate("home");
+    });
+
+    const aboutLink = document.getElementById("AboutNavLink");
+    aboutLink.setAttribute("role", "button");
+    aboutLink.addEventListener("click", function()
+    {   
+        Router.navigate("about");
+    });
+    const contactLink = document.getElementById("ContactNavLink");
+    contactLink.setAttribute("role", "button");
+    contactLink.addEventListener("click", function()
+    {   
+        Router.navigate("contact");
+    });
 
     const searchInput = document.getElementById("search-input");
     searchInput.addEventListener("click", function()

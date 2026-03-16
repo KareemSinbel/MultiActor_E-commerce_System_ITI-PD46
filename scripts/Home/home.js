@@ -51,11 +51,21 @@ function initPage()
     }
 
 
+    // function getRandomProducts(products, count) {
+
+    //     const shuffled = [...products].sort(() => 0.5 - Math.random());
+
+    //     return shuffled.slice(0, count);
+    // }
+
     function getRandomProducts(products, count) {
+    
+    const inStockProducts = products.filter(product => (product.stock || 0) > 0);
 
-        const shuffled = [...products].sort(() => 0.5 - Math.random());
+    
+    const shuffled = [...inStockProducts].sort(() => 0.5 - Math.random());
 
-        return shuffled.slice(0, count);
+    return shuffled.slice(0, count);
     }
 
 

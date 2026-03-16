@@ -99,10 +99,15 @@ document.addEventListener("DOMContentLoaded", async () =>
         Router.navigate("home");
     });
 
+
+    const navPagesElements = document.querySelectorAll(".nav-link-pages");
+
     const homeLink = document.getElementById("HomeNavLink");
     homeLink.setAttribute("role", "button");
     homeLink.addEventListener("click", function()
     {   
+        resetNavPages(navPagesElements);
+        homeLink.classList.add("active");
         Router.navigate("home");
     });
 
@@ -110,35 +115,47 @@ document.addEventListener("DOMContentLoaded", async () =>
     aboutLink.setAttribute("role", "button");
     aboutLink.addEventListener("click", function()
     {   
+        resetNavPages(navPagesElements);
+        aboutLink.classList.add("active");
         Router.navigate("about");
     });
+
     const contactLink = document.getElementById("ContactNavLink");
     contactLink.setAttribute("role", "button");
     contactLink.addEventListener("click", function()
     {   
+        resetNavPages(navPagesElements);
+        contactLink.classList.add("active");
         Router.navigate("contact");
     });
 
     const searchInput = document.getElementById("search-input");
     searchInput.addEventListener("click", function()
     {
+        resetNavPages(navPagesElements);
         Router.navigate("listing");
     });
 
     const cartIcon = document.getElementById("cart-icon");
     cartIcon.addEventListener("click", function()
     {
+       resetNavPages(navPagesElements);
        Router.navigate("cart"); 
     });
 
 
-    document.getElementById("login-btn").addEventListener("click", function(){
-            Router.navigate("login");
+    document.getElementById("login-btn").addEventListener("click", function()
+    {
+        resetNavPages(navPagesElements);
+        Router.navigate("login");
     });
 
-    document.getElementById("logout-btn").addEventListener("click", function(){
+    document.getElementById("logout-btn").addEventListener("click", function()
+    {
         deleteCookie("loggedInUser");
         document?.dispatchEvent(new CustomEvent("AuthChanged"));
+        resetNavPages(navPagesElements);
+        homeLink.classList.add("active")
         Router.navigate("home");
     });
 });
@@ -170,4 +187,11 @@ function updateNavbar()
 
         document.getElementById("logout-btn").style.display = "block";
     }
+}
+
+
+
+function resetNavPages(navPagesElements)
+{
+    navPagesElements.forEach(e=> e.classList.remove("active"));
 }

@@ -5,23 +5,21 @@ import { Router } from "../router.js";
 
 document.addEventListener("pageLoaded", (e) => 
 {
-    const messgebtn = document.getElementById("messagebtn")
-
-    const form = document.getElementById("contactForm");
     if (e.detail.page === "contact") 
     {
         toggleBreadcrumb("Contact", true);
 
-        messgebtn.addEventListener("click", function(){
-            console.log("clicked")
-            if (!form.checkValidity()) {
-                //e.preventDefault(); 
+        const messgebtn = document.getElementById("messagebtn")
+        const form = document.getElementById("contactForm");
+
+        messgebtn.addEventListener("click", function()
+        {
+            if (!form.checkValidity()) 
+            {
                 alert("Please fill all fields.");
             }else {
-                //e.preventDefault()
                 console.log("hello")
-                // e.stopImmediatePropagation()
-                showBootstrapToast("thasnks for your message") 
+                showBootstrapToast("Thanks for your message") 
                 Router.navigate("home")
             }
                     

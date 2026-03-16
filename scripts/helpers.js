@@ -1,9 +1,11 @@
+import { Router } from "./router.js"
+
 export function notifyCartUpdated() {
   document?.dispatchEvent(new CustomEvent("CartUpdated"));
 }
 
 export function redirectToLogin() {
-	window.location.href = "../../html/Auth/login.html";
+	Router.navigate("login");
 }
 
 export function addToCart(product, options = {}) 

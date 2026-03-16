@@ -1,11 +1,45 @@
 import { Router } from "./router.js"
 
-export function notifyCartUpdated() {
-  document?.dispatchEvent(new CustomEvent("CartUpdated"));
+export function notifyCartUpdated(detail = {}) {
+  document?.dispatchEvent(new CustomEvent("CartUpdated", { detail }));
 }
 
 export function redirectToLogin() {
 	Router.navigate("login");
+}
+
+export function getProductStock(product) {
+  const stock = Number(product?.stock);
+  return Number.isFinite(stock) ? Math.max(0, stock) : Number.POSITIVE_INFINITY;
+}
+
+export function validateStockLimit(product, desiredQuantity) {
+  const safeDesiredQuantity = Math.max(0, Number(desiredQuantity) || 0);
+  const stock = getProductStock(product);
+
+  if (stock === Number.POSITIVE_INFINITY) {
+    return { success: true, stock };
+  }
+
+  if (stock <= 0) {
+    return {
+      success: false,
+      reason: "OUT_OF_STOCK",
+      stock,
+      message: "This product is out of stock."
+    };
+  }
+
+  if (safeDesiredQuantity > stock) {
+    return {
+      success: false,
+      reason: "INSUFFICIENT_STOCK",
+      stock,
+      message: "Item out of stock"
+    };
+  }
+
+  return { success: true, stock };
 }
 
 export function addToCart(product, options = {}) 
@@ -24,6 +58,8 @@ export function addToCart(product, options = {})
   if (!Array.isArray(customer.cartItem))
     customer.cartItem = [];
 
+  const quantityToAdd = Math.max(1, Number(options.quantity) || 1);
+
   const cartItem = {
     id: String(product.id),
     name: product.name || "",
@@ -31,15 +67,29 @@ export function addToCart(product, options = {})
     image: product.image || "",
     size: options.size || product.sizesList[0],
     color: options.color || product.colorsList[0],
-    quantity: options.quantity || 1
+    quantity: quantityToAdd,
+    stock: getProductStock(product)
   };
 
   const existingIndex = customer.cartItem.findIndex(i => i.id === cartItem.id);
+
+  const existingQuantity = existingIndex >= 0 ? Number(customer.cartItem[existingIndex].quantity) || 0 : 0;
+  const stockValidation = validateStockLimit(product, existingQuantity + quantityToAdd);
+
+  if (!stockValidation.success) {
+    return {
+      success: false,
+      reason: stockValidation.reason,
+      message: stockValidation.message,
+      stock: stockValidation.stock
+    };
+  }
 
   if (existingIndex >= 0) {
     customer.cartItem[existingIndex].quantity += cartItem.quantity;
     customer.cartItem[existingIndex].size = cartItem.size;
     customer.cartItem[existingIndex].color = cartItem.color;
+    customer.cartItem[existingIndex].stock = cartItem.stock;
   } 
   else {
     customer.cartItem.push(cartItem);
@@ -213,7 +263,18 @@ export function toggleBreadcrumb(text, visible = true)
 document.addEventListener("CartUpdated", (e)=> 
 {
   updateCartBadge();
-  showBootstrapToast("Product added to cart", getToastContainer());
+
+  const toastDetail = e.detail || {};
+
+  if (toastDetail.showToast === false) {
+    return;
+  }
+
+  showBootstrapToast(
+    toastDetail.message || "Product added to cart",
+    toastDetail.container || getToastContainer(),
+    toastDetail.type || "success"
+  );
 });
 
 

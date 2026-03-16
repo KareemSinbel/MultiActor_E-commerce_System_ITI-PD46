@@ -1,4 +1,4 @@
-import { addToCart, redirectToLogin, toggleBreadcrumb } from "../../scripts/helpers.js"; 
+import { addToCart, redirectToLogin, showBootstrapToast, toggleBreadcrumb } from "../../scripts/helpers.js"; 
 import { Router } from "../router.js";
 
 function initPage() 
@@ -127,6 +127,9 @@ function initPage()
             {
                 if(res.reason === "NOT_LOGGED_IN")
                     redirectToLogin();
+
+                if(res.reason === "OUT_OF_STOCK" || res.reason === "INSUFFICIENT_STOCK")
+                    showBootstrapToast(res.message || "This product is out of stock.", null, "info");
             }
         });
 

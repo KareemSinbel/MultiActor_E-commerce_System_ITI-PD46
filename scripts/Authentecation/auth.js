@@ -1,5 +1,24 @@
 // ____________________ Auth Guard ____________________
 
+const SELLERS_API_URL = "https://69b10cdeadac80b427c3d349.mockapi.io/sellers";
+
+const DEFAULT_ADMIN_SELLER = {
+  name: "System Admin",
+  email: "admin@ecommerce.local",
+  address: "Main Branch",
+  password: "Admin123",
+  role: "admin"
+};
+
+const DEFAULT_ADMIN_CUSTOMER = {
+  name: "System Admin",
+  email: "admin@ecommerce.local",
+  address: "Main Branch",
+  password: "Admin123",
+  role: "admin",
+  cartItem: []
+};
+
 // (function () {
 
 //   const user = sessionStorage.getItem("loggedInUser");
@@ -22,6 +41,72 @@
 //   deleteCookie("loggedInUser");
 //   location.href = "../../html/Auth/login.html";
 // }
+
+
+async function ensureAdminSellerExists() {
+  try {
+    const response = await fetch(SELLERS_API_URL, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const sellers = await response.json();
+    let adminSeller = sellers.find(
+      (seller) => String(seller.role || "").toLowerCase() === "admin"
+    );
+
+    if (!adminSeller) {
+      const createResponse = await fetch(SELLERS_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(DEFAULT_ADMIN_SELLER)
+      });
+
+      if (!createResponse.ok) {
+        return;
+      }
+
+      adminSeller = await createResponse.json();
+    }
+
+    const customers = JSON.parse(localStorage.getItem("customers")) || [];
+
+    const adminEmail = String(
+      adminSeller?.email || DEFAULT_ADMIN_SELLER.email
+    ).toLowerCase();
+
+    const alreadyInCustomers = customers.some(
+      (customer) => String(customer.email || "").toLowerCase() === adminEmail
+    );
+
+    if (!alreadyInCustomers) {
+      const numericIds = customers
+        .map((customer) => Number(customer.id))
+        .filter((id) => !Number.isNaN(id));
+
+      const maxExistingId = numericIds.length ? Math.max(...numericIds) : 0;
+      const lastCustomerId = Number(localStorage.getItem("lastCustomerId"));
+      const safeLastId = Number.isNaN(lastCustomerId) ? 0 : lastCustomerId;
+      const newCustomerId = Math.max(maxExistingId, safeLastId) + 1;
+
+      customers.push({
+        id: newCustomerId,
+        ...DEFAULT_ADMIN_CUSTOMER
+      });
+
+      localStorage.setItem("customers", JSON.stringify(customers));
+      localStorage.setItem("lastCustomerId", String(newCustomerId));
+    }
+  } catch (error) {
+    console.error("Failed to ensure admin seller exists:", error);
+  }
+}
+
+ensureAdminSellerExists();
 
 
 function setCookie(name, value, hours)

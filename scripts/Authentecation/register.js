@@ -8,9 +8,8 @@ async function initPage()
   // __________________________ Start Global _________________________________
 
 
-  const allInput = document.querySelectorAll("input");
+  const allInput = document.querySelectorAll(".register-input");
   const form = document.getElementById("registerForm");
-  const registerBtn = document.getElementById("registerBtn");
   const msg = document.getElementById("msg");
 
   let isValid = false;
@@ -274,8 +273,6 @@ document.addEventListener("pageLoaded", async (e)=>
 
       const loginBtn = document.getElementById("login-btn-register");
       loginBtn.setAttribute("role", "button");
-
-      console.log(loginBtn);
 
       loginBtn.addEventListener("click", function()
       {

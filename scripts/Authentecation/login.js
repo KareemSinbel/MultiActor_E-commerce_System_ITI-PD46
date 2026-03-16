@@ -6,7 +6,6 @@ async function initPage()
 {
   // __________________________ Start Global _________________________________
   const loginForm = document.getElementById("loginForm");
-  const allInput = loginForm.querySelectorAll("input");
   const msg = document.getElementById("msg");
   const roleError = document.getElementById("roleError");
   const emailError = document.getElementById("emailError");

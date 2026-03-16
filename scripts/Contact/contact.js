@@ -16,9 +16,9 @@ document.addEventListener("pageLoaded", (e) =>
         {
             if (!form.checkValidity()) 
             {
-                alert("Please fill all fields.");
-            }else {
-                console.log("hello")
+                showBootstrapToast("Please fill all fields.",null, "danger");
+            }else 
+            {
                 showBootstrapToast("Thanks for your message") 
                 Router.navigate("home")
             }

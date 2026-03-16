@@ -1,0 +1,97 @@
+<!-- Register Section -->
+<section class="container d-flex align-items-center justify-content-center  py-5">
+
+        <div class="register-card">
+
+                <form id="registerForm">
+
+                        <!-- Name -->
+                        <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" id="nameInp" class="form-control register-input" required>
+
+                                <ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
+                                        <li>Minimum Length 3 and Maximum Length 20 Characters only</li>
+                                </ul>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" id="emailInp" class="form-control register-input" required>
+
+                                <ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
+                                        <li>Email is required</li>
+                                        <li>Invalid Email Format</li>
+                                </ul>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <input type="text" id="addressInp" class="form-control register-input" required>
+
+                                <ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
+                                        <li>Address must be between 5 and 50 characters</li>
+                                </ul>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-4">
+                                <label class="form-label">Password</label>
+                                <input type="password" id="passwordInp" class="form-control register-input" required>
+
+                                <ul class="alert alert-danger p-1 invalid-feedback list-unstyled">
+                                        <li>Minimum 6 characters with letters and numbers</li>
+                                </ul>
+                        </div>
+
+                        <!-- Role -->
+                        <div class="mb-4">
+
+                                <label class="form-label fw-semibold">
+                                        Register As
+                                </label>
+
+                                <div class="row g-2">
+
+                                        <div class="col-6">
+                                                <label class="role-box w-100 text-center">
+                                                        <input id="" type="radio" name="role" value="customer"
+                                                                class="form-check-input me-2">
+                                                        Customer
+                                                </label>
+                                        </div>
+
+                                        <div class="col-6">
+                                                <label class="role-box w-100 text-center">
+                                                        <input type="radio" name="role" value="seller"
+                                                                class="form-check-input me-2">
+                                                        Seller
+                                                </label>
+                                        </div>
+
+                                </div>
+
+                        </div>
+
+                        <!-- Button -->
+                        <button id="registerBtn" class="btn register-btn w-100">
+                                Create Account
+                        </button>
+
+                        <p id="msg" class="text-center mt-2"></p>
+
+                </form>
+
+
+                <p class="text-center small text-muted mt-4">
+                        Already have an account?
+                        <a id="login-btn-register" class="fw-semibold text-dark text-decoration-none">
+                                Login
+                        </a>
+                </p>
+
+        </div>
+
+</section>

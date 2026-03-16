@@ -1,0 +1,57 @@
+<section class="container d-flex align-items-center justify-content-center py-5">
+  <div class="login-card">
+    <form id="loginForm">
+      <!-- ROLE SELECT -->
+      <div class="mb-4">
+        <label class="form-label fw-semibold">Login As</label>
+        <div class="row g-2">
+          <div class="col-6">
+            <label class="role-box w-100 text-center">
+              <input type="radio" name="role" value="customer" class="form-check-input me-2" />
+              Customer
+            </label>
+          </div>
+          <div class="col-6">
+            <label class="role-box w-100 text-center">
+              <input type="radio" name="role" value="seller" class="form-check-input me-2" />
+              Seller
+            </label>
+          </div>
+        </div>
+        <div id="roleError" class="alert alert-danger p-1 invalid-feedback list-unstyled">
+          Please select a role
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" id="emailInp" required />
+        <div id="emailError" class="alert alert-danger p-1 invalid-feedback list-unstyled">
+          Please enter a valid email
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" id="passwordInp" required />
+        <div id="passwordError" class="alert alert-danger p-1 invalid-feedback list-unstyled">
+          Password must be letters + numbers, min 6 chars
+        </div>
+      </div>
+
+      <button type="submit" id="loginBtn" class="btn login-btn w-100">
+        Login
+      </button>
+
+      <p id="msg" class="text-center mt-2"></p>
+    </form>
+    <p class="text-center small text-muted mt-4">
+      Don't have an account?
+      <a id="signup-btn" class="text-dark fw-semibold text-decoration-none">
+        Sign up
+      </a>
+    </p>
+  </div>
+</section>

@@ -12,6 +12,7 @@ import {LayoutManager} from "../layoutManager.js"
     page: 1,
     limit: 9,
     total: 0,
+    search: "",
     allProducts: [],
     filters: {
       categories: [],
@@ -90,6 +91,19 @@ const initiated = (function initPage()
   function getFilteredProducts() {
     let products = [...listingState.allProducts];
 
+    //Check if product in STOCK
+    products = products.filter(product => (product.stock || 0) > 0);
+
+    // Search Filter
+    if (listingState.search.trim() !== "") {
+      const term = listingState.search.toLowerCase();
+
+      products = products.filter(product =>
+        product.name.toLowerCase().includes(term)
+      );
+    }
+
+    // Category Filter
     if (listingState.filters.categories.length > 0) {
       products = products.filter(product =>
         listingState.filters.categories.includes(product.category)
@@ -348,5 +362,25 @@ $(document).on("pageLoaded", async function(e)
       
       initiated.updateListing();
     });
+
+
+    const searchInput = document.getElementById("search-input");
+
+    if(searchInput)
+    {
+      let searchTimeout;
+
+      searchInput.addEventListener("input", function()
+      {
+        clearTimeout(searchTimeout);
+
+        searchTimeout = setTimeout(() =>  
+        {
+            listingState.search = this.value;
+            listingState.page = 1;
+            initiated.updateListing();
+        }, 250);
+      });
+    }
   }  
 });

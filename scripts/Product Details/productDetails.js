@@ -38,6 +38,8 @@ function initPage()
 			return [];
 		}
 
+		const DESIRED_COUNT = 4;
+
 		try {
 			const response = await fetch(`${PRODUCTS_API_URL}?category=${encodeURIComponent(category)}`);
 			if (!response.ok) {
@@ -45,9 +47,35 @@ function initPage()
 			}
 
 			const products = await response.json();
-			return (Array.isArray(products) ? products : [])
-				.filter((product) => String(product.id) !== String(excludedProductId))
-				.slice(0, 4);
+			const inStockFromCategory = (Array.isArray(products) ? products : [])
+				.filter((product) =>
+					String(product.id) !== String(excludedProductId) &&
+					Number(product.stock) > 0
+				)
+				.slice(0, DESIRED_COUNT);
+
+			if (inStockFromCategory.length >= DESIRED_COUNT) {
+				return inStockFromCategory;
+			}
+
+			// Not enough in-stock items in this category — backfill from all products
+			const allResponse = await fetch(PRODUCTS_API_URL);
+			if (!allResponse.ok) {
+				return inStockFromCategory;
+			}
+
+			const allProducts = await allResponse.json();
+			const collectedIds = new Set(inStockFromCategory.map((p) => String(p.id)));
+			collectedIds.add(String(excludedProductId));
+
+			const extras = (Array.isArray(allProducts) ? allProducts : [])
+				.filter((product) =>
+					!collectedIds.has(String(product.id)) &&
+					Number(product.stock) > 0
+				)
+				.slice(0, DESIRED_COUNT - inStockFromCategory.length);
+
+			return [...inStockFromCategory, ...extras];
 		} catch (error) {
 			return [];
 		}
